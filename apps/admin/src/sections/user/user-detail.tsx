@@ -19,22 +19,28 @@ import { formatDate } from "@/utils/common";
 // import EditUserGroupDialog from "./edit-user-group-dialog";
 // import { getUserGroupList } from "@workspace/ui/services/admin/group";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function UserSubscribeDetail({
   id,
   enabled,
   hoverCard = false,
 }: {
-  id: API.Int64Value;
+  id: string | number;
   enabled: boolean;
   hoverCard?: boolean;
 }) {
   const { t } = useTranslation("user");
+  const resolvedId = id ? String(id) : "";
 
   const { data } = useQuery({
-    enabled: Number(id) !== 0 && enabled,
-    queryKey: ["getUserSubscribeById", id],
+    enabled: resolvedId !== "" && resolvedId !== "0" && enabled,
+    queryKey: ["getUserSubscribeById", resolvedId],
     queryFn: async () => {
-      const { data } = await getUserSubscribeById({ id });
+      const { data } = await getUserSubscribeById({ id: resolvedId });
       return data.data;
     },
   });
@@ -52,12 +58,12 @@ export function UserSubscribeDetail({
   //   },
   // });
 
-  if (!id || Number(id) === 0) return "--";
+  if (!resolvedId || resolvedId === "0") return "--";
 
   const usedTraffic = data
-    ? Number(data.upload || 0) + Number(data.download || 0)
+    ? toNumber(data.upload) + toNumber(data.download)
     : 0;
-  const totalTraffic = Number(data?.traffic || 0);
+  const totalTraffic = toNumber(data?.traffic);
   const remainingTraffic = totalTraffic > 0 ? totalTraffic - usedTraffic : 0;
 
   // Get user group info from data.user
@@ -116,13 +122,13 @@ export function UserSubscribeDetail({
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("startTime")}</span>
               <span>
-                {data?.start_time ? formatDate(data.start_time) : "--"}
+                {data?.start_time ? formatDate(toNumber(data.start_time)) : "--"}
               </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("expireTime")}</span>
               <span>
-                {data?.expire_time ? formatDate(data.expire_time) : "--"}
+                {data?.expire_time ? formatDate(toNumber(data.expire_time)) : "--"}
               </span>
             </li>
             {/* <li className="flex items-center justify-between">
@@ -172,25 +178,35 @@ export function UserSubscribeDetail({
             <li className="flex items-center justify-between font-semibold">
               <span className="text-muted-foreground">{t("balance")}</span>
               <span>
-                <Display type="currency" value={data?.user.balance} />
+                <Display
+                  type="currency"
+                  value={toNumber(data?.user.balance)}
+                />
               </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("giftAmount")}</span>
               <span>
-                <Display type="currency" value={data?.user?.gift_amount} />
+                <Display
+                  type="currency"
+                  value={toNumber(data?.user?.gift_amount)}
+                />
               </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("commission")}</span>
               <span>
-                <Display type="currency" value={data?.user?.commission} />
+                <Display
+                  type="currency"
+                  value={toNumber(data?.user?.commission)}
+                />
               </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("createdAt")}</span>
               <span>
-                {data?.user?.created_at && formatDate(data?.user?.created_at)}
+                {data?.user?.created_at &&
+                  formatDate(toNumber(data?.user?.created_at))}
               </span>
             </li>
           </ul>
@@ -215,19 +231,20 @@ export function UserSubscribeDetail({
   return subscribeContent;
 }
 
-export function UserDetail({ id }: { id: number }) {
+export function UserDetail({ id }: { id: string | number }) {
   const { t } = useTranslation("user");
+  const resolvedId = id ? String(id) : "";
 
   const { data } = useQuery({
-    enabled: Number(id) !== 0,
-    queryKey: ["getUserDetail", id],
+    enabled: resolvedId !== "" && resolvedId !== "0",
+    queryKey: ["getUserDetail", resolvedId],
     queryFn: async () => {
-      const { data } = await getUserDetail({ id });
+      const { data } = await getUserDetail({ id: resolvedId });
       return data.data;
     },
   });
 
-  if (!id || Number(id) === 0) return "--";
+  if (!resolvedId || resolvedId === "0") return "--";
 
   const identifier =
     data?.auth_methods.find((m) => m.auth_type === "email")?.auth_identifier ||
@@ -237,7 +254,7 @@ export function UserDetail({ id }: { id: number }) {
     <HoverCard>
       <HoverCardTrigger asChild>
         <Button asChild className="p-0" variant="link">
-          <Link search={{ user_id: id }} to="/dashboard/user">
+          <Link search={{ user_id: resolvedId }} to="/dashboard/user">
             {identifier || t("loading", "Loading...")}
           </Link>
         </Button>
@@ -254,7 +271,7 @@ export function UserDetail({ id }: { id: number }) {
                 {t("balance", "Balance")}
               </span>
               <span>
-                <Display type="currency" value={data?.balance} />
+                <Display type="currency" value={toNumber(data?.balance)} />
               </span>
             </li>
             <li className="flex items-center justify-between">
@@ -262,7 +279,7 @@ export function UserDetail({ id }: { id: number }) {
                 {t("giftAmount", "Gift Amount")}
               </span>
               <span>
-                <Display type="currency" value={data?.gift_amount} />
+                <Display type="currency" value={toNumber(data?.gift_amount)} />
               </span>
             </li>
             <li className="flex items-center justify-between">
@@ -270,14 +287,16 @@ export function UserDetail({ id }: { id: number }) {
                 {t("commission", "Commission")}
               </span>
               <span>
-                <Display type="currency" value={data?.commission} />
+                <Display type="currency" value={toNumber(data?.commission)} />
               </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">
                 {t("createdAt", "Created At")}
               </span>
-              <span>{data?.created_at && formatDate(data?.created_at)}</span>
+              <span>
+                {data?.created_at && formatDate(toNumber(data?.created_at))}
+              </span>
             </li>
           </ul>
         </div>

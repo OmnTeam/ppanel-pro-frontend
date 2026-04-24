@@ -21,12 +21,16 @@ const conversionConfig: Record<
 };
 
 export function unitConversion(type: ConversionType, value?: number | string) {
-  if (!value) return 0;
+  if (value === undefined || value === null || value === "") return 0;
+
+  const numericValue =
+    typeof value === "string" ? Number.parseFloat(value) : value;
+  if (!Number.isFinite(numericValue)) return 0;
 
   const config = conversionConfig[type];
   if (!config) throw new Error("Invalid conversion type");
 
-  const formula = config.formula.replace("value", `${value}`);
+  const formula = config.formula.replace("value", `${numericValue}`);
   const result = evaluate(formula);
   return Number(
     format(result, { notation: "fixed", precision: config.precision })

@@ -32,7 +32,8 @@ export type FieldConfig = {
     | "security"
     | "reality"
     | "obfs"
-    | "encryption";
+    | "encryption"
+    | "simnet";
   gridSpan?: 1 | 2;
 };
 

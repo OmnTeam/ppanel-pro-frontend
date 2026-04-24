@@ -19,6 +19,11 @@ import { IpLink } from "@/components/ip-link";
 import { UserDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 function UserSubscribeInfo({
   subscribeId,
   open,
@@ -26,7 +31,7 @@ function UserSubscribeInfo({
   expiredText,
   unlimitedText,
 }: {
-  subscribeId: number;
+  subscribeId: string;
   open: boolean;
   type:
     | "account"
@@ -38,7 +43,7 @@ function UserSubscribeInfo({
   unlimitedText: string;
 }) {
   const { data } = useQuery({
-    enabled: subscribeId !== 0 && open,
+    enabled: Boolean(subscribeId) && open,
     queryKey: ["getUserSubscribeById", subscribeId],
     queryFn: async () => {
       const { data } = await getUserSubscribeById({ id: subscribeId });
@@ -64,8 +69,8 @@ function UserSubscribeInfo({
       return <span className="font-mono text-sm">{data.id}</span>;
 
     case "trafficUsage": {
-      const usedTraffic = data.upload + data.download;
-      const totalTraffic = data.traffic || 0;
+      const usedTraffic = toNumber(data.upload) + toNumber(data.download);
+      const totalTraffic = toNumber(data.traffic);
       return (
         <div className="min-w-0 text-sm">
           <div className="wrap-break-word">
@@ -79,10 +84,11 @@ function UserSubscribeInfo({
     case "expireTime": {
       if (!data.expire_time)
         return <span className="text-muted-foreground">--</span>;
-      const isExpired = data.expire_time < Date.now() / 1000;
+      const expireTime = toNumber(data.expire_time);
+      const isExpired = expireTime < Date.now() / 1000;
       return (
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
-          <span className="text-sm">{formatDate(data.expire_time)}</span>
+          <span className="text-sm">{formatDate(expireTime)}</span>
           {isExpired && (
             <Badge className="w-fit px-1 py-0 text-xs" variant="destructive">
               {expiredText}
@@ -112,7 +118,7 @@ export default function OnlineUsersCell({
           className="flex items-center gap-2 bg-transparent p-0 text-muted-foreground text-sm hover:text-foreground"
           type="button"
         >
-          <Users className="h-4 w-4" /> {status?.online.length}
+          <Users className="h-4 w-4" /> {status?.online?.length ?? 0}
         </button>
       </SheetTrigger>
       <SheetContent className="h-screen w-screen max-w-none sm:h-auto sm:w-[900px] sm:max-w-[90vw]">
@@ -149,7 +155,7 @@ export default function OnlineUsersCell({
                   <UserSubscribeInfo
                     expiredText={t("expired", "Expired")}
                     open={open}
-                    subscribeId={Number(row.original.subscribe_id)}
+                    subscribeId={String(row.original.subscribe_id)}
                     type="account"
                     unlimitedText={t("unlimited", "Unlimited")}
                   />
@@ -162,7 +168,7 @@ export default function OnlineUsersCell({
                   <UserSubscribeInfo
                     expiredText={t("expired", "Expired")}
                     open={open}
-                    subscribeId={Number(row.original.subscribe_id)}
+                    subscribeId={String(row.original.subscribe_id)}
                     type="subscribeName"
                     unlimitedText={t("unlimited", "Unlimited")}
                   />
@@ -175,7 +181,7 @@ export default function OnlineUsersCell({
                   <UserSubscribeInfo
                     expiredText={t("expired", "Expired")}
                     open={open}
-                    subscribeId={Number(row.original.subscribe_id)}
+                    subscribeId={String(row.original.subscribe_id)}
                     type="subscribeId"
                     unlimitedText={t("unlimited", "Unlimited")}
                   />
@@ -188,7 +194,7 @@ export default function OnlineUsersCell({
                   <UserSubscribeInfo
                     expiredText={t("expired", "Expired")}
                     open={open}
-                    subscribeId={Number(row.original.subscribe_id)}
+                    subscribeId={String(row.original.subscribe_id)}
                     type="trafficUsage"
                     unlimitedText={t("unlimited", "Unlimited")}
                   />
@@ -201,7 +207,7 @@ export default function OnlineUsersCell({
                   <UserSubscribeInfo
                     expiredText={t("expired", "Expired")}
                     open={open}
-                    subscribeId={Number(row.original.subscribe_id)}
+                    subscribeId={String(row.original.subscribe_id)}
                     type="expireTime"
                     unlimitedText={t("unlimited", "Unlimited")}
                   />

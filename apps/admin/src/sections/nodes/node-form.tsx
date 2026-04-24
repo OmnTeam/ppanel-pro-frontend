@@ -28,15 +28,15 @@ import TagInput from "@workspace/ui/composed/tag-input";
 import { getGroupConfig, getNodeGroupList } from "@workspace/ui/services/admin/group";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { z } from "zod";
 import { useNode } from "@/stores/node";
 import { useServer } from "@/stores/server";
 
 export type ProtocolName =
+  | "simnet"
   | "shadowsocks"
   | "vmess"
   | "vless"
@@ -50,33 +50,54 @@ export type ProtocolName =
   | "mieru";
 
 const buildSchema = (t: TFunction) =>
-  z.object({
-    name: z
-      .string()
-      .trim()
-      .min(1, t("errors.nameRequired", "Please enter a name")),
-    server_id: z
-      .number({ message: t("errors.serverRequired", "Please select a server") })
-      .int()
-      .positive(t("errors.serverRequired", "Please select a server"))
-      .optional(),
-    protocol: z
-      .string()
-      .min(1, t("errors.protocolRequired", "Please select a protocol")),
-    address: z
-      .string()
-      .trim()
-      .min(1, t("errors.serverAddrRequired", "Please enter an entry address")),
-    port: z
-      .number({
-        message: t("errors.portRange", "Port must be between 1 and 65535"),
-      })
-      .int()
-      .min(1, t("errors.portRange", "Port must be between 1 and 65535"))
-      .max(65_535, t("errors.portRange", "Port must be between 1 and 65535")),
-    tags: z.array(z.string()),
-    node_group_ids: z.optional(z.array(z.string()).default([])),
-  });
+  z
+    .object({
+      name: z
+        .string()
+        .trim()
+        .min(1, t("errors.nameRequired", "Please enter a name")),
+      server_id: z.string().optional(),
+      protocol: z.string().default(""),
+      address: z
+        .string()
+        .trim()
+        .min(1, t("errors.serverAddrRequired", "Please enter an entry address")),
+      port: z
+        .number({
+          message: t("errors.portRange", "Port must be between 1 and 65535"),
+        })
+        .int()
+        .min(1, t("errors.portRange", "Port must be between 1 and 65535"))
+        .max(
+          65_535,
+          t("errors.portRange", "Port must be between 1 and 65535")
+        ),
+      tags: z.array(z.string()),
+      node_group_ids: z.optional(z.array(z.string()).default([])),
+      node_type: z.enum(["landing", "front"]).default("landing"),
+      is_hidden: z.optional(z.boolean()).default(false),
+    })
+    .superRefine((values, ctx) => {
+      if (values.node_type === "front") {
+        return;
+      }
+
+      if (!values.server_id?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t("errors.serverRequired", "Please select a server"),
+          path: ["server_id"],
+        });
+      }
+
+      if (!values.protocol.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: t("errors.protocolRequired", "Please select a protocol"),
+          path: ["protocol"],
+        });
+      }
+    });
 
 export type NodeFormValues = z.infer<ReturnType<typeof buildSchema>>;
 
@@ -91,6 +112,7 @@ export default function NodeForm(props: {
   const { t } = useTranslation("nodes");
   const Scheme = useMemo(() => buildSchema(t), [t]);
   const [open, setOpen] = useState(false);
+  const formId = useId();
 
   const [autoFilledFields, setAutoFilledFields] = useState<Set<string>>(
     new Set()
@@ -108,7 +130,7 @@ export default function NodeForm(props: {
     });
   };
 
-  const form = useForm<NodeFormValues>({
+  const form = useForm({
     resolver: zodResolver(Scheme),
     defaultValues: {
       name: "",
@@ -118,12 +140,16 @@ export default function NodeForm(props: {
       port: 0,
       tags: [],
       node_group_ids: [],
+      node_type: "landing",
+      is_hidden: false,
       ...initialValues,
-    },
+    } as NodeFormValues,
     mode: "onSubmit", // Only validate on form submission
   });
 
   const serverId = form.watch("server_id");
+  const nodeType = form.watch("node_type");
+  const isFrontNode = nodeType === "front";
 
   const { servers, getAvailableProtocols } = useServer();
   const { tags } = useNode();
@@ -153,6 +179,17 @@ export default function NodeForm(props: {
   const isGroupEnabled = groupConfigData?.enabled || false;
 
   useEffect(() => {
+    if (!isFrontNode) {
+      return;
+    }
+
+    form.setValue("server_id", undefined, { shouldDirty: true });
+    form.setValue("protocol", "", { shouldDirty: true });
+    removeAutoFilledField("protocol");
+    form.clearErrors(["server_id", "protocol"]);
+  }, [form, isFrontNode]);
+
+  useEffect(() => {
     if (initialValues) {
       const resetValues: NodeFormValues = {
         name: "",
@@ -162,6 +199,8 @@ export default function NodeForm(props: {
         port: 0,
         tags: [],
         node_group_ids: [],
+        node_type: "landing",
+        is_hidden: false,
       };
 
       // Copy only the values we need from initialValues
@@ -171,6 +210,10 @@ export default function NodeForm(props: {
       if (initialValues.address) resetValues.address = initialValues.address;
       if (initialValues.port) resetValues.port = initialValues.port;
       if (initialValues.tags) resetValues.tags = initialValues.tags;
+      if (initialValues.node_type) resetValues.node_type = initialValues.node_type;
+      if (typeof initialValues.is_hidden === "boolean") {
+        resetValues.is_hidden = initialValues.is_hidden;
+      }
 
       // Convert node_group_ids from number[] to string[], ensure it's always an array
       if (initialValues.node_group_ids && Array.isArray(initialValues.node_group_ids)) {
@@ -184,7 +227,7 @@ export default function NodeForm(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValues]);
 
-  function handleServerChange(nextId?: number | null) {
+  function handleServerChange(nextId?: string | null) {
     const id = nextId ?? undefined;
     form.setValue("server_id", id);
 
@@ -193,7 +236,7 @@ export default function NodeForm(props: {
       return;
     }
 
-    const selectedServer = servers.find((s) => s.id === id);
+    const selectedServer = servers.find((s) => String(s.id) === String(id));
     if (!selectedServer) return;
 
     const currentValues = form.getValues();
@@ -273,7 +316,16 @@ export default function NodeForm(props: {
   }
 
   async function handleSubmit(values: NodeFormValues) {
-    const result = await onSubmit(values);
+    const normalizedValues =
+      values.node_type === "front"
+        ? {
+            ...values,
+            server_id: undefined,
+            protocol: "",
+          }
+        : values;
+
+    const result = await onSubmit(normalizedValues);
     if (result) {
       setOpen(false);
       setAutoFilledFields(new Set());
@@ -299,44 +351,36 @@ export default function NodeForm(props: {
         </SheetHeader>
         <ScrollArea className="h-[calc(100dvh-48px-36px-36px-env(safe-area-inset-top))] px-6 pt-4">
           <Form {...form}>
-            <form className="grid grid-cols-1 gap-4">
+            <form
+              className="grid grid-cols-1 gap-4"
+              id={formId}
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
               <FormField
                 control={form.control}
-                name="server_id"
+                name="node_type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("server", "Server")}</FormLabel>
+                    <FormLabel>{t("node_type", "Node Type")}</FormLabel>
                     <FormControl>
-                      <Combobox<number, false>
-                        onChange={(v) => handleServerChange(v)}
-                        options={servers.map((s) => ({
-                          value: s.id,
-                          label: `${s.name} (${(s.address as any) || ""})`,
-                        }))}
-                        placeholder={t("select_server", "Select server…")}
-                        value={field.value}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="protocol"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("protocol", "Protocol")}</FormLabel>
-                    <FormControl>
-                      <Combobox<string, false>
+                      <Combobox<NodeFormValues["node_type"], false>
                         onChange={(v) =>
-                          handleProtocolChange((v as ProtocolName) || null)
+                          form.setValue("node_type", v || "landing", {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          })
                         }
-                        options={availableProtocols.map((p) => ({
-                          value: p.protocol,
-                          label: `${p.protocol}${p.port ? ` (${p.port})` : ""}`,
-                        }))}
-                        placeholder={t("select_protocol", "Select protocol…")}
+                        options={[
+                          {
+                            value: "landing",
+                            label: t("node_type_landing", "Landing Node"),
+                          },
+                          {
+                            value: "front",
+                            label: t("node_type_front", "Frontend Node"),
+                          },
+                        ]}
+                        placeholder={t("select_node_type", "Select node type…")}
                         value={field.value}
                       />
                     </FormControl>
@@ -344,6 +388,54 @@ export default function NodeForm(props: {
                   </FormItem>
                 )}
               />
+              {!isFrontNode && (
+                <FormField
+                  control={form.control}
+                  name="server_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("server", "Server")}</FormLabel>
+                      <FormControl>
+                        <Combobox<string, false>
+                          onChange={(v) => handleServerChange(v)}
+                          options={servers.map((s) => ({
+                            value: s.id,
+                            label: `${s.name} (${(s.address as any) || ""})`,
+                          }))}
+                          placeholder={t("select_server", "Select server…")}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {!isFrontNode && (
+                <FormField
+                  control={form.control}
+                  name="protocol"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("protocol", "Protocol")}</FormLabel>
+                      <FormControl>
+                        <Combobox<string, false>
+                          onChange={(v) =>
+                            handleProtocolChange((v as ProtocolName) || null)
+                          }
+                          options={availableProtocols.map((p) => ({
+                            value: p.protocol,
+                            label: `${p.protocol}${p.port ? ` (${p.port})` : ""}`,
+                          }))}
+                          placeholder={t("select_protocol", "Select protocol…")}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="name"
@@ -404,7 +496,6 @@ export default function NodeForm(props: {
                   </FormItem>
                 )}
               />
-              {/* Tags field - always shown */}
               <FormField
                 control={form.control}
                 name="tags"
@@ -437,7 +528,6 @@ export default function NodeForm(props: {
                   </FormItem>
                 )}
               />
-              {/* Show Node Group field only when group feature is enabled */}
               {isGroupEnabled && (
                 <FormField
                   control={form.control}
@@ -454,23 +544,36 @@ export default function NodeForm(props: {
                             >
                               <Checkbox
                                 id={`node-group-${g.id}`}
-                                checked={field.value?.includes(String(g.id)) || false}
+                                checked={
+                                  field.value?.includes(String(g.id)) || false
+                                }
                                 onCheckedChange={(checked) => {
-                                  // Ensure field.value is always an array
-                                  const currentValue = Array.isArray(field.value) ? field.value : [];
+                                  const currentValue = Array.isArray(field.value)
+                                    ? field.value
+                                    : [];
+
                                   if (checked) {
-                                    const newValue = [...currentValue, String(g.id)];
-                                    form.setValue(field.name, newValue, {
-                                      shouldValidate: true,
-                                      shouldDirty: true,
-                                    });
-                                  } else {
-                                    const newValue = currentValue.filter((v: string) => v !== String(g.id));
-                                    form.setValue(field.name, newValue, {
-                                      shouldValidate: true,
-                                      shouldDirty: true,
-                                    });
+                                    form.setValue(
+                                      field.name,
+                                      [...currentValue, String(g.id)],
+                                      {
+                                        shouldValidate: true,
+                                        shouldDirty: true,
+                                      }
+                                    );
+                                    return;
                                   }
+
+                                  form.setValue(
+                                    field.name,
+                                    currentValue.filter(
+                                      (v: string) => v !== String(g.id)
+                                    ),
+                                    {
+                                      shouldValidate: true,
+                                      shouldDirty: true,
+                                    }
+                                  );
                                 }}
                               />
                               <Label
@@ -494,6 +597,32 @@ export default function NodeForm(props: {
                   )}
                 />
               )}
+              {/* Is Hidden field - hidden nodes are not visible to users */}
+              <FormField
+                control={form.control}
+                name="is_hidden"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value || false}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        {t("is_hidden", "Hidden")}
+                      </FormLabel>
+                      <FormDescription>
+                        {t(
+                          "is_hidden_description",
+                          "Hidden nodes are not visible to users in subscribe"
+                        )}
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
             </form>
           </Form>
         </ScrollArea>
@@ -508,11 +637,8 @@ export default function NodeForm(props: {
           </Button>
           <Button
             disabled={loading}
-            onClick={form.handleSubmit(handleSubmit, (errors) => {
-              const key = Object.keys(errors)[0] as keyof typeof errors;
-              if (key) toast.error(String(errors[key]?.message));
-              return false;
-            })}
+            form={formId}
+            type="submit"
           >
             {t("confirm", "Confirm")}
           </Button>

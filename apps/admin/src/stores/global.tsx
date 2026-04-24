@@ -120,7 +120,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   getUserInfo: async () => {
     try {
       const { data } = await currentUser();
-      set({ user: data.data?.user });
+      set({ user: data.data });
     } catch (error) {
       console.error("Failed to refresh user:", error);
     }

@@ -7,6 +7,9 @@ import {
   FLOWS,
   multiplexLevels,
   SECURITY,
+  SIMNET_AF_MAGIC_MODES,
+  SIMNET_AF_PATH_MODES,
+  SIMNET_CARRIERS,
   SS_CIPHERS,
   TRANSPORTS,
   TUIC_CONGESTION,
@@ -18,6 +21,24 @@ const nullableString = z.string().nullish();
 const nullableBool = z.boolean().nullish();
 const nullablePort = z.number().int().min(0).max(65_535).nullish();
 const nullableRatio = z.number().min(0).nullish();
+
+const simnet = z.object({
+  ratio: nullableRatio,
+  type: z.literal("simnet"),
+  enable: nullableBool,
+  port: nullablePort,
+  simnet_psk: nullableString,
+  simnet_key_id: z.number().int().nullish(),
+  simnet_ticket_id: nullableString,
+  simnet_path: nullableString,
+  simnet_carrier: z.enum(SIMNET_CARRIERS).nullish(),
+  simnet_af_enabled: nullableBool,
+  simnet_af_path_mode: z.enum(SIMNET_AF_PATH_MODES).nullish(),
+  simnet_af_path_prefix: nullableString,
+  simnet_af_path_suffix: nullableString,
+  simnet_af_magic_mode: z.enum(SIMNET_AF_MAGIC_MODES).nullish(),
+  simnet_af_response_jitter_ms: z.number().int().min(0).nullish(),
+});
 
 const ss = z.object({
   ratio: nullableRatio,
@@ -203,6 +224,7 @@ const mieru = z.object({
 });
 
 export const protocolApiScheme = z.discriminatedUnion("type", [
+  simnet,
   ss,
   vmess,
   vless,

@@ -20,14 +20,19 @@ import { toast } from "sonner";
 import { IpLink } from "@/components/ip-link";
 import { formatDate } from "@/utils/common";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function SubscriptionDetail({
   trigger,
   userId,
   subscriptionId,
 }: {
   trigger: ReactNode;
-  userId: number;
-  subscriptionId: number;
+  userId: string | number;
+  subscriptionId: string | number;
 }) {
   const { t } = useTranslation("user");
   const [open, setOpen] = useState(false);
@@ -112,13 +117,16 @@ export function SubscriptionDetail({
               {
                 accessorKey: "updated_at",
                 header: t("lastSeen", "Last Seen"),
-                cell: ({ row }) => formatDate(row.getValue("updated_at")),
+                cell: ({ row }) =>
+                  formatDate(
+                    toNumber(row.getValue("updated_at") as number | string)
+                  ),
               },
             ]}
             request={async (pagination) => {
               const { data } = await getUserSubscribeDevices({
-                user_id: userId,
-                subscribe_id: subscriptionId,
+                user_id: String(userId),
+                subscribe_id: String(subscriptionId),
                 ...pagination,
               });
               return {

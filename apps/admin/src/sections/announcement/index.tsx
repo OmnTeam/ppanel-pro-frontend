@@ -11,11 +11,16 @@ import {
   getAnnouncementList,
   updateAnnouncement,
 } from "@workspace/ui/services/admin/announcement";
-import { format } from "date-fns";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { formatDate } from "@/utils/common";
 import NoticeForm from "./notice-form";
+
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
 
 export default function Page() {
   const { t } = useTranslation("announcement");
@@ -161,7 +166,7 @@ export default function Page() {
           accessorKey: "updated_at",
           header: t("updatedAt", "Updated At"),
           cell: ({ row }) =>
-            format(row.getValue("updated_at"), "yyyy-MM-dd HH:mm:ss"),
+            formatDate(toNumber(row.getValue("updated_at") as number | string)),
         },
       ]}
       header={{

@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useNode } from "@/stores/node";
 import { useServer } from "@/stores/server";
-import NodeForm from "./node-form";
+import NodeForm, { type NodeFormValues } from "./node-form";
 
 export default function Nodes() {
   const { t } = useTranslation("nodes");
@@ -54,6 +54,30 @@ export default function Nodes() {
 
   const isGroupEnabled = groupConfigData?.enabled || false;
 
+  const buildNodePayload = (values: NodeFormValues, row?: API.Node) => {
+    const isFrontNode = values.node_type === "front";
+    const payload: Record<string, any> = {
+      ...(row || {}),
+      name: values.name,
+      address: values.address,
+      port: Number(values.port),
+      tags: values.tags || [],
+      node_type: values.node_type,
+      is_hidden: values.is_hidden ?? false,
+      node_group_ids: values.node_group_ids || [],
+    };
+
+    if (isFrontNode) {
+      delete payload.server_id;
+      delete payload.protocol;
+      return payload;
+    }
+
+    payload.server_id = values.server_id;
+    payload.protocol = values.protocol;
+    return payload;
+  };
+
   // Dynamic columns based on group feature status
   const columns = useMemo(() => {
     const baseColumns = [
@@ -79,6 +103,20 @@ export default function Nodes() {
         id: "name",
         accessorKey: "name",
         header: t("name", "Name"),
+      },
+      {
+        id: "node_type",
+        header: t("node_type", "Node Type"),
+        cell: ({ row }: { row: any }) => {
+          const nodeType = row.original.node_type || "landing";
+          return (
+            <Badge variant={nodeType === "front" ? "secondary" : "outline"}>
+              {nodeType === "front"
+                ? t("node_type_front", "Frontend Node")
+                : t("node_type_landing", "Landing Node")}
+            </Badge>
+          );
+        },
       },
       {
         id: "address_port",
@@ -121,7 +159,7 @@ export default function Nodes() {
         id: "node_group_ids",
         header: t("nodeGroups", "Node Groups"),
         cell: ({ row }: { row: any }) => {
-          const groupIds = row.original.node_group_ids as number[] || [];
+          const groupIds = (row.original.node_group_ids as string[]) || [];
 
           // Public node indicator (when node_group_ids is empty)
           if (groupIds.length === 0) {
@@ -137,7 +175,9 @@ export default function Nodes() {
           return (
             <div className="flex flex-wrap gap-1">
               {groupIds.map((groupId) => {
-                const group = nodeGroupsData?.find((g) => g.id === groupId);
+                const group = nodeGroupsData?.find(
+                  (g) => String(g.id) === String(groupId)
+                );
                 return (
                   <Badge key={groupId} variant="outline">
                     {group?.name || String(groupId)}
@@ -154,7 +194,7 @@ export default function Nodes() {
   }, [isGroupEnabled, nodeGroupsData, t, getServerName, getServerAddress, getProtocolPort]);
 
   return (
-    <ProTable<API.Node, { search: string; node_group_id?: number }>
+    <ProTable<API.Node, { search: string; node_group_id?: string }>
       action={ref}
       actions={{
         render: (row) => [
@@ -165,11 +205,7 @@ export default function Nodes() {
             onSubmit={async (values) => {
               setLoading(true);
               try {
-                const body: API.UpdateNodeRequest = {
-                  ...row,
-                  ...values,
-                  node_group_ids: values.node_group_ids?.map((id: string | number) => Number(id)) || [],
-                } as any;
+                const body = buildNodePayload(values, row) as API.UpdateNodeRequest;
                 await updateNode(body);
                 toast.success(t("updated", "Updated"));
                 ref.current?.refresh();
@@ -266,17 +302,7 @@ export default function Nodes() {
             onSubmit={async (values) => {
               setLoading(true);
               try {
-                const body: any = {
-                  name: values.name,
-                  server_id: Number(values.server_id!),
-                  protocol: values.protocol,
-                  address: values.address,
-                  port: Number(values.port!),
-                  tags: values.tags || [],
-                };
-                if (values.node_group_ids) {
-                  body.node_group_ids = values.node_group_ids.map((id: string | number) => Number(id));
-                }
+                const body = buildNodePayload(values) as API.CreateNodeRequest;
                 await createNode(body);
                 toast.success(t("created", "Created"));
                 ref.current?.refresh();
@@ -353,7 +379,7 @@ export default function Nodes() {
           page: pagination.page,
           size: pagination.size,
           search: filter?.search || undefined,
-          node_group_id: filter?.node_group_id ? Number(filter.node_group_id) : undefined,
+          node_group_id: filter?.node_group_id || undefined,
         };
 
         const { data } = await filterNodeList(filters);

@@ -2,6 +2,25 @@
 /* eslint-disable */
 import request from "@workspace/ui/lib/request";
 
+function toRequestString(value: unknown) {
+  return value === undefined || value === null || value === ""
+    ? value
+    : String(value);
+}
+
+function serializeInt64Fields<T extends Record<string, any>>(
+  payload: T,
+  keys: string[]
+) {
+  const next = { ...payload };
+  for (const key of keys) {
+    if (key in next) {
+      next[key] = toRequestString(next[key]);
+    }
+  }
+  return next;
+}
+
 /** Create user POST /v1/admin/user/ */
 export async function createUser(
   body: API.CreateUserRequest,
@@ -14,7 +33,13 @@ export async function createUser(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, [
+        "product_id",
+        "duration",
+        "balance",
+        "commission",
+        "gift_amount",
+      ]),
       ...(options || {}),
     }
   );
@@ -31,7 +56,7 @@ export async function deleteUser(
     {
       method: "DELETE",
       params: {
-        ...params,
+        ...serializeInt64Fields(params, ["id"]),
       },
       ...(options || {}),
     }
@@ -61,7 +86,7 @@ export async function updateUserAuthMethod(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_id"]),
       ...(options || {}),
     }
   );
@@ -79,7 +104,7 @@ export async function createUserAuthMethod(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_id"]),
       ...(options || {}),
     }
   );
@@ -97,7 +122,7 @@ export async function deleteUserAuthMethod(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_id"]),
       ...(options || {}),
     }
   );
@@ -115,7 +140,14 @@ export async function updateUserBasicInfo(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, [
+        "user_id",
+        "balance",
+        "commission",
+        "gift_amount",
+        "telegram",
+        "referer_id",
+      ]),
       ...(options || {}),
     }
   );
@@ -133,7 +165,12 @@ export async function batchDeleteUser(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: {
+        ...body,
+        ids: Array.isArray(body?.ids)
+          ? body.ids.map((id: unknown) => toRequestString(id))
+          : body?.ids,
+      },
       ...(options || {}),
     }
   );
@@ -141,7 +178,7 @@ export async function batchDeleteUser(
 
 /** Current user GET /v1/admin/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.Response & { data?: API.CurrentUserData }>(
+  return request<API.Response & { data?: API.User }>(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/current`,
     {
       method: "GET",
@@ -162,6 +199,7 @@ export async function getUserDetail(
       method: "GET",
       params: {
         ...params,
+        id: toRequestString(params.id),
       },
       ...(options || {}),
     }
@@ -180,7 +218,7 @@ export async function updateUserDevice(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["id", "created_at", "updated_at"]),
       ...(options || {}),
     }
   );
@@ -198,7 +236,7 @@ export async function deleteUserDevice(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );
@@ -218,7 +256,7 @@ export async function kickOfflineByUserDevice(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );
@@ -236,6 +274,13 @@ export async function getUserList(
       method: "GET",
       params: {
         ...params,
+        user_id: params.user_id ? toRequestString(params.user_id) : undefined,
+        subscribe_id: params.subscribe_id
+          ? toRequestString(params.subscribe_id)
+          : undefined,
+        user_subscribe_id: params.user_subscribe_id
+          ? toRequestString(params.user_subscribe_id)
+          : undefined,
       },
       ...(options || {}),
     }
@@ -254,6 +299,7 @@ export async function getUserLoginLogs(
       method: "GET",
       params: {
         ...params,
+        user_id: toRequestString(params.user_id),
       },
       ...(options || {}),
     }
@@ -272,7 +318,7 @@ export async function updateUserNotifySetting(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_id"]),
       ...(options || {}),
     }
   );
@@ -290,33 +336,8 @@ export async function getUserSubscribe(
       method: "GET",
       params: {
         ...params,
+        user_id: toRequestString(params.user_id),
       },
-      transformResponse: [
-        (data) => {
-          try {
-            if (typeof data === "string") {
-              // Convert large integers (int64) to strings BEFORE JSON.parse to prevent precision loss
-              // JavaScript MAX_SAFE_INTEGER is 2^53 - 1 = 9007199254740991
-              // This regex finds all numbers >= 10^16 (larger than MAX_SAFE_INTEGER)
-              const processedData = data.replace(
-                /"([^"]+)":\s*(\d{16,})/g,
-                (match, key, value) => {
-                  // Check if number exceeds MAX_SAFE_INTEGER
-                  const num = parseInt(value, 10);
-                  if (!Number.isSafeInteger(num)) {
-                    return `"${key}": "${value}"`;
-                  }
-                  return match;
-                }
-              );
-              return JSON.parse(processedData);
-            }
-            return data;
-          } catch {
-            return data;
-          }
-        },
-      ],
       ...(options || {}),
     }
   );
@@ -334,7 +355,14 @@ export async function updateUserSubscribe(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, [
+        "user_subscribe_id",
+        "subscribe_id",
+        "traffic",
+        "expired_at",
+        "upload",
+        "download",
+      ]),
       ...(options || {}),
     }
   );
@@ -352,7 +380,12 @@ export async function createUserSubscribe(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, [
+        "user_id",
+        "expired_at",
+        "traffic",
+        "subscribe_id",
+      ]),
       ...(options || {}),
     }
   );
@@ -370,7 +403,7 @@ export async function deleteUserSubscribe(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_subscribe_id"]),
       ...(options || {}),
     }
   );
@@ -388,6 +421,7 @@ export async function getUserSubscribeById(
       method: "GET",
       params: {
         ...params,
+        id: toRequestString(params.id),
       },
       ...(options || {}),
     }
@@ -406,6 +440,8 @@ export async function getUserSubscribeDevices(
       method: "GET",
       params: {
         ...params,
+        user_id: toRequestString(params.user_id),
+        subscribe_id: toRequestString(params.subscribe_id),
       },
       ...(options || {}),
     }
@@ -424,6 +460,10 @@ export async function getUserSubscribeLogs(
       method: "GET",
       params: {
         ...params,
+        user_id: toRequestString(params.user_id),
+        subscribe_id: params.subscribe_id
+          ? toRequestString(params.subscribe_id)
+          : undefined,
       },
       ...(options || {}),
     }
@@ -446,6 +486,7 @@ export async function getUserSubscribeResetTrafficLogs(
       method: "GET",
       params: {
         ...params,
+        user_subscribe_id: toRequestString(params.user_subscribe_id),
       },
       ...(options || {}),
     }
@@ -466,7 +507,7 @@ export async function resetUserSubscribeToken(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_subscribe_id"]),
       ...(options || {}),
     }
   );
@@ -486,7 +527,7 @@ export async function resetUserSubscribeTraffic(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_subscribe_id"]),
       ...(options || {}),
     }
   );
@@ -504,7 +545,7 @@ export async function toggleUserSubscribeStatus(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["user_subscribe_id"]),
       ...(options || {}),
     }
   );
@@ -526,6 +567,13 @@ export async function getUserSubscribeTrafficLogs(
       method: "GET",
       params: {
         ...params,
+        user_id: toRequestString(params.user_id),
+        subscribe_id: toRequestString(params.subscribe_id),
+        start_time: toRequestString(params.start_time),
+        end_time: toRequestString(params.end_time),
+        user_subscribe_id: params.user_subscribe_id
+          ? toRequestString(params.user_subscribe_id)
+          : undefined,
       },
       ...(options || {}),
     }

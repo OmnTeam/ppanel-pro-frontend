@@ -60,6 +60,11 @@ import { NotifySettingsForm } from "./user-profile/notify-settings-form";
 import UserSubscription from "./user-subscription";
 // import EditUserGroupDialog from "./edit-user-group-dialog";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function User() {
   const { t } = useTranslation("user");
   const [loading, setLoading] = useState(false);
@@ -206,7 +211,9 @@ export default function User() {
           accessorKey: "deleted_at",
           header: t("isDeleted", "Deleted"),
           cell: ({ row }) => {
-            const deletedAt = row.getValue("deleted_at") as number | undefined;
+            const deletedAt = toNumber(
+              row.getValue("deleted_at") as number | string | undefined
+            );
             return deletedAt ? (
               <Badge variant="destructive">{t("deleted", "Deleted")}</Badge>
             ) : (
@@ -238,7 +245,10 @@ export default function User() {
           accessorKey: "balance",
           header: t("balance", "Balance"),
           cell: ({ row }) => (
-            <Display type="currency" value={row.getValue("balance")} />
+            <Display
+              type="currency"
+              value={toNumber(row.getValue("balance") as number | string)}
+            />
           ),
         },
         {
@@ -246,7 +256,10 @@ export default function User() {
           accessorKey: "gift_amount",
           header: t("giftAmount", "Gift Amount"),
           cell: ({ row }) => (
-            <Display type="currency" value={row.getValue("gift_amount")} />
+            <Display
+              type="currency"
+              value={toNumber(row.getValue("gift_amount") as number | string)}
+            />
           ),
         },
         {
@@ -254,7 +267,10 @@ export default function User() {
           accessorKey: "commission",
           header: t("commission", "Commission"),
           cell: ({ row }) => (
-            <Display type="currency" value={row.getValue("commission")} />
+            <Display
+              type="currency"
+              value={toNumber(row.getValue("commission") as number | string)}
+            />
           ),
         },
         {
@@ -273,7 +289,8 @@ export default function User() {
           id: "created_at",
           accessorKey: "created_at",
           header: t("createdAt", "Created At"),
-          cell: ({ row }) => formatDate(row.getValue("created_at")),
+          cell: ({ row }) =>
+            formatDate(toNumber(row.getValue("created_at") as number | string)),
         },
       ]}
       header={{
@@ -351,7 +368,7 @@ function ProfileSheet({
   userId,
   onUpdated,
 }: {
-  userId: number;
+  userId: string | number;
   onUpdated?: () => void;
 }) {
   const { t } = useTranslation("user");
@@ -360,7 +377,7 @@ function ProfileSheet({
     enabled: open,
     queryKey: ["user", userId],
     queryFn: async () => {
-      const { data } = await getUserDetail({ id: userId });
+      const { data } = await getUserDetail({ id: String(userId) });
       return data.data as API.User;
     },
   });
@@ -415,7 +432,7 @@ function ProfileSheet({
   );
 }
 
-function SubscriptionSheet({ userId }: { userId: number }) {
+function SubscriptionSheet({ userId }: { userId: string | number }) {
   const { t } = useTranslation("user");
   const [open, setOpen] = useState(false);
   return (
@@ -437,14 +454,14 @@ function SubscriptionSheet({ userId }: { userId: number }) {
   );
 }
 
-function PreviewNodesDialog({ userId }: { userId: number }) {
+function PreviewNodesDialog({ userId }: { userId: string | number }) {
   const { t } = useTranslation("user");
   const [open, setOpen] = useState(false);
   const { data: previewData, isLoading } = useQuery({
     enabled: open,
     queryKey: ["previewUserNodes", userId],
     queryFn: async () => {
-      const { data } = await previewUserNodes({ user_id: userId });
+      const { data } = await previewUserNodes({ user_id: String(userId) });
       return data.data;
     },
   });
@@ -478,9 +495,9 @@ function PreviewNodesDialog({ userId }: { userId: number }) {
                   <div key={group.id}>
                     <h4 className="text-sm font-semibold mb-2">
                       {group.name ||
-                        (group.id === -1
+                        (group.id === "-1"
                           ? t("subscriptionNodes", "Subscription Nodes")
-                          : group.id === 0
+                          : group.id === "0"
                             ? t("publicNodes", "Public Nodes")
                             : `${t("nodeGroup", "Node Group")} ${group.id}`)}
                     </h4>

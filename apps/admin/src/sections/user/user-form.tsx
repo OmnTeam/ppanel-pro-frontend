@@ -28,6 +28,11 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { useGlobalStore } from "@/stores/global";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 interface UserFormProps<T> {
   onSubmit: (data: T) => Promise<boolean> | boolean;
   initialValues?: T;
@@ -54,7 +59,7 @@ export default function UserForm<T extends Record<string, any>>({
     telephone_area_code: z.string().optional(),
     telephone: z.string().optional(),
     password: z.string().optional(),
-    referer_id: z.number().optional(),
+    referer_id: z.string().optional(),
     refer_code: z.string().optional(),
     referral_percentage: z.number().optional(),
     only_first_purchase: z.boolean().optional(),
@@ -71,7 +76,16 @@ export default function UserForm<T extends Record<string, any>>({
   });
 
   useEffect(() => {
-    form?.reset(initialValues);
+    form?.reset(
+      initialValues
+        ? {
+            ...initialValues,
+            balance: toNumber(initialValues.balance),
+            gift_amount: toNumber(initialValues.gift_amount),
+            commission: toNumber(initialValues.commission),
+          }
+        : initialValues
+    );
   }, [form, initialValues]);
 
   async function handleSubmit(data: { [x: string]: any }) {

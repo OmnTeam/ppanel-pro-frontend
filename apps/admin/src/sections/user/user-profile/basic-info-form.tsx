@@ -26,13 +26,18 @@ import { toast } from "sonner";
 import * as z from "zod";
 import { useGlobalStore } from "@/stores/global";
 
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 const basicInfoSchema = z.object({
   avatar: z.string().optional(),
   balance: z.number().optional(),
   commission: z.number().optional(),
   gift_amount: z.number().optional(),
   refer_code: z.string().optional(),
-  referer_id: z.number().optional(),
+  referer_id: z.string().optional(),
   referral_percentage: z.number().optional(),
   only_first_purchase: z.boolean().optional(),
   is_admin: z.boolean().optional(),
@@ -58,9 +63,9 @@ export function BasicInfoForm({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: {
       avatar: user.avatar,
-      balance: user.balance,
-      commission: user.commission,
-      gift_amount: user.gift_amount,
+      balance: toNumber(user.balance),
+      commission: toNumber(user.commission),
+      gift_amount: toNumber(user.gift_amount),
       refer_code: user.refer_code,
       referer_id: user.referer_id,
       referral_percentage: user.referral_percentage,
@@ -75,7 +80,7 @@ export function BasicInfoForm({
       user_id: user.id,
       telegram: user.telegram,
       ...data,
-    } as API.UpdateUserBasiceInfoRequest);
+    } as unknown as API.UpdateUserBasiceInfoRequest);
     toast.success(t("updateSuccess", "Updated successfully"));
     refetch();
   }
@@ -238,7 +243,7 @@ export function BasicInfoForm({
                     <FormControl>
                       <EnhancedInput
                         onValueChange={(value) => {
-                          form.setValue(field.name, value as number);
+                          form.setValue(field.name, value as string);
                         }}
                         type="number"
                         value={field.value}

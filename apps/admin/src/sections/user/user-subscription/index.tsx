@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
+import { copyText } from "@workspace/ui/utils/clipboard";
 import { ConfirmButton } from "@workspace/ui/composed/confirm-button";
 import {
   ProTable,
@@ -29,7 +30,16 @@ import { formatDate } from "@/utils/common";
 import { SubscriptionDetail } from "./subscription-detail";
 import { SubscriptionForm } from "./subscription-form";
 
-export default function UserSubscription({ userId }: { userId: number }) {
+function toNumber(value: number | string | null | undefined) {
+  const parsed = Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+export default function UserSubscription({
+  userId,
+}: {
+  userId: string | number;
+}) {
   const { t } = useTranslation("user");
   const [loading, setLoading] = useState(false);
   const ref = useRef<ProTableActions>(null);
@@ -46,7 +56,7 @@ export default function UserSubscription({ userId }: { userId: number }) {
             onSubmit={async (values) => {
               setLoading(true);
               await updateUserSubscribe({
-                user_id: Number(userId),
+                user_id: String(userId),
                 user_subscribe_id: row.id,
                 ...values,
               });
@@ -82,7 +92,7 @@ export default function UserSubscription({ userId }: { userId: number }) {
           header: t("status", "Status"),
           cell: ({ row }) => {
             const status = row.getValue("status") as number;
-            const expireTime = row.original.expire_time;
+            const expireTime = toNumber(row.original.expire_time);
 
             // 如果过期时间为0，说明是永久订阅，应该显示为激活状态
             const displayStatus = status === 3 && expireTime === 0 ? 1 : status;
@@ -126,31 +136,42 @@ export default function UserSubscription({ userId }: { userId: number }) {
           accessorKey: "upload",
           header: t("upload", "Upload"),
           cell: ({ row }) => (
-            <Display type="traffic" value={row.getValue("upload")} />
+            <Display
+              type="traffic"
+              value={toNumber(row.getValue("upload") as number | string)}
+            />
           ),
         },
         {
           accessorKey: "download",
           header: t("download", "Download"),
           cell: ({ row }) => (
-            <Display type="traffic" value={row.getValue("download")} />
+            <Display
+              type="traffic"
+              value={toNumber(row.getValue("download") as number | string)}
+            />
           ),
         },
         {
           accessorKey: "traffic",
           header: t("totalTraffic", "Total Traffic"),
           cell: ({ row }) => (
-            <Display type="traffic" unlimited value={row.getValue("traffic")} />
+            <Display
+              type="traffic"
+              unlimited
+              value={toNumber(row.getValue("traffic") as number | string)}
+            />
           ),
         },
         {
           id: "remaining_traffic",
           header: t("remainingTraffic", "Remaining Traffic"),
           cell: ({ row }) => {
-            const upload = row.original.upload || 0;
-            const download = row.original.download || 0;
-            const totalTraffic = row.original.traffic || 0;
-            const remainingTraffic = totalTraffic > 0 ? totalTraffic - upload - download : 0;
+            const upload = toNumber(row.original.upload);
+            const download = toNumber(row.original.download);
+            const totalTraffic = toNumber(row.original.traffic);
+            const remainingTraffic =
+              totalTraffic > 0 ? totalTraffic - upload - download : 0;
             return (
               <Display type="traffic" unlimited value={remainingTraffic} />
             );
@@ -179,7 +200,7 @@ export default function UserSubscription({ userId }: { userId: number }) {
             <Display
               type="number"
               unlimited
-              value={row.getValue("reset_time")}
+              value={toNumber(row.getValue("reset_time") as number | string)}
             />
           ),
         },
@@ -187,7 +208,9 @@ export default function UserSubscription({ userId }: { userId: number }) {
           accessorKey: "expire_time",
           header: t("expireTime", "Expire Time"),
           cell: ({ row }) => {
-            const expireTime = row.getValue("expire_time") as number;
+            const expireTime = toNumber(
+              row.getValue("expire_time") as number | string
+            );
             return expireTime && expireTime !== 0
               ? formatDate(expireTime)
               : t("permanent", "Permanent");
@@ -196,7 +219,8 @@ export default function UserSubscription({ userId }: { userId: number }) {
         {
           accessorKey: "created_at",
           header: t("createdAt", "Created At"),
-          cell: ({ row }) => formatDate(row.getValue("created_at")),
+          cell: ({ row }) =>
+            formatDate(toNumber(row.getValue("created_at") as number | string)),
         },
       ]}
       header={{
@@ -208,7 +232,7 @@ export default function UserSubscription({ userId }: { userId: number }) {
             onSubmit={async (values) => {
               setLoading(true);
               await createUserSubscribe({
-                user_id: Number(userId),
+                user_id: String(userId),
                 ...values,
               });
               toast.success(t("createSuccess", "Created successfully"));
@@ -223,7 +247,7 @@ export default function UserSubscription({ userId }: { userId: number }) {
       }}
       request={async (pagination) => {
         const { data } = await getUserSubscribe({
-          user_id: userId,
+          user_id: String(userId),
           ...pagination,
         });
         return {
@@ -241,7 +265,7 @@ function RowMoreActions({
   token,
   refresh,
 }: {
-  userId: number;
+  userId: string | number;
   row: API.UserSubscribe;
   token: string;
   refresh: () => void;
@@ -263,10 +287,12 @@ function RowMoreActions({
           <DropdownMenuItem
             onSelect={async (e) => {
               e.preventDefault();
-              await navigator.clipboard.writeText(
-                getUserSubscribeUrls(row.short, token)[0] || ""
-              );
-              toast.success(t("copySuccess", "Copied successfully"));
+              try {
+                await copyText(getUserSubscribeUrls(row.short, token)[0] || "");
+                toast.success(t("copySuccess", "Copied successfully"));
+              } catch {
+                toast.error(t("copyFailed", "Copy failed"));
+              }
             }}
           >
             {t("copySubscription", "Copy Subscription")}
@@ -300,7 +326,10 @@ function RowMoreActions({
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: row.id }}
+              search={{
+                user_id: String(userId),
+                user_subscribe_id: row.id,
+              }}
               to="/dashboard/log/subscribe"
             >
               {t("subscriptionLogs", "Subscription Logs")}
@@ -308,7 +337,10 @@ function RowMoreActions({
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: row.id }}
+              search={{
+                user_id: String(userId),
+                user_subscribe_id: row.id,
+              }}
               to="/dashboard/log/reset-subscribe"
             >
               {t("resetLogs", "Reset Logs")}
@@ -316,7 +348,10 @@ function RowMoreActions({
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: row.id }}
+              search={{
+                user_id: String(userId),
+                user_subscribe_id: row.id,
+              }}
               to="/dashboard/log/subscribe-traffic"
             >
               {t("trafficStats", "Traffic Stats")}
@@ -324,7 +359,7 @@ function RowMoreActions({
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, subscribe_id: row.id }}
+              search={{ user_id: String(userId), subscribe_id: row.id }}
               to="/dashboard/log/traffic-details"
             >
               {t("trafficDetails", "Traffic Details")}

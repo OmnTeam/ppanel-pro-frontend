@@ -666,6 +666,15 @@ export default function ServerForm(props: {
                             i,
                             current
                           )}
+                          {renderGroupCard(
+                            t("simnet", "SimNet"),
+                            fields,
+                            "simnet",
+                            control,
+                            form,
+                            i,
+                            current
+                          )}
                         </div>
                       </AccordionContent>
                     </AccordionItem>

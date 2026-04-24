@@ -2,6 +2,20 @@ import { removeCookie, setCookie } from "@workspace/ui/lib/cookies";
 import { isBrowser } from "@workspace/ui/utils/index";
 import { intlFormat } from "date-fns";
 
+function toSafeNumber(value?: Date | number | string | null) {
+  if (value instanceof Date) return value.getTime();
+  if (typeof value === "number") return Number.isFinite(value) ? value : 0;
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  return 0;
+}
+
+function normalizeTimestamp(value: number) {
+  return value > 0 && value < 10000000000 ? value * 1000 : value;
+}
+
 export function getPlatform(): string {
   if (typeof window === "undefined") return "unknown";
 
@@ -23,21 +37,10 @@ export function differenceInDays(date1: Date, date2: Date): number {
 }
 
 export function formatDate(date?: Date | number | string, showTime = true) {
-  if (!date) return;
+  if (date === undefined || date === null || date === "") return;
 
-  // 如果是数字（Unix时间戳），需要判断是秒级还是毫秒级
-  // Unix时间戳（秒级）：10位数字，如 1771936457
-  // JavaScript时间戳（毫秒级）：13位数字
-  let dateValue = date;
-  if (typeof date === "string" && /^\d+$/.test(date)) {
-    dateValue = Number(date);
-  }
-  if (typeof dateValue === "number") {
-    // 如果小于 10000000000（100亿），认为是秒级时间戳，需要乘以1000
-    if (dateValue < 10000000000) {
-      dateValue = dateValue * 1000;
-    }
-  }
+  let dateValue: Date | number = date instanceof Date ? date : normalizeTimestamp(toSafeNumber(date));
+  if (!dateValue) return;
 
   const timeZone = localStorage.getItem("timezone") || "UTC";
   return intlFormat(dateValue, {

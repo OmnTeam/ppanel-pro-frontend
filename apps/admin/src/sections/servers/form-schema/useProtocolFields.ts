@@ -15,6 +15,9 @@ import {
   FLOWS,
   multiplexLevels,
   SECURITY,
+  SIMNET_AF_MAGIC_MODES,
+  SIMNET_AF_PATH_MODES,
+  SIMNET_CARRIERS,
   SS_CIPHERS,
   TRANSPORTS,
   TUIC_CONGESTION,
@@ -28,6 +31,121 @@ export function useProtocolFields() {
 
   return useMemo<Record<string, FieldConfig[]>>(
     () => ({
+      simnet: [
+        {
+          name: "ratio",
+          type: "number",
+          label: t("traffic_ratio", "Ratio"),
+          min: 0,
+          step: 0.01,
+          defaultValue: 1,
+          group: "basic",
+        },
+        {
+          name: "port",
+          type: "number",
+          label: t("port", "Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: "1-65535",
+          group: "basic",
+        },
+        {
+          name: "simnet_psk",
+          type: "input",
+          label: t("simnet_psk", "SimNet PSK"),
+          placeholder: t("simnet_psk_placeholder", "Enter pre-shared key"),
+          generate: {
+            function: () => generatePassword(32),
+          },
+          group: "basic",
+        },
+        {
+          name: "simnet_key_id",
+          type: "number",
+          label: t("simnet_key_id", "SimNet Key ID"),
+          min: 0,
+          group: "basic",
+        },
+        {
+          name: "simnet_ticket_id",
+          type: "input",
+          label: t("simnet_ticket_id", "SimNet Ticket ID"),
+          placeholder: t("simnet_ticket_id_placeholder", "Optional ticket id"),
+          group: "basic",
+        },
+        {
+          name: "simnet_path",
+          type: "input",
+          label: t("simnet_path", "SimNet Path"),
+          placeholder: t("simnet_path_placeholder", "e.g. /simnet"),
+          group: "basic",
+        },
+        {
+          name: "simnet_carrier",
+          type: "select",
+          label: t("simnet_carrier", "Carrier"),
+          options: SIMNET_CARRIERS,
+          defaultValue: "h2",
+          group: "basic",
+        },
+        {
+          name: "simnet_af_enabled",
+          type: "switch",
+          label: t("simnet_af_enabled", "Enable Adaptive Flow"),
+          group: "simnet",
+        },
+        {
+          name: "simnet_af_path_mode",
+          type: "select",
+          label: t("simnet_af_path_mode", "AF Path Mode"),
+          options: SIMNET_AF_PATH_MODES,
+          defaultValue: "api",
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_path_prefix",
+          type: "input",
+          label: t("simnet_af_path_prefix", "AF Path Prefix"),
+          placeholder: t(
+            "simnet_af_path_prefix_placeholder",
+            "Optional path prefix"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_path_suffix",
+          type: "input",
+          label: t("simnet_af_path_suffix", "AF Path Suffix"),
+          placeholder: t(
+            "simnet_af_path_suffix_placeholder",
+            "Optional path suffix"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_magic_mode",
+          type: "select",
+          label: t("simnet_af_magic_mode", "AF Magic Mode"),
+          options: SIMNET_AF_MAGIC_MODES,
+          defaultValue: "derived",
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_response_jitter_ms",
+          type: "number",
+          label: t("simnet_af_response_jitter_ms", "AF Response Jitter"),
+          min: 0,
+          suffix: "ms",
+          defaultValue: 50,
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+      ],
       shadowsocks: [
         {
           name: "ratio",

@@ -3,6 +3,24 @@ import type { ProtocolType } from "./types";
 
 export function getProtocolDefaultConfig(proto: ProtocolType) {
   switch (proto) {
+    case "simnet":
+      return {
+        type: "simnet",
+        enable: false,
+        port: null,
+        simnet_psk: null,
+        simnet_key_id: null,
+        simnet_ticket_id: null,
+        simnet_path: null,
+        simnet_carrier: "h2",
+        simnet_af_enabled: false,
+        simnet_af_path_mode: "api",
+        simnet_af_path_prefix: null,
+        simnet_af_path_suffix: null,
+        simnet_af_magic_mode: "derived",
+        simnet_af_response_jitter_ms: 50,
+        ratio: 1,
+      } as any;
     case "shadowsocks":
       return {
         type: "shadowsocks",
