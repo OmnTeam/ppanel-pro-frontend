@@ -29,6 +29,8 @@ import { toast } from "sonner";
 import { formatDate } from "@/utils/common";
 import { UserDetail } from "../user/user-detail";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Page() {
   const { t } = useTranslation("ticket");
 
@@ -74,7 +76,8 @@ export default function Page() {
         action={ref}
         actions={{
           render(row) {
-            if (row.status !== 4) {
+            const status = toNumber(row.status);
+            if (status !== 4) {
               return [
                 <Button key="reply" onClick={() => setTicketId(row.id)}>
                   {t("reply", "Reply")}
@@ -122,30 +125,30 @@ export default function Page() {
           {
             accessorKey: "status",
             header: t("status.0", "Status"),
-            cell: ({ row }) => (
-              <span
-                className={cn(
-                  "flex items-center gap-2 before:block before:size-1.5 before:animate-pulse before:rounded-full before:ring-2 before:ring-opacity-50",
-                  {
-                    "before:bg-rose-500 before:ring-rose-500":
-                      row.original.status === 1,
-                    "before:bg-yellow-500 before:ring-yellow-500":
-                      row.original.status === 2,
-                    "before:bg-green-500 before:ring-green-500":
-                      row.original.status === 3,
-                    "before:bg-zinc-500 before:ring-zinc-500":
-                      row.original.status === 4,
-                  }
-                )}
-              >
-                {t(`status.${row.original.status}`)}
-              </span>
-            ),
+            cell: ({ row }) => {
+              const status = toNumber(row.original.status);
+              return (
+                <span
+                  className={cn(
+                    "flex items-center gap-2 before:block before:size-1.5 before:animate-pulse before:rounded-full before:ring-2 before:ring-opacity-50",
+                    {
+                      "before:bg-rose-500 before:ring-rose-500": status === 1,
+                      "before:bg-yellow-500 before:ring-yellow-500":
+                        status === 2,
+                      "before:bg-green-500 before:ring-green-500": status === 3,
+                      "before:bg-zinc-500 before:ring-zinc-500": status === 4,
+                    }
+                  )}
+                >
+                  {t(`status.${status}`)}
+                </span>
+              );
+            },
           },
           {
             accessorKey: "updated_at",
             header: t("updatedAt", "Updated At"),
-            cell: ({ row }) => formatDate(row.getValue("updated_at")),
+            cell: ({ row }) => formatDate(toNumber(row.getValue("updated_at"))),
           },
         ]}
         header={{
@@ -192,7 +195,7 @@ export default function Page() {
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col gap-1">
                     <p className="text-muted-foreground text-sm">
-                      {formatDate(ticket.created_at)}
+                      {formatDate(toNumber(ticket.created_at))}
                     </p>
                     <p className="w-fit rounded-lg bg-accent p-2 font-medium">
                       {ticket.description}
@@ -215,7 +218,7 @@ export default function Page() {
                     })}
                   >
                     <p className="text-muted-foreground text-sm">
-                      {formatDate(item.created_at)}
+                      {formatDate(toNumber(item.created_at))}
                     </p>
                     <p
                       className={cn(
@@ -226,8 +229,8 @@ export default function Page() {
                         }
                       )}
                     >
-                      {item.type === 1 && item.content}
-                      {item.type === 2 && (
+                      {toNumber(item.type) === 1 && item.content}
+                      {toNumber(item.type) === 2 && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           alt="attachment"
@@ -243,7 +246,7 @@ export default function Page() {
               ))}
             </div>
           </ScrollArea>
-          {ticket?.status !== 4 && (
+          {toNumber(ticket?.status) !== 4 && (
             <DrawerFooter>
               <form
                 className="flex w-full flex-row items-center gap-2"

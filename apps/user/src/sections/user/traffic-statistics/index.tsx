@@ -11,6 +11,12 @@ import TrafficTrendChart from "./traffic-trend-chart";
 import TrafficRatioChart from "./traffic-ratio-chart";
 import TrafficStatsCards from "./traffic-stats-cards";
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function TrafficStatistics() {
   const { t } = useTranslation("traffic");
   const [days, setDays] = useState<7 | 30>(7);
@@ -114,7 +120,9 @@ export default function TrafficStatistics() {
               <div className="flex h-[300px] items-center justify-center">
                 <Icon className="size-8 animate-spin" icon="uil:spinner" />
               </div>
-            ) : trafficStats && (trafficStats.total_upload > 0 || trafficStats.total_download > 0) ? (
+            ) : trafficStats &&
+              (toNumber(trafficStats.total_upload) > 0 ||
+                toNumber(trafficStats.total_download) > 0) ? (
               <TrafficRatioChart
                 upload={trafficStats.total_upload}
                 download={trafficStats.total_download}

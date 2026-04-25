@@ -13,6 +13,12 @@ import { Display } from "@/components/display";
 import Recharge from "@/sections/subscribe/recharge";
 import { useGlobalStore } from "@/stores/global";
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function Wallet() {
   const { t } = useTranslation("wallet");
   const typeMap: Record<number, string> = {
@@ -43,7 +49,9 @@ export default function Wallet() {
   const { user } = useGlobalStore();
   const ref = useRef<ProListActions>(null);
   const totalAssets =
-    (user?.balance || 0) + (user?.commission || 0) + (user?.gift_amount || 0);
+    toNumber(user?.balance) +
+    toNumber(user?.commission) +
+    toNumber(user?.gift_amount);
   return (
     <>
       <Card>
@@ -109,8 +117,8 @@ export default function Wallet() {
                     {t("type.0", "Type")}
                   </span>
                   <span>
-                    {typeMap[item.type] ||
-                      t(`type.${item.type}`, "Unknown Type")}
+                    {typeMap[toNumber(item.type)] ||
+                      t(`type.${toNumber(item.type)}`, "Unknown Type")}
                   </span>
                 </li>
                 <li className="font-semibold">
@@ -141,7 +149,7 @@ export default function Wallet() {
           });
           return {
             list: response.data.data?.list || [],
-            total: response.data.data?.total || 0,
+            total: Number(response.data.data?.total || 0),
           };
         }}
       />

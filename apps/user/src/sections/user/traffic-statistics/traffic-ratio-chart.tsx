@@ -2,16 +2,22 @@ import { useTranslation } from "react-i18next";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 interface TrafficRatioChartProps {
-  upload: number;
-  download: number;
+  upload: number | string;
+  download: number | string;
+}
+
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 export default function TrafficRatioChart({ upload, download }: TrafficRatioChartProps) {
   const { t } = useTranslation("traffic");
 
   const data = [
-    { name: t("upload", "Upload"), value: upload },
-    { name: t("download", "Download"), value: download },
+    { name: t("upload", "Upload"), value: toNumber(upload) },
+    { name: t("download", "Download"), value: toNumber(download) },
   ];
 
   const COLORS = ["#10b981", "#3b82f6"];

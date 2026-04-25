@@ -7,6 +7,8 @@ import { filterMobileLog } from "@workspace/ui/services/admin/log";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/utils/common";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function MobileLogPage() {
   const { t } = useTranslation("log");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
@@ -40,7 +42,7 @@ export default function MobileLogPage() {
           accessorKey: "status",
           header: t("column.status", "Status"),
           cell: ({ row }) => {
-            const status = row.original.status;
+            const status = toNumber(row.original.status);
             const getStatusVariant = (status: any) => {
               if (status === 1) {
                 return "default";
@@ -67,7 +69,7 @@ export default function MobileLogPage() {
         {
           accessorKey: "created_at",
           header: t("column.time", "Time"),
-          cell: ({ row }) => formatDate(row.original.created_at),
+          cell: ({ row }) => formatDate(toNumber(row.original.created_at)),
         },
       ]}
       header={{ title: t("title.mobile", "SMS Log") }}

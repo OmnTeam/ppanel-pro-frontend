@@ -113,7 +113,7 @@ export default function Affiliate() {
           });
           return {
             list: response.data.data?.list || [],
-            total: response.data.data?.total || 0,
+            total: Number(response.data.data?.total || 0),
           };
         }}
       />

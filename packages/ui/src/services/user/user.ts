@@ -2,6 +2,11 @@
 /* eslint-disable */
 import request from "@workspace/ui/lib/request";
 
+function toInt64String(value: string | number | undefined) {
+  if (value === undefined || value === null || value === "") return value;
+  return String(value);
+}
+
 /** Query User Affiliate Count GET /v1/public/user/affiliate/count */
 export async function queryUserAffiliate(options?: { [key: string]: any }) {
   return request<API.Response & { data?: API.QueryUserAffiliateCountResponse }>(
@@ -149,6 +154,11 @@ export async function commissionWithdraw(
   body: API.CommissionWithdrawRequest,
   options?: { [key: string]: any }
 ) {
+  const data = {
+    ...body,
+    amount: toInt64String(body.amount),
+  };
+
   return request<API.Response & { data?: API.WithdrawalLog }>(
     `${
       import.meta.env.VITE_API_PREFIX || ""
@@ -158,7 +168,7 @@ export async function commissionWithdraw(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data,
       ...(options || {}),
     }
   );

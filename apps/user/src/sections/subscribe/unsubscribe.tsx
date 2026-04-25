@@ -40,7 +40,7 @@ export default function Unsubscribe({
     queryKey: ["preUnsubscribe", id],
     queryFn: async () => {
       const { data } = await preUnsubscribe({ id });
-      return data.data?.deduction_amount;
+      return data.data?.deduction_amount || "0";
     },
   });
 

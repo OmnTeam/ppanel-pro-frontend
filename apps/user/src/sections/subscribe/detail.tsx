@@ -5,7 +5,7 @@ interface SubscribeDetailProps {
   subscribe?: Partial<
     API.Subscribe & {
       name: string;
-      quantity: number;
+      quantity: number | string;
     }
   >;
 }

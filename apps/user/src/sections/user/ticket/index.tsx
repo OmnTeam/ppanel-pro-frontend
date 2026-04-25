@@ -50,6 +50,12 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function Ticket() {
   const { t } = useTranslation("ticket");
   const statusMap: Record<number, string> = {
@@ -177,22 +183,22 @@ export default function Ticket() {
                     "flex items-center gap-2 before:block before:size-1.5 before:animate-pulse before:rounded-full before:ring-2 before:ring-opacity-50",
                     {
                       "before:bg-yellow-500 before:ring-yellow-500":
-                        item.status === 1,
+                        toNumber(item.status) === 1,
                       "before:bg-rose-500 before:ring-rose-500":
-                        item.status === 2,
+                        toNumber(item.status) === 2,
                       "before:bg-green-500 before:ring-green-500":
-                        item.status === 3,
+                        toNumber(item.status) === 3,
                       "before:bg-zinc-500 before:ring-zinc-500":
-                        item.status === 4,
+                        toNumber(item.status) === 4,
                     }
                   )}
                 >
-                  {statusMap[item.status] ||
-                    t(`status.${item.status}`, "Unknown Status")}
+                  {statusMap[toNumber(item.status)] ||
+                    t(`status.${toNumber(item.status)}`, "Unknown Status")}
                 </span>
               </CardTitle>
               <CardDescription className="flex gap-2">
-                {item.status !== 4 ? (
+                {toNumber(item.status) !== 4 ? (
                   <>
                     <Button
                       key="reply"
@@ -268,7 +274,7 @@ export default function Ticket() {
           });
           return {
             list: data.data?.list || [],
-            total: data.data?.total || 0,
+            total: Number(data.data?.total || 0),
           };
         }}
       />
@@ -327,7 +333,7 @@ export default function Ticket() {
               ))}
             </div>
           </ScrollArea>
-          {ticket?.status !== 4 && (
+          {toNumber(ticket?.status) !== 4 && (
             <DrawerFooter>
               <form
                 className="flex w-full flex-row items-center gap-2"

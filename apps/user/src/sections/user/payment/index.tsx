@@ -29,6 +29,18 @@ import StripePayment from "./stripe";
 
 const routeApi = getRouteApi("/(main)/payment");
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function toTimestampMs(value?: number | string | null) {
+  const numericValue = toNumber(value);
+  if (!numericValue) return 0;
+  return numericValue < 10000000000 ? numericValue * 1000 : numericValue;
+}
+
 export default function Page() {
   const { t } = useTranslation("order");
   const { getUserInfo } = useGlobalStore();
@@ -48,35 +60,42 @@ export default function Page() {
     queryKey: ["queryOrderDetail", order_no],
     queryFn: async () => {
       const { data } = await queryOrderDetail({ order_no: order_no! });
-      if (data?.data?.status !== 1) {
+      if (toNumber(data?.data?.status) !== 1) {
         getUserInfo();
         setEnabled(false);
       }
-      return data?.data;
+      return data?.data || null;
     },
     refetchInterval: 3000,
   });
 
   const { data: payment } = useQuery({
-    enabled: !!order_no && data?.status === 1,
+    enabled: !!order_no && toNumber(data?.status) === 1,
     queryKey: ["purchaseCheckout", order_no],
     queryFn: async () => {
       const { data } = await purchaseCheckout({
         orderNo: order_no!,
         returnUrl: window.location.href,
       });
-      if (data.data?.type === "url" && data.data.checkout_url && !paymentOpened) {
+      if (
+        data.data?.type === "url" &&
+        data.data.checkout_url &&
+        !paymentOpened
+      ) {
         window.open(data.data.checkout_url, "_blank");
         setPaymentOpened(true);
       }
-      return data?.data;
+      return data?.data || null;
     },
   });
 
   const [countDown, formattedRes] = useCountDown({
     targetDate:
       data &&
-      format(addMinutes(data?.created_at, 15), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+      format(
+        addMinutes(new Date(toTimestampMs(data?.created_at)), 15),
+        "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
+      ),
   });
 
   const { hours, minutes, seconds } = formattedRes;
@@ -99,7 +118,7 @@ export default function Page() {
           <div className="grid gap-0.5">
             <CardTitle className="flex flex-col text-lg">
               {t("orderNumber", "Order Number")}
-              <span>{data?.orderNo}</span>
+              <span>{data?.order_no}</span>
             </CardTitle>
             <CardDescription>
               {t("createdAt", "Created At")}: {formatDate(data?.created_at)}
@@ -111,15 +130,17 @@ export default function Page() {
             {t("paymentMethod", "Payment Method")}
           </div>
           <dl className="grid gap-3">
-            <div className="flex items-center justify-between">
-              <dt className="text-muted-foreground">
-                <Badge>{data?.payment.name || data?.payment.platform}</Badge>
-              </dt>
-            </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-muted-foreground">
+                  <Badge>
+                    {data?.payment?.name || data?.payment?.platform || "--"}
+                  </Badge>
+                </dt>
+              </div>
           </dl>
           <Separator />
 
-          {data?.type && [1, 2].includes(data.type) && (
+          {toNumber(data?.type) && [1, 2].includes(toNumber(data?.type)) && (
             <SubscribeDetail
               subscribe={{
                 ...data?.subscribe,
@@ -127,7 +148,7 @@ export default function Page() {
               }}
             />
           )}
-          {data?.type === 3 && (
+          {toNumber(data?.type) === 3 && (
             <>
               <div className="font-semibold">
                 {t("resetTraffic", "Reset Traffic")}
@@ -138,14 +159,14 @@ export default function Page() {
                     {t("resetPrice", "Reset Price")}
                   </span>
                   <span>
-                    <Display type="currency" value={data.amount} />
+                    <Display type="currency" value={data?.amount} />
                   </span>
                 </li>
               </ul>
             </>
           )}
 
-          {data?.type === 4 && (
+          {toNumber(data?.type) === 4 && (
             <>
               <div className="font-semibold">
                 {t("balanceRecharge", "Balance Recharge")}
@@ -156,7 +177,7 @@ export default function Page() {
                     {t("rechargeAmount", "Recharge Amount")}
                   </span>
                   <span>
-                    <Display type="currency" value={data.amount} />
+                    <Display type="currency" value={data?.amount} />
                   </span>
                 </li>
               </ul>
@@ -174,7 +195,7 @@ export default function Page() {
       </Card>
       <Card className="order-1 flex flex-auto items-center justify-center xl:order-2">
         <CardContent className="py-16">
-          {data?.status && [2, 5].includes(data?.status) && (
+          {toNumber(data?.status) && [2, 5].includes(toNumber(data?.status)) && (
             <div className="flex flex-col items-center gap-8 text-center">
               <h3 className="font-bold text-2xl tracking-tight">
                 {t("paymentSuccess", "Payment Success")}
@@ -197,7 +218,7 @@ export default function Page() {
               </div>
             </div>
           )}
-          {data?.status === 1 && payment?.type === "url" && (
+          {toNumber(data?.status) === 1 && payment?.type === "url" && (
             <div className="flex flex-col items-center gap-8 text-center">
               <h3 className="font-bold text-2xl tracking-tight">
                 {t("waitingForPayment", "Waiting For Payment")}
@@ -228,7 +249,7 @@ export default function Page() {
             </div>
           )}
 
-          {data?.status === 1 && payment?.type === "qr" && (
+          {toNumber(data?.status) === 1 && payment?.type === "qr" && (
             <div className="flex flex-col items-center gap-8 text-center">
               <h3 className="font-bold text-2xl tracking-tight">
                 {t("scanToPay", "Scan To Pay")}
@@ -259,7 +280,7 @@ export default function Page() {
             </div>
           )}
 
-          {data?.status === 1 && payment?.type === "stripe" && (
+          {toNumber(data?.status) === 1 && payment?.type === "stripe" && (
             <div className="flex flex-col items-center gap-8 text-center">
               <h3 className="font-bold text-2xl tracking-tight">
                 {t("waitingForPayment", "Waiting For Payment")}
@@ -279,7 +300,7 @@ export default function Page() {
             </div>
           )}
 
-          {data?.status && [3, 4].includes(data?.status) && (
+          {toNumber(data?.status) && [3, 4].includes(toNumber(data?.status)) && (
             <div className="flex flex-col items-center gap-8 text-center">
               <h3 className="font-bold text-2xl tracking-tight">
                 {t("orderClosed", "Order Closed")}

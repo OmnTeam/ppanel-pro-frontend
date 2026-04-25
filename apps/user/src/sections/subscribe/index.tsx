@@ -17,6 +17,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 import { SubscribeDetail } from "./detail";
+
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
 import Purchase from "./purchase";
 
 export default function Subscribe() {
@@ -130,15 +136,16 @@ export default function Subscribe() {
                     shouldShowOriginal || !hasDiscount
                       ? item.unit_price
                       : Math.round(
-                          item.unit_price *
-                            (item.discount?.[0]?.quantity ?? 1) *
-                            ((item.discount?.[0]?.discount ?? 100) / 100)
+                          toNumber(item.unit_price) *
+                            toNumber(item.discount?.[0]?.quantity ?? 1) *
+                            (toNumber(item.discount?.[0]?.discount ?? 100) /
+                              100)
                         );
 
                   const displayQuantity =
                     shouldShowOriginal || !hasDiscount
                       ? 1
-                      : (item.discount?.[0]?.quantity ?? 1);
+                      : toNumber(item.discount?.[0]?.quantity ?? 1);
 
                   const unitTime =
                     unitTimeMap[item.unit_time!] ||

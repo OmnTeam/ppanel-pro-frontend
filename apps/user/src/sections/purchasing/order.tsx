@@ -30,25 +30,38 @@ import StripePayment from "@/sections/user/payment/stripe";
 import { useGlobalStore } from "@/stores/global";
 import { setAuthorization } from "@/utils/common";
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function toTimestampMs(value?: number | string | null) {
+  const numericValue = toNumber(value);
+  if (!numericValue) return 0;
+  return numericValue < 10000000000 ? numericValue * 1000 : numericValue;
+}
+
 export default function Order() {
   const { t } = useTranslation("order");
   const { getUserInfo } = useGlobalStore();
   const [orderNo, setOrderNo] = useState<string>();
   const [enabled, setEnabled] = useState<boolean>(false);
+  const [paymentOpened, setPaymentOpened] = useState<boolean>(false);
   const search = useSearch({ from: "/(main)/purchasing/order/" });
 
   const { data } = useQuery({
     enabled,
     queryKey: ["queryPurchaseOrder", orderNo],
     queryFn: async () => {
-      if (!orderNo) return;
+      if (!orderNo) return null;
       const params = localStorage.getItem(orderNo);
       const authParams = params ? JSON.parse(params) : {};
       const { data } = await queryPurchaseOrder({
         order_no: orderNo,
         ...authParams,
       });
-      if (data?.data?.status !== 1) {
+      if (toNumber(data?.data?.status) !== 1) {
         setEnabled(false);
         if (data?.data?.token) {
           setAuthorization(data?.data?.token);
@@ -56,23 +69,28 @@ export default function Order() {
           await getUserInfo();
         }
       }
-      return data?.data;
+      return data?.data || null;
     },
     refetchInterval: 3000,
   });
 
   const { data: payment } = useQuery({
-    enabled: !!orderNo && data?.status === 1,
+    enabled: !!orderNo && toNumber(data?.status) === 1,
     queryKey: ["purchaseCheckout", orderNo],
     queryFn: async () => {
       const { data } = await purchaseCheckout({
         orderNo: orderNo || "",
         returnUrl: window.location.href,
       });
-      if (data.data?.type === "url" && data.data?.checkout_url) {
+      if (
+        data.data?.type === "url" &&
+        data.data?.checkout_url &&
+        !paymentOpened
+      ) {
         window.open(data.data.checkout_url, "_blank");
+        setPaymentOpened(true);
       }
-      return data?.data;
+      return data?.data || null;
     },
   });
 
@@ -80,13 +98,17 @@ export default function Order() {
     if (search.order_no) {
       setOrderNo(search.order_no);
       setEnabled(true);
+      setPaymentOpened(false);
     }
   }, [search]);
 
   const [countDown, formattedRes] = useCountDown({
     targetDate:
       data &&
-      format(addMinutes(data?.created_at, 15), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+      format(
+        addMinutes(new Date(toTimestampMs(data?.created_at)), 15),
+        "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
+      ),
   });
 
   const { hours, minutes, seconds } = formattedRes;
@@ -124,13 +146,15 @@ export default function Order() {
             <dl className="grid gap-3">
               <div className="flex items-center justify-between">
                 <dt className="text-muted-foreground">
-                  <Badge>{data?.payment.name || data?.payment.platform}</Badge>
+                  <Badge>
+                    {data?.payment?.name || data?.payment?.platform || "--"}
+                  </Badge>
                 </dt>
               </div>
             </dl>
             <Separator />
 
-            {data?.status && [1, 2].includes(data.status) && (
+            {toNumber(data?.status) && [1, 2].includes(toNumber(data?.status)) && (
               <SubscribeDetail
                 subscribe={{
                   ...data?.subscribe,
@@ -138,7 +162,7 @@ export default function Order() {
                 }}
               />
             )}
-            {data?.status === 3 && (
+            {toNumber(data?.status) === 3 && (
               <>
                 <div className="font-semibold">
                   {t("resetTraffic", "Reset Traffic")}
@@ -149,14 +173,14 @@ export default function Order() {
                       {t("resetPrice", "Reset Price")}
                     </span>
                     <span>
-                      <Display type="currency" value={data.amount} />
+                      <Display type="currency" value={data?.amount} />
                     </span>
                   </li>
                 </ul>
               </>
             )}
 
-            {data?.status === 4 && (
+            {toNumber(data?.status) === 4 && (
               <>
                 <div className="font-semibold">
                   {t("balanceRecharge", "Balance Recharge")}
@@ -167,7 +191,7 @@ export default function Order() {
                       {t("rechargeAmount", "Recharge Amount")}
                     </span>
                     <span>
-                      <Display type="currency" value={data.amount} />
+                      <Display type="currency" value={data?.amount} />
                     </span>
                   </li>
                 </ul>
@@ -185,7 +209,7 @@ export default function Order() {
         </Card>
         <Card className="order-1 flex flex-auto items-center justify-center xl:order-2">
           <CardContent className="py-16">
-            {data?.status && [2, 5].includes(data?.status) && (
+            {toNumber(data?.status) && [2, 5].includes(toNumber(data?.status)) && (
               <div className="flex flex-col items-center gap-8 text-center">
                 <h3 className="font-bold text-2xl tracking-tight">
                   {t("paymentSuccess", "Payment Successful")}
@@ -208,7 +232,7 @@ export default function Order() {
                 </div>
               </div>
             )}
-            {data?.status === 1 && payment?.type === "url" && (
+            {toNumber(data?.status) === 1 && payment?.type === "url" && (
               <div className="flex flex-col items-center gap-8 text-center">
                 <h3 className="font-bold text-2xl tracking-tight">
                   {t("waitingForPayment", "Waiting for Payment")}
@@ -239,7 +263,7 @@ export default function Order() {
               </div>
             )}
 
-            {data?.status === 1 && payment?.type === "qr" && (
+            {toNumber(data?.status) === 1 && payment?.type === "qr" && (
               <div className="flex flex-col items-center gap-8 text-center">
                 <h3 className="font-bold text-2xl tracking-tight">
                   {t("scanToPay", "Scan to Pay")}
@@ -270,7 +294,7 @@ export default function Order() {
               </div>
             )}
 
-            {data?.status === 1 && payment?.type === "stripe" && (
+            {toNumber(data?.status) === 1 && payment?.type === "stripe" && (
               <div className="flex flex-col items-center gap-8 text-center">
                 <h3 className="font-bold text-2xl tracking-tight">
                   {t("waitingForPayment", "Waiting for Payment")}
@@ -290,7 +314,7 @@ export default function Order() {
               </div>
             )}
 
-            {data?.status && [3, 4].includes(data?.status) && (
+            {toNumber(data?.status) && [3, 4].includes(toNumber(data?.status)) && (
               <div className="flex flex-col items-center gap-8 text-center">
                 <h3 className="font-bold text-2xl tracking-tight">
                   {t("orderClosed", "Order Closed")}

@@ -91,7 +91,7 @@ export default function UserSubscription({
           accessorKey: "status",
           header: t("status", "Status"),
           cell: ({ row }) => {
-            const status = row.getValue("status") as number;
+            const status = toNumber(row.getValue("status"));
             const expireTime = toNumber(row.original.expire_time);
 
             // 如果过期时间为0，说明是永久订阅，应该显示为激活状态
@@ -311,7 +311,7 @@ function RowMoreActions({
               toggleStatusRef.current?.click();
             }}
           >
-            {row.status === 5
+            {toNumber(row.status) === 5
               ? t("resumeSubscribe", "Resume Subscription")
               : t("stopSubscribe", "Stop Subscription")}
           </DropdownMenuItem>
@@ -401,7 +401,7 @@ function RowMoreActions({
         cancelText={t("cancel", "Cancel")}
         confirmText={t("confirm", "Confirm")}
         description={
-          row.status === 5
+          toNumber(row.status) === 5
             ? t(
                 "resumeSubscribeDescription",
                 "This will resume the subscription and allow the user to use it."
@@ -416,14 +416,14 @@ function RowMoreActions({
             user_subscribe_id: row.id,
           });
           toast.success(
-            row.status === 5
+            toNumber(row.status) === 5
               ? t("resumeSubscribeSuccess", "Subscription resumed successfully")
               : t("stopSubscribeSuccess", "Subscription stopped successfully")
           );
           refresh();
         }}
         title={
-          row.status === 5
+          toNumber(row.status) === 5
             ? t("confirmResumeSubscribe", "Confirm Resume Subscription")
             : t("confirmStopSubscribe", "Confirm Stop Subscription")
         }

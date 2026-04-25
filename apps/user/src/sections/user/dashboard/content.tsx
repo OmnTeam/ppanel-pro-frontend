@@ -58,6 +58,12 @@ const platforms: (keyof API.DownloadLink)[] = [
   "harmony",
 ];
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function Content() {
   const { t } = useTranslation("dashboard");
   const { getUserSubscribe, getAppSubLink } = useGlobalStore();
@@ -221,18 +227,24 @@ export default function Content() {
             )}
           </div>
           {userSubscribe.map((item) => {
+            const expireTime = toNumber(item.expire_time);
+            const resetTime = toNumber(item.reset_time);
+            const startTime = toNumber(item.start_time);
+            const traffic = toNumber(item.traffic);
+            const upload = toNumber(item.upload);
+            const download = toNumber(item.download);
+            const status = toNumber(item.status);
             // 如果过期时间为0，说明是永久订阅，不应该显示过期状态
-            const isActuallyExpired =
-              item.status === 3 && item.expire_time !== 0;
+            const isActuallyExpired = status === 3 && expireTime !== 0;
             const shouldShowWatermark =
-              item.status === 2 || item.status === 4 || isActuallyExpired;
+              status === 2 || status === 4 || isActuallyExpired;
 
             return (
               <Card
                 className={cn("relative", {
                   "relative opacity-80 grayscale": isActuallyExpired,
                   "relative hidden opacity-60 blur-[0.3px] grayscale":
-                    item.status === 4,
+                    status === 4,
                 })}
                 key={item.id}
               >
@@ -241,8 +253,8 @@ export default function Content() {
                     className={cn(
                       "pointer-events-none absolute top-0 left-0 z-10 h-full w-full overflow-hidden mix-blend-difference brightness-150 contrast-200 invert-[0.2]",
                       {
-                        "text-destructive": item.status === 2,
-                        "text-white": isActuallyExpired || item.status === 4,
+                        "text-destructive": status === 2,
+                        "text-white": isActuallyExpired || status === 4,
                       }
                     )}
                   >
@@ -262,11 +274,7 @@ export default function Content() {
                               left: `${left}%`,
                             }}
                           >
-                            {
-                              statusWatermarks[
-                                item.status as keyof typeof statusWatermarks
-                              ]
-                            }
+                            {statusWatermarks[status as keyof typeof statusWatermarks]}
                           </span>
                         );
                       })}
@@ -277,10 +285,10 @@ export default function Content() {
                   <CardTitle className="font-medium">
                     {item.subscribe.name}
                     <p className="mt-1 text-foreground/50 text-sm">
-                      {formatDate(item.start_time)}
+                      {formatDate(startTime)}
                     </p>
                   </CardTitle>
-                  {item.status !== 4 && (
+                  {status !== 4 && (
                     <div className="flex flex-wrap gap-2">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -324,7 +332,7 @@ export default function Content() {
                         id={item.id}
                         replacement={item.subscribe.replacement}
                       />
-                      {item.expire_time !== 0 && (
+                      {expireTime !== 0 && (
                         <Renewal id={item.id} subscribe={item.subscribe} />
                       )}
                       <Unsubscribe
@@ -344,8 +352,8 @@ export default function Content() {
                       <span className="font-bold text-2xl">
                         <Display
                           type="traffic"
-                          unlimited={!item.traffic}
-                          value={item.upload + item.download}
+                          unlimited={!traffic}
+                          value={upload + download}
                         />
                       </span>
                     </li>
@@ -356,8 +364,8 @@ export default function Content() {
                       <span className="font-bold text-2xl">
                         <Display
                           type="traffic"
-                          unlimited={!item.traffic}
-                          value={item.traffic}
+                          unlimited={!traffic}
+                          value={traffic}
                         />
                       </span>
                     </li>
@@ -366,11 +374,8 @@ export default function Content() {
                         {t("nextResetDays", "Next Reset Days")}
                       </span>
                       <span className="font-semibold text-2xl">
-                        {item.reset_time
-                          ? differenceInDays(
-                              new Date(item.reset_time),
-                              new Date()
-                            )
+                        {resetTime
+                          ? differenceInDays(resetTime, Date.now())
                           : t("noReset", "No Reset")}
                       </span>
                     </li>
@@ -380,11 +385,9 @@ export default function Content() {
                       </span>
                       <span className="font-semibold text-2xl">
                         {}
-                        {item.expire_time
-                          ? differenceInDays(
-                              new Date(item.expire_time),
-                              new Date()
-                            ) || t("unknown", "Unknown")
+                        {expireTime
+                          ? differenceInDays(expireTime, Date.now()) ||
+                            t("unknown", "Unknown")
                           : t("noLimit", "No Limit")}
                       </span>
                     </li>

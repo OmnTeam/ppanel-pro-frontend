@@ -13,9 +13,15 @@ import { useTranslation } from "react-i18next";
 interface DurationSelectorProps {
   quantity: number;
   unitTime?: string;
-  discounts?: Array<{ quantity: number; discount: number }>;
+  discounts?: Array<{ quantity: number | string; discount: number | string }>;
   onChange: (value: number) => void;
   showOriginalPrice?: boolean;
+}
+
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 const DurationSelector: React.FC<DurationSelectorProps> = ({
@@ -49,9 +55,9 @@ const DurationSelector: React.FC<DurationSelectorProps> = ({
   );
 
   const currentDiscount = discounts?.find(
-    (item) => item.quantity === quantity
+    (item) => toNumber(item.quantity) === quantity
   )?.discount;
-  const discountPercentage = currentDiscount ? 100 - currentDiscount : 0;
+  const discountPercentage = currentDiscount ? 100 - toNumber(currentDiscount) : 0;
 
   return (
     <>
@@ -68,7 +74,7 @@ const DurationSelector: React.FC<DurationSelectorProps> = ({
         )}
         {discounts?.map((item) => (
           <DurationOption
-            key={item.quantity}
+            key={String(item.quantity)}
             label={`${item.quantity} / ${t(unitTime)}`}
             value={String(item.quantity)}
           />

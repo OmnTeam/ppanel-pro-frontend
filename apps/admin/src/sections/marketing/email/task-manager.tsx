@@ -29,6 +29,8 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { formatDate } from "@/utils/common";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function EmailTaskManager() {
   const { t } = useTranslation("marketing");
   const ref = useRef<ProTableActions>(null);
@@ -166,7 +168,7 @@ export default function EmailTaskManager() {
                       </ScrollArea>
                     </DialogContent>
                   </Dialog>,
-                  ...([0, 1].includes(row.status)
+                  ...([0, 1].includes(toNumber(row.status))
                     ? [
                         <Button
                           key="stop"
@@ -196,7 +198,7 @@ export default function EmailTaskManager() {
                   accessorKey: "scope",
                   header: t("recipientType", "Recipient Type"),
                   cell: ({ row }) => {
-                    const scope = row.original.scope;
+                    const scope = toNumber(row.original.scope);
                     const scopeLabels = {
                       1: t("allUsers", "All Users"), // ScopeAll
                       2: t("subscribedUsers", "Subscribed Users"), // ScopeActive
@@ -214,20 +216,22 @@ export default function EmailTaskManager() {
                   accessorKey: "status",
                   header: t("status", "Status"),
                   cell: ({ row }) =>
-                    getStatusBadge(row.getValue("status") as number),
+                    getStatusBadge(toNumber(row.getValue("status"))),
                 },
                 {
                   accessorKey: "progress",
                   header: t("progress", "Progress"),
                   cell: ({ row }) => {
                     const task = row.original as API.BatchSendEmailTask;
+                    const current = toNumber(task.current);
+                    const total = toNumber(task.total);
                     const progress =
-                      task.total > 0 ? (task.current / task.total) * 100 : 0;
+                      total > 0 ? (current / total) * 100 : 0;
                     return (
                       <div className="space-y-1">
                         <div className="flex justify-between text-sm">
                           <span>
-                            {task.current} / {task.total}
+                            {current} / {total}
                           </span>
                           <span>{progress.toFixed(1)}%</span>
                         </div>
@@ -245,7 +249,7 @@ export default function EmailTaskManager() {
                   accessorKey: "scheduled",
                   header: t("sendTime", "Send Time"),
                   cell: ({ row }) => {
-                    const scheduled = row.getValue("scheduled") as number;
+                    const scheduled = toNumber(row.getValue("scheduled"));
                     return scheduled && scheduled > 0
                       ? formatDate(scheduled)
                       : "--";
@@ -255,7 +259,7 @@ export default function EmailTaskManager() {
                   accessorKey: "created_at",
                   header: t("createdAt", "Created At"),
                   cell: ({ row }) => {
-                    const createdAt = row.getValue("created_at") as number;
+                    const createdAt = toNumber(row.getValue("created_at"));
                     return formatDate(createdAt);
                   },
                 },

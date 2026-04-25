@@ -16,6 +16,8 @@ import { Display } from "@/components/display";
 import { useSubscribe } from "@/stores/subscribe";
 import { formatDate } from "@/utils/common";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function QuotaTaskManager() {
   const { t } = useTranslation("marketing");
   const [open, setOpen] = useState(false);
@@ -145,9 +147,9 @@ export default function QuotaTaskManager() {
                     header: t("giftAmount", "Gift Amount"),
                     size: 120,
                     cell: ({ row }) => {
-                      const giftValue = row.getValue("gift_value") as number;
+                      const giftValue = toNumber(row.getValue("gift_value"));
                       const task = row.original as API.QuotaTask;
-                      const giftType = task.gift_type;
+                      const giftType = toNumber(task.gift_type);
 
                       return (
                         <div className="font-medium text-sm">
@@ -165,7 +167,7 @@ export default function QuotaTaskManager() {
                     header: t("quotaDays", "Extend Expiration Days"),
                     size: 100,
                     cell: ({ row }) => {
-                      const days = row.getValue("days") as number;
+                      const days = toNumber(row.getValue("days"));
                       return (
                         <span className="font-medium">
                           {days} {t("days", "Days")}
@@ -195,12 +197,13 @@ export default function QuotaTaskManager() {
                           {startTime && (
                             <div>
                               {t("startTime", "Start Time")}:{" "}
-                              {formatDate(startTime)}
+                              {formatDate(toNumber(startTime))}
                             </div>
                           )}
                           {endTime && (
                             <div>
-                              {t("endTime", "End Time")}: {formatDate(endTime)}
+                              {t("endTime", "End Time")}:{" "}
+                              {formatDate(toNumber(endTime))}
                             </div>
                           )}
                         </div>
@@ -212,14 +215,14 @@ export default function QuotaTaskManager() {
                     header: t("status", "Status"),
                     size: 100,
                     cell: ({ row }) =>
-                      getStatusBadge(row.getValue("status") as number),
+                      getStatusBadge(toNumber(row.getValue("status"))),
                   },
                   {
                     accessorKey: "created_at",
                     header: t("createdAt", "Created At"),
                     size: 150,
                     cell: ({ row }) => {
-                      const createdAt = row.getValue("created_at") as number;
+                      const createdAt = toNumber(row.getValue("created_at"));
                       return formatDate(createdAt);
                     },
                   },

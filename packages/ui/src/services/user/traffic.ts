@@ -7,16 +7,16 @@ export interface GetUserTrafficStatsRequest {
 
 export interface DailyTrafficStats {
   date: string;
-  upload: number;
-  download: number;
-  total: number;
+  upload: string;
+  download: string;
+  total: string;
 }
 
 export interface GetUserTrafficStatsResponse {
   list: DailyTrafficStats[];
-  total_upload: number;
-  total_download: number;
-  total_traffic: number;
+  total_upload: string;
+  total_download: string;
+  total_traffic: string;
 }
 
 /** Get User Traffic Statistics GET /v1/public/user/traffic_stats */

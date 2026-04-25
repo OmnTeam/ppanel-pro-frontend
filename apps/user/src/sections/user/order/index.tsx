@@ -19,6 +19,12 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function Order() {
   const { t } = useTranslation("order");
   const statusMap: Record<number, string> = {
@@ -49,7 +55,7 @@ export default function Order() {
               <p className="text-sm">{item.order_no}</p>
             </CardTitle>
             <CardDescription className="flex gap-2">
-              {item.status === 1 ? (
+              {toNumber(item.status) === 1 ? (
                 <>
                   <Link
                     className={buttonVariants({ size: "sm" })}
@@ -90,9 +96,9 @@ export default function Order() {
                   {t("name", "Product Name")}
                 </span>
                 <span>
-                  {item.subscribe.name ||
-                    typeMap[item.type] ||
-                    t(`type.${item.type}`, "Unknown Type")}
+                  {item.subscribe?.name ||
+                    typeMap[toNumber(item.type)] ||
+                    t(`type.${toNumber(item.type)}`, "Unknown Type")}
                 </span>
               </li>
               <li className="font-semibold">
@@ -108,15 +114,15 @@ export default function Order() {
                   {t("status.0", "Status")}
                 </span>
                 <span>
-                  {statusMap[item.status] ||
-                    t(`status.${item.status}`, "Unknown Status")}
+                  {statusMap[toNumber(item.status)] ||
+                    t(`status.${toNumber(item.status)}`, "Unknown Status")}
                 </span>
               </li>
               <li className="font-semibold">
                 <span className="text-muted-foreground">
                   {t("createdAt", "Created At")}
                 </span>
-                <time>{formatDate(item.created_at)}</time>
+                <time>{formatDate(toNumber(item.created_at))}</time>
               </li>
             </ul>
           </CardContent>
@@ -126,7 +132,7 @@ export default function Order() {
         const response = await queryOrderList({ ...pagination, ...filter });
         return {
           list: response.data.data?.list || [],
-          total: response.data.data?.total || 0,
+          total: Number(response.data.data?.total || 0),
         };
       }}
     />

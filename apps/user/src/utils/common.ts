@@ -15,15 +15,32 @@ export function getPlatform(): string {
   return "unknown";
 }
 
-export function differenceInDays(date1: Date, date2: Date): number {
-  const diffTime = Math.abs(date1.getTime() - date2.getTime());
+function toTimestamp(value: Date | number | string): number {
+  if (value instanceof Date) return value.getTime();
+  const numericValue =
+    typeof value === "string"
+      ? Number.isFinite(Number(value))
+        ? Number(value)
+        : Date.parse(value)
+      : value;
+  if (!Number.isFinite(numericValue)) return 0;
+  return numericValue > 0 && numericValue < 10000000000
+    ? numericValue * 1000
+    : numericValue;
+}
+
+export function differenceInDays(
+  date1: Date | number | string,
+  date2: Date | number | string
+): number {
+  const diffTime = Math.abs(toTimestamp(date1) - toTimestamp(date2));
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
 }
 
-export function formatDate(timestamp: number): string {
+export function formatDate(timestamp: number | string): string {
   if (!timestamp) return "";
-  return new Date(timestamp * 1000).toLocaleDateString();
+  return new Date(toTimestamp(timestamp)).toLocaleDateString();
 }
 
 export function setAuthorization(token: string): void {

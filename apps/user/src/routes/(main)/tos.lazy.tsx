@@ -9,7 +9,7 @@ export const Route = createLazyFileRoute("/(main)/tos")({
       queryKey: ["tos"],
       queryFn: async () => {
         const { data } = await getTos();
-        return data.data?.tos_content;
+        return data.data?.tos_content || "";
       },
     });
     return (

@@ -20,7 +20,7 @@ import PaymentMethods from "./payment-methods";
 
 interface ResetTrafficProps {
   id: string;
-  replacement?: number;
+  replacement?: string | number;
 }
 export default function ResetTraffic({
   id,
@@ -35,6 +35,10 @@ export default function ResetTraffic({
     user_subscribe_id: id,
   });
   const [loading, startTransition] = useTransition();
+  const replacementValue =
+    typeof replacement === "string"
+      ? Number(replacement)
+      : Number(replacement ?? 0);
 
   useEffect(() => {
     if (id) {
@@ -45,7 +49,7 @@ export default function ResetTraffic({
     }
   }, [id]);
 
-  if (!replacement) return;
+  if (!Number.isFinite(replacementValue) || replacementValue <= 0) return;
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>

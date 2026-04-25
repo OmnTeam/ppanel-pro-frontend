@@ -20,6 +20,8 @@ import { useSubscribe } from "@/stores/subscribe";
 import RedemptionForm from "./redemption-form";
 import RedemptionRecords from "./redemption-records";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Redemption() {
   const { t } = useTranslation("redemption");
   const [loading, setLoading] = useState(false);
@@ -29,84 +31,87 @@ export default function Redemption() {
   const ref = useRef<ProTableActions>(null);
   return (
     <>
-    <ProTable<API.RedemptionCode, { subscribe_plan: string; unit_time: string; code: string }>
-      action={ref}
-      actions={{
-        render: (row) => [
-          <Button
-            key="records"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedCodeId(row.id);
-              setRecordsOpen(true);
-            }}
-          >
-            {t("records", "Records")}
-          </Button>,
-          <RedemptionForm<API.UpdateRedemptionCodeRequest>
-            initialValues={row}
-            key="edit"
-            loading={loading}
-            onSubmit={async (values) => {
-              setLoading(true);
-              try {
-                await updateRedemptionCode({ ...values });
-                toast.success(t("updateSuccess", "Update Success"));
+      <ProTable<
+        API.RedemptionCode,
+        { subscribe_plan: string; unit_time: string; code: string }
+      >
+        action={ref}
+        actions={{
+          render: (row) => [
+            <Button
+              key="records"
+              onClick={() => {
+                setSelectedCodeId(row.id);
+                setRecordsOpen(true);
+              }}
+              size="sm"
+              variant="outline"
+            >
+              {t("records", "Records")}
+            </Button>,
+            <RedemptionForm<API.UpdateRedemptionCodeRequest>
+              initialValues={row}
+              key="edit"
+              loading={loading}
+              onSubmit={async (values) => {
+                setLoading(true);
+                try {
+                  await updateRedemptionCode({ ...values });
+                  toast.success(t("updateSuccess", "Update Success"));
+                  ref.current?.refresh();
+                  setLoading(false);
+                  return true;
+                } catch (_error) {
+                  setLoading(false);
+                  return false;
+                }
+              }}
+              title={t("editRedemptionCode", "Edit Redemption Code")}
+              trigger={t("edit", "Edit")}
+            />,
+            <ConfirmButton
+              cancelText={t("cancel", "Cancel")}
+              confirmText={t("confirm", "Confirm")}
+              description={t(
+                "deleteWarning",
+                "Once deleted, data cannot be recovered. Please proceed with caution."
+              )}
+              key="delete"
+              onConfirm={async () => {
+                await deleteRedemptionCode({ id: row.id });
+                toast.success(t("deleteSuccess", "Delete Success"));
                 ref.current?.refresh();
-                setLoading(false);
-                return true;
-              } catch (_error) {
-                setLoading(false);
-                return false;
+              }}
+              title={t("confirmDelete", "Are you sure you want to delete?")}
+              trigger={
+                <Button variant="destructive">{t("delete", "Delete")}</Button>
               }
-            }}
-            title={t("editRedemptionCode", "Edit Redemption Code")}
-            trigger={t("edit", "Edit")}
-          />,
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "deleteWarning",
-              "Once deleted, data cannot be recovered. Please proceed with caution."
-            )}
-            key="delete"
-            onConfirm={async () => {
-              await deleteRedemptionCode({ id: row.id });
-              toast.success(t("deleteSuccess", "Delete Success"));
-              ref.current?.refresh();
-            }}
-            title={t("confirmDelete", "Are you sure you want to delete?")}
-            trigger={
-              <Button variant="destructive">{t("delete", "Delete")}</Button>
-            }
-          />,
-        ],
-        batchRender: (rows) => [
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "deleteWarning",
-              "Once deleted, data cannot be recovered. Please proceed with caution."
-            )}
-            key="delete"
-            onConfirm={async () => {
-              await batchDeleteRedemptionCode({
-                ids: rows.map((item) => item.id),
-              });
-              toast.success(t("deleteSuccess", "Delete Success"));
-              ref.current?.reset();
-            }}
-            title={t("confirmDelete", "Are you sure you want to delete?")}
-            trigger={
-              <Button variant="destructive">{t("delete", "Delete")}</Button>
-            }
-          />,
-        ],
-      }}
-      columns={[
+            />,
+          ],
+          batchRender: (rows) => [
+            <ConfirmButton
+              cancelText={t("cancel", "Cancel")}
+              confirmText={t("confirm", "Confirm")}
+              description={t(
+                "deleteWarning",
+                "Once deleted, data cannot be recovered. Please proceed with caution."
+              )}
+              key="delete"
+              onConfirm={async () => {
+                await batchDeleteRedemptionCode({
+                  ids: rows.map((item) => item.id),
+                });
+                toast.success(t("deleteSuccess", "Delete Success"));
+                ref.current?.reset();
+              }}
+              title={t("confirmDelete", "Are you sure you want to delete?")}
+              trigger={
+                <Button variant="destructive">{t("delete", "Delete")}</Button>
+              }
+            />,
+          ],
+        }}
+        columns={[
         {
           accessorKey: "code",
           header: t("code", "Code"),
@@ -139,7 +144,7 @@ export default function Redemption() {
         {
           accessorKey: "quantity",
           header: t("duration", "Duration"),
-          cell: ({ row }) => `${row.original.quantity}`,
+          cell: ({ row }) => `${toNumber(row.original.quantity)}`,
         },
         {
           accessorKey: "total_count",
@@ -147,14 +152,15 @@ export default function Redemption() {
           cell: ({ row }) => (
             <div className="flex flex-col">
               <span>
-                {t("totalCount", "Total")}: {row.original.total_count}
+                {t("totalCount", "Total")}: {toNumber(row.original.total_count)}
               </span>
               <span>
                 {t("remainingCount", "Remaining")}:{" "}
-                {row.original.total_count - (row.original.used_count || 0)}
+                {toNumber(row.original.total_count) -
+                  toNumber(row.original.used_count)}
               </span>
               <span>
-                {t("usedCount", "Used")}: {row.original.used_count || 0}
+                {t("usedCount", "Used")}: {toNumber(row.original.used_count)}
               </span>
             </div>
           ),
@@ -164,7 +170,7 @@ export default function Redemption() {
           header: t("status", "Status"),
           cell: ({ row }) => (
             <Switch
-              defaultChecked={row.getValue("status") === 1}
+              defaultChecked={toNumber(row.getValue("status")) === 1}
               onCheckedChange={async (checked) => {
                 await toggleRedemptionCodeStatus({
                   id: row.original.id,
@@ -180,30 +186,30 @@ export default function Redemption() {
             />
           ),
         },
-      ]}
-      header={{
-        toolbar: (
-          <RedemptionForm<API.CreateRedemptionCodeRequest>
-            loading={loading}
-            onSubmit={async (values) => {
-              setLoading(true);
-              try {
-                await createRedemptionCode(values);
-                toast.success(t("createSuccess", "Create Success"));
-                ref.current?.refresh();
-                setLoading(false);
-                return true;
-              } catch (_error) {
-                setLoading(false);
-                return false;
-              }
-            }}
-            title={t("createRedemptionCode", "Create Redemption Code")}
-            trigger={t("create", "Create")}
-          />
-        ),
-      }}
-      params={[
+        ]}
+        header={{
+          toolbar: (
+            <RedemptionForm<API.CreateRedemptionCodeRequest>
+              loading={loading}
+              onSubmit={async (values) => {
+                setLoading(true);
+                try {
+                  await createRedemptionCode(values);
+                  toast.success(t("createSuccess", "Create Success"));
+                  ref.current?.refresh();
+                  setLoading(false);
+                  return true;
+                } catch (_error) {
+                  setLoading(false);
+                  return false;
+                }
+              }}
+              title={t("createRedemptionCode", "Create Redemption Code")}
+              trigger={t("create", "Create")}
+            />
+          ),
+        }}
+        params={[
         {
           key: "subscribe_plan",
           placeholder: t("subscribePlan", "Subscribe Plan"),
@@ -226,23 +232,23 @@ export default function Redemption() {
         {
           key: "code",
         },
-      ]}
-      request={async (pagination, filters) => {
-        const { data } = await getRedemptionCodeList({
-          ...pagination,
-          ...filters,
-        });
-        return {
-          list: data.data?.list || [],
-          total: data.data?.total || 0,
-        };
-      }}
-    />
-    <RedemptionRecords
-      codeId={selectedCodeId}
-      open={recordsOpen}
-      onOpenChange={setRecordsOpen}
-    />
+        ]}
+        request={async (pagination, filters) => {
+          const { data } = await getRedemptionCodeList({
+            ...pagination,
+            ...filters,
+          });
+          return {
+            list: data.data?.list || [],
+            total: data.data?.total || 0,
+          };
+        }}
+      />
+      <RedemptionRecords
+        codeId={selectedCodeId}
+        onOpenChange={setRecordsOpen}
+        open={recordsOpen}
+      />
     </>
   );
 }

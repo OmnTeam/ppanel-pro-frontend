@@ -21,6 +21,8 @@ import { useSubscribe } from "@/stores/subscribe";
 import { formatDate } from "@/utils/common";
 import CouponForm from "./coupon-form";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Coupon() {
   const { t } = useTranslation("coupon");
   const [loading, setLoading] = useState(false);
@@ -119,30 +121,35 @@ export default function Coupon() {
         {
           accessorKey: "type",
           header: t("type", "Type"),
-          cell: ({ row }) => (
-            <Badge
-              variant={row.getValue("type") === 1 ? "default" : "secondary"}
-            >
-              {row.getValue("type") === 1
-                ? t("percentage", "Percentage")
-                : t("amount", "Amount")}
-            </Badge>
-          ),
+          cell: ({ row }) => {
+            const type = toNumber(row.getValue("type"));
+            return (
+              <Badge variant={type === 1 ? "default" : "secondary"}>
+                {type === 1
+                  ? t("percentage", "Percentage")
+                  : t("amount", "Amount")}
+              </Badge>
+            );
+          },
         },
         {
           accessorKey: "discount",
           header: t("discount", "Discount"),
-          cell: ({ row }) => (
-            <Badge
-              variant={row.getValue("type") === 1 ? "default" : "secondary"}
-            >
-              {row.getValue("type") === 1 ? (
-                `${row.original.discount} %`
-              ) : (
-                <Display type="currency" value={row.original.discount} />
-              )}
-            </Badge>
-          ),
+          cell: ({ row }) => {
+            const type = toNumber(row.getValue("type"));
+            return (
+              <Badge variant={type === 1 ? "default" : "secondary"}>
+                {type === 1 ? (
+                  `${toNumber(row.original.discount)} %`
+                ) : (
+                  <Display
+                    type="currency"
+                    value={toNumber(row.original.discount)}
+                  />
+                )}
+              </Badge>
+            );
+          },
         },
         {
           accessorKey: "count",
@@ -151,18 +158,20 @@ export default function Coupon() {
             <div className="flex flex-col">
               <span>
                 {t("count", "Count")}:{" "}
-                {row.original.count === 0
+                {toNumber(row.original.count) === 0
                   ? t("unlimited", "Unlimited")
-                  : row.original.count}
+                  : toNumber(row.original.count)}
               </span>
               <span>
                 {t("remainingTimes", "Remaining")}:{" "}
-                {row.original.count === 0
+                {toNumber(row.original.count) === 0
                   ? t("unlimited", "Unlimited")
-                  : row.original.count - row.original.used_count}
+                  : toNumber(row.original.count) -
+                    toNumber(row.original.used_count)}
               </span>
               <span>
-                {t("usedTimes", "Usage Times")}: {row.original.used_count}
+                {t("usedTimes", "Usage Times")}:{" "}
+                {toNumber(row.original.used_count)}
               </span>
             </div>
           ),
@@ -175,10 +184,11 @@ export default function Coupon() {
             if (start_time) {
               return expire_time ? (
                 <>
-                  {formatDate(start_time)} - {formatDate(expire_time)}
+                  {formatDate(toNumber(start_time))} -{" "}
+                  {formatDate(toNumber(expire_time))}
                 </>
               ) : start_time ? (
-                formatDate(start_time)
+                formatDate(toNumber(start_time))
               ) : (
                 "--"
               );

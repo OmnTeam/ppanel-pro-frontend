@@ -24,6 +24,8 @@ import { useSubscribe } from "@/stores/subscribe";
 import { formatDate } from "@/utils/common";
 import { UserDetail } from "../user/user-detail";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Order() {
   const { t } = useTranslation("order");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
@@ -77,7 +79,7 @@ export default function Order() {
           accessorKey: "type",
           header: t("type.0", "Type"),
           cell: ({ row }) => {
-            const type = row.getValue("type") as number;
+            const type = toNumber(row.getValue("type"));
             return (
               typeOptions.find((opt) => opt.value === type)?.label ||
               t(`type.${type}`)
@@ -89,15 +91,15 @@ export default function Order() {
           header: t("subscribe", "Subscribe"),
           cell: ({ row }) => {
             const order = row.original as API.Order;
-            if (order.type === 4) {
-              const type = row.getValue("type") as number;
+            if (toNumber(order.type) === 4) {
+              const type = toNumber(row.getValue("type"));
               return (
                 typeOptions.find((opt) => opt.value === type)?.label ||
                 t(`type.${type}`)
               );
             }
             const name = getSubscribeName(order.subscribe_id);
-            const quantity = order.quantity;
+            const quantity = toNumber(order.quantity);
             return name ? `${name} × ${quantity}` : "";
           },
         },
@@ -110,7 +112,7 @@ export default function Order() {
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <Button className="p-0" variant="link">
-                    <Display type="currency" value={order.amount} />
+                    <Display type="currency" value={toNumber(order.amount)} />
                   </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
@@ -132,7 +134,10 @@ export default function Order() {
                           {t("subscribePrice", "Subscription Price")}
                         </span>
                         <span>
-                          <Display type="currency" value={order.price} />
+                          <Display
+                            type="currency"
+                            value={toNumber(order.price)}
+                          />
                         </span>
                       </li>
                       <li className="flex items-center justify-between">
@@ -140,7 +145,10 @@ export default function Order() {
                           {t("discount", "Discount Amount")}
                         </span>
                         <span>
-                          <Display type="currency" value={order.discount} />
+                          <Display
+                            type="currency"
+                            value={toNumber(order.discount)}
+                          />
                         </span>
                       </li>
                       <li className="flex items-center justify-between">
@@ -150,7 +158,7 @@ export default function Order() {
                         <span>
                           <Display
                             type="currency"
-                            value={order.coupon_discount}
+                            value={toNumber(order.coupon_discount)}
                           />
                         </span>
                       </li>
@@ -159,7 +167,10 @@ export default function Order() {
                           {t("feeAmount", "Fee Amount")}
                         </span>
                         <span>
-                          <Display type="currency" value={order.fee_amount} />
+                          <Display
+                            type="currency"
+                            value={toNumber(order.fee_amount)}
+                          />
                         </span>
                       </li>
                       <li className="flex items-center justify-between font-semibold">
@@ -167,7 +178,10 @@ export default function Order() {
                           {t("total", "Total")}
                         </span>
                         <span>
-                          <Display type="currency" value={order.amount} />
+                          <Display
+                            type="currency"
+                            value={toNumber(order.amount)}
+                          />
                         </span>
                       </li>
                     </ul>
@@ -201,7 +215,7 @@ export default function Order() {
           header: t("updateTime", "Update Time"),
           cell: ({ row }) => {
             const order = row.original as API.Order;
-            return formatDate(order.updated_at);
+            return formatDate(toNumber(order.updated_at));
           },
         },
         {
@@ -209,10 +223,11 @@ export default function Order() {
           header: t("status.0", "Status"),
           cell: ({ row }) => {
             const order = row.original as API.Order;
+            const status = toNumber(order.status);
             const option = statusOptions.find(
-              (opt) => opt.value === order.status
+              (opt) => opt.value === status
             );
-            if ([1, 3, 4].includes(row.getValue("status"))) {
+            if ([1, 3, 4].includes(toNumber(row.getValue("status")))) {
               return (
                 <Combobox<number, false>
                   className={cn(option?.className)}
@@ -225,13 +240,13 @@ export default function Order() {
                   }}
                   options={statusOptions}
                   placeholder={t("status.0", "Status")}
-                  value={order.status}
+                  value={status}
                 />
               );
             }
             return (
               <Badge>
-                {option?.label || t(`status.${row.getValue("status")}`)}
+                {option?.label || t(`status.${toNumber(row.getValue("status"))}`)}
               </Badge>
             );
           },

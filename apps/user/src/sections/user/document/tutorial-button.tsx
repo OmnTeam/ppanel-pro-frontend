@@ -146,7 +146,7 @@ export function TutorialButton({ items }: { items: Item[] }) {
                     className="text-center text-neutral-600 md:text-left dark:text-neutral-400"
                     layoutId={`description-${item.title}-${id}`}
                   >
-                    {formatDate(new Date(item.updated_at), false)}
+                    {formatDate(item.updated_at, false)}
                   </motion.p>
                 )}
               </div>

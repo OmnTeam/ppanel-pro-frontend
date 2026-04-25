@@ -9,7 +9,7 @@ export const Route = createLazyFileRoute("/(main)/privacy-policy")({
       queryKey: ["tos"],
       queryFn: async () => {
         const { data } = await getPrivacyPolicy();
-        return data.data?.privacy_policy;
+        return data.data?.privacy_policy || "";
       },
     });
     return (

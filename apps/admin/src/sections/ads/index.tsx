@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { formatDate } from "@/utils/common";
 import AdsForm from "./ads-form";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Ads() {
   const { t } = useTranslation("ads");
   const [loading, setLoading] = useState(false);
@@ -74,7 +76,7 @@ export default function Ads() {
           header: t("status", "Status"),
           cell: ({ row }) => (
             <Switch
-              defaultChecked={row.getValue("status") === 1}
+              defaultChecked={toNumber(row.getValue("status")) === 1}
               onCheckedChange={async (checked) => {
                 await updateAds({
                   ...row.original,
@@ -94,7 +96,7 @@ export default function Ads() {
           header: t("type", "Type"),
           cell: ({ row }) => {
             const type = row.original.type;
-            return <Badge>{type}</Badge>;
+            return <Badge>{toNumber(type)}</Badge>;
           },
         },
         {
@@ -112,7 +114,8 @@ export default function Ads() {
             const { start_time, end_time } = row.original;
             return (
               <>
-                {formatDate(start_time)} - {formatDate(end_time)}
+                {formatDate(toNumber(start_time))} -{" "}
+                {formatDate(toNumber(end_time))}
               </>
             );
           },

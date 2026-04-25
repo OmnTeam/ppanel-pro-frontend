@@ -6,11 +6,11 @@ declare namespace API {
     content: string;
     description: string;
     target_url: string;
-    start_time: number;
-    end_time: number;
+    start_time: string;
+    end_time: string;
     status: number;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type AlipayNotifyResponse = {
@@ -24,8 +24,8 @@ declare namespace API {
     show: boolean;
     pinned: boolean;
     popup: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type AnyTLS = {
@@ -80,9 +80,9 @@ declare namespace API {
   type AppUserSubcbribe = {
     id: string;
     name: string;
-    upload: number;
-    traffic: number;
-    download: number;
+    upload: string;
+    traffic: string;
+    download: string;
     device_limit: number;
     start_time: string;
     expire_time: string;
@@ -99,16 +99,16 @@ declare namespace API {
     server_addr: string;
     speed_limit: number;
     tags: string[];
-    traffic: number;
+    traffic: string;
     traffic_ratio: number;
-    upload: number;
+    upload: string;
     config: string;
     country: string;
     city: string;
     latitude: string;
     longitude: string;
-    created_at: number;
-    download: number;
+    created_at: string;
+    download: string;
   };
 
   type AuthConfig = {
@@ -128,10 +128,10 @@ declare namespace API {
   type BalanceLog = {
     type: number;
     user_id: string;
-    amount: number;
+    amount: string;
     order_no?: string;
-    balance: number;
-    timestamp: number;
+    balance: string;
+    timestamp: string;
   };
 
   type CheckoutOrderRequest = {
@@ -179,9 +179,9 @@ declare namespace API {
   type CommissionLog = {
     type: number;
     user_id: string;
-    amount: number;
+    amount: string;
     order_no: string;
-    timestamp: number;
+    timestamp: string;
   };
 
   type Coupon = {
@@ -190,15 +190,15 @@ declare namespace API {
     code: string;
     count: number;
     type: number;
-    discount: number;
-    start_time: number;
-    expire_time: number;
+    discount: string;
+    start_time: string;
+    expire_time: string;
     user_limit: number;
     subscribe: string[];
     used_count: number;
     enable: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type Currency = {
@@ -231,8 +231,8 @@ declare namespace API {
     content: string;
     tags: string[];
     show: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type DownloadLink = {
@@ -270,7 +270,7 @@ declare namespace API {
     from: string;
     type: number;
     content: string;
-    created_at: number;
+    created_at: string;
   };
 
   type GetAdsParams = {
@@ -288,7 +288,7 @@ declare namespace API {
   };
 
   type GetAvailablePaymentMethodsResponse = {
-    list: PaymentMethod[];
+    methods: PaymentMethod[];
   };
 
   type GetGlobalConfigResponse = {
@@ -324,8 +324,8 @@ declare namespace API {
     size: number;
     user_id: string;
     subscribe_id: string;
-    start_time: number;
-    end_time: number;
+    start_time: string;
+    end_time: string;
   };
 
   type GetUserSubscribeTrafficLogsResponse = {
@@ -352,7 +352,7 @@ declare namespace API {
   type HeartbeatResponse = {
     status: boolean;
     message?: string;
-    timestamp?: number;
+    timestamp?: string;
   };
 
   type Hysteria2 = {
@@ -381,7 +381,7 @@ declare namespace API {
     subject: string;
     content: Record<string, any>;
     status: number;
-    created_at: number;
+    created_at: string;
   };
 
   type MobileAuthenticateConfig = {
@@ -443,21 +443,21 @@ declare namespace API {
     user_id: string;
     order_no: string;
     type: number;
-    quantity: number;
-    price: number;
-    amount: number;
-    gift_amount: number;
-    discount: number;
+    quantity: string;
+    price: string;
+    amount: string;
+    gift_amount: string;
+    discount: string;
     coupon: string;
-    coupon_discount: number;
-    commission?: number;
+    coupon_discount: string;
+    commission?: string;
     payment: PaymentMethod;
-    fee_amount: number;
+    fee_amount: string;
     trade_no: string;
     status: number;
     subscribe_id: string;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type OrderDetail = {
@@ -465,23 +465,23 @@ declare namespace API {
     user_id: string;
     order_no: string;
     type: number;
-    quantity: number;
-    price: number;
-    amount: number;
-    gift_amount: number;
-    discount: number;
+    quantity: string;
+    price: string;
+    amount: string;
+    gift_amount: string;
+    discount: string;
     coupon: string;
-    coupon_discount: number;
-    commission?: number;
+    coupon_discount: string;
+    commission?: string;
     payment: PaymentMethod;
     method: string;
-    fee_amount: number;
+    fee_amount: string;
     trade_no: string;
     status: number;
     subscribe_id: string;
     subscribe: Subscribe;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type PaymentConfig = {
@@ -505,8 +505,8 @@ declare namespace API {
     description: string;
     icon: string;
     fee_mode: number;
-    fee_percent: number;
-    fee_amount: number;
+    fee_percent: string;
+    fee_amount: string;
   };
 
   type PaymentMethodDetail = {
@@ -518,8 +518,8 @@ declare namespace API {
     domain: string;
     config: Record<string, any>;
     fee_mode: number;
-    fee_percent: number;
-    fee_amount: number;
+    fee_percent: string;
+    fee_amount: string;
     enable: boolean;
     notify_url: string;
   };
@@ -535,13 +535,13 @@ declare namespace API {
   };
 
   type PreOrderResponse = {
-    price: number;
-    amount: number;
-    discount: number;
-    gift_amount: number;
+    price: string;
+    amount: string;
+    discount: string;
+    gift_amount: string;
     coupon: string;
-    coupon_discount: number;
-    fee_amount: number;
+    coupon_discount: string;
+    fee_amount: string;
   };
 
   type PreRenewalOrderResponse = {
@@ -636,7 +636,7 @@ declare namespace API {
 
   type PurchaseOrderRequest = {
     subscribe_id: string;
-    quantity: number;
+    quantity: string | number;
     payment?: string;
     coupon?: string;
   };
@@ -691,8 +691,8 @@ declare namespace API {
   };
 
   type QueryUserAffiliateCountResponse = {
-    registers: number;
-    total_commission: number;
+    registers: string;
+    total_commission: string;
   };
 
   type QueryUserAffiliateListRequest = {
@@ -706,7 +706,7 @@ declare namespace API {
   };
 
   type RechargeOrderRequest = {
-    amount: number;
+    amount: string | number;
     payment: string;
   };
 
@@ -727,7 +727,7 @@ declare namespace API {
 
   type RenewalOrderRequest = {
     user_subscribe_id: string;
-    quantity: number;
+    quantity: string | number;
     payment: string;
     coupon?: string;
   };
@@ -752,7 +752,7 @@ declare namespace API {
     type: number;
     user_subscribe_id: string;
     order_no?: string;
-    timestamp: number;
+    timestamp: string;
   };
 
   type ResetTrafficOrderRequest = {
@@ -808,8 +808,8 @@ declare namespace API {
     id: string;
     name: string;
     description: string;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type ServerRuleGroup = {
@@ -821,8 +821,8 @@ declare namespace API {
     rules: string;
     enable: boolean;
     default: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type Shadowsocks = {
@@ -863,12 +863,12 @@ declare namespace API {
     name: string;
     language: string;
     description: string;
-    unit_price: number;
+    unit_price: string;
     unit_time: string;
     discount: SubscribeDiscount[];
-    replacement: number;
+    replacement: string;
     inventory: number;
-    traffic: number;
+    traffic: string;
     speed_limit: number;
     device_limit: number;
     quota: number;
@@ -877,13 +877,13 @@ declare namespace API {
     show: boolean;
     sell: boolean;
     sort: number;
-    deduction_ratio: number;
+    deduction_ratio: string;
     allow_deduction: boolean;
     reset_cycle: number;
     renewal_reset: boolean;
     show_original_price: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type SubscribeClient = {
@@ -906,16 +906,16 @@ declare namespace API {
   };
 
   type SubscribeDiscount = {
-    quantity: number;
-    discount: number;
+    quantity: string;
+    discount: string;
   };
 
   type SubscribeGroup = {
     id: string;
     name: string;
     description: string;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type SubscribeType = {
@@ -981,8 +981,8 @@ declare namespace API {
     user_id: string;
     follow?: Follow[];
     status: number;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type TimePeriod = {
@@ -1000,9 +1000,9 @@ declare namespace API {
     server_id: string;
     user_id: string;
     subscribe_id: string;
-    download: number;
-    upload: number;
-    timestamp: number;
+    download: string;
+    upload: string;
+    timestamp: string;
   };
 
   type TransportConfig = {
@@ -1031,11 +1031,11 @@ declare namespace API {
   type User = {
     id: string;
     avatar: string;
-    balance: number;
-    commission: number;
+    balance: string;
+    commission: string;
     referral_percentage: number;
     only_first_purchase: boolean;
-    gift_amount: number;
+    gift_amount: string;
     telegram: number;
     refer_code: string;
     referer_id: string;
@@ -1048,15 +1048,15 @@ declare namespace API {
     auth_methods: UserAuthMethod[];
     user_devices: UserDevice[];
     rules: string[];
-    created_at: number;
-    updated_at: number;
-    deleted_at?: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at?: string;
   };
 
   type UserAffiliate = {
     avatar: string;
     identifier: string;
-    registered_at: number;
+    registered_at: string;
     enable: boolean;
   };
 
@@ -1073,8 +1073,8 @@ declare namespace API {
     user_agent: string;
     online: boolean;
     enabled: boolean;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type UserLoginLog = {
@@ -1083,7 +1083,7 @@ declare namespace API {
     login_ip: string;
     user_agent: string;
     success: boolean;
-    timestamp: number;
+    timestamp: string;
   };
 
   type UserLoginRequest = {
@@ -1114,18 +1114,18 @@ declare namespace API {
     order_id: string;
     subscribe_id: string;
     subscribe: Subscribe;
-    start_time: number;
-    expire_time: number;
-    finished_at: number;
-    reset_time: number;
-    traffic: number;
-    download: number;
-    upload: number;
+    start_time: string;
+    expire_time: string;
+    finished_at: string;
+    reset_time: string;
+    traffic: string;
+    download: string;
+    upload: string;
     token: string;
     status: number;
     short: string;
-    created_at: number;
-    updated_at: number;
+    created_at: string;
+    updated_at: string;
   };
 
   type UserSubscribeLog = {
@@ -1135,7 +1135,7 @@ declare namespace API {
     token: string;
     ip: string;
     user_agent: string;
-    timestamp: number;
+    timestamp: string;
   };
 
   type VeifyConfig = {
@@ -1151,7 +1151,7 @@ declare namespace API {
   };
 
   type VerifyCodeConfig = {
-    verify_code_expire_time: number;
+    verify_code_expire_time: string;
     verify_code_limit: number;
     verify_code_interval: number;
   };

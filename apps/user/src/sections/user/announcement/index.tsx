@@ -49,7 +49,7 @@ export default function Announcement() {
     const response = await queryAnnouncement(params);
     return {
       list: response.data.data?.announcements || [],
-      total: response.data.data?.total || 0,
+      total: Number(response.data.data?.total || 0),
     };
   };
 

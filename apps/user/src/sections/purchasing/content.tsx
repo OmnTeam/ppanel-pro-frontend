@@ -63,7 +63,7 @@ export default function Content({
         ...params,
         subscribe_id: subscription?.id ?? "",
       } as API.PrePurchaseOrderRequest);
-      return data.data;
+      return data.data || null;
     },
   });
 
@@ -277,14 +277,14 @@ export default function Content({
               }}
             />
             <Separator />
-            <SubscribeBilling
-              order={{
-                ...order,
-                quantity: params.quantity,
-                unit_price: subscription?.unit_price,
-                show_original_price: subscription?.show_original_price,
-              }}
-            />
+              <SubscribeBilling
+                order={{
+                  ...order,
+                  quantity: String(params.quantity ?? 1),
+                  unit_price: subscription?.unit_price,
+                  show_original_price: subscription?.show_original_price,
+                }}
+              />
           </CardContent>
         </Card>
       </div>
@@ -296,7 +296,7 @@ export default function Content({
               <DurationSelector
                 discounts={subscription?.discount}
                 onChange={(value: number) => handleChange("quantity", value)}
-                quantity={params.quantity!}
+                quantity={Number(params.quantity ?? 1)}
                 unitTime={
                   unitTimeMap[subscription.unit_time!] || subscription.unit_time
                 }
@@ -316,7 +316,7 @@ export default function Content({
 
         <Button
           className="w-full"
-          disabled={!isEmailValid.valid || loading}
+          disabled={!isEmailValid.valid || loading || !params.payment}
           onClick={handleSubmit}
           size="lg"
         >

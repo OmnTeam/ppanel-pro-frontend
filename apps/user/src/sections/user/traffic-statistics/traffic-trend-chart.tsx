@@ -16,14 +16,20 @@ interface TrafficTrendChartProps {
   data: GetUserTrafficStatsResponse["list"];
 }
 
+function toNumber(value?: number | string | null) {
+  const parsed =
+    typeof value === "string" ? Number(value) : Number(value ?? 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default function TrafficTrendChart({ data }: TrafficTrendChartProps) {
   const { t } = useTranslation("traffic");
 
   // 转换数据格式，将字节转换为 MB（保持为数字）
   const chartData = data.map((item) => ({
     date: format(new Date(item.date), "MM-dd"),
-    upload: Number((item.upload / (1024 * 1024)).toFixed(2)),
-    download: Number((item.download / (1024 * 1024)).toFixed(2)),
+    upload: Number((toNumber(item.upload) / (1024 * 1024)).toFixed(2)),
+    download: Number((toNumber(item.download) / (1024 * 1024)).toFixed(2)),
   }));
 
   // 格式化流量显示

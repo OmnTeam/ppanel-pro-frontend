@@ -5,7 +5,10 @@ function toSafeNumber(value?: Date | number | string | null) {
   if (typeof value === "number") return Number.isFinite(value) ? value : 0;
   if (typeof value === "string") {
     const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : 0;
+    if (Number.isFinite(parsed)) return parsed;
+
+    const parsedDate = Date.parse(value);
+    return Number.isFinite(parsedDate) ? parsedDate : 0;
   }
   return 0;
 }

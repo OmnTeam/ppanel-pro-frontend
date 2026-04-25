@@ -28,9 +28,11 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   const { data } = useQuery({
     queryKey: ["getAvailablePaymentMethods", { balance }],
     queryFn: async () => {
-      const { data } = await getAvailablePaymentMethods();
-      const list = data.data?.list || [];
-      return balance ? list : list.filter((item) => item.id !== "-1");
+      const { data } = await getAvailablePaymentMethods({ params: { balance } });
+      const methods = data.data?.methods || [];
+      return balance
+        ? methods
+        : methods.filter((item) => String(item.id) !== "-1");
     },
   });
 
@@ -43,7 +45,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
     if (valid) return;
 
     const preferred = data.find((m) => m.id !== "-1")?.id ?? data[0]!.id;
-    onChange(preferred);
+    onChange(String(preferred));
   }, [data, onChange, value]);
   return (
     <>

@@ -26,7 +26,7 @@ export function DocumentButton({ items }: { items: API.Document[] }) {
       const { data } = await queryDocumentDetail({
         id: (active as API.Document)?.id,
       });
-      return data.data?.content;
+      return data.data?.content || "";
     },
   });
 

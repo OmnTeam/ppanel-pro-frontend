@@ -44,7 +44,7 @@ export default function Purchase({
   const lastSuccessOrderRef = useRef<any>(null);
 
   const { data: order } = useQuery({
-    enabled: !!subscribe?.id,
+    enabled: !!subscribe?.id && !!params.payment,
     queryKey: [
       "preCreateOrder",
       subscribe?.id,
@@ -58,7 +58,7 @@ export default function Purchase({
           ...params,
           subscribe_id: subscribe?.id ?? "",
         } as API.PurchaseOrderRequest);
-        const result = data.data;
+        const result = data.data || null;
         if (result) {
           lastSuccessOrderRef.current = result;
         }
@@ -76,7 +76,7 @@ export default function Purchase({
     if (subscribe) {
       const defaultQuantity =
         subscribe.show_original_price === false && subscribe.discount?.[0]
-          ? subscribe.discount[0].quantity
+          ? Number(subscribe.discount[0].quantity)
           : 1;
       setParams((prev) => ({
         ...prev,
@@ -135,7 +135,7 @@ export default function Purchase({
               <SubscribeBilling
                 order={{
                   ...order,
-                  quantity: params.quantity,
+                  quantity: String(params.quantity ?? 1),
                   unit_price: subscribe?.unit_price,
                   show_original_price: subscribe?.show_original_price,
                 }}
@@ -149,7 +149,7 @@ export default function Purchase({
                 onChange={(value) => {
                   handleChange("quantity", value);
                 }}
-                quantity={params.quantity as number}
+                quantity={Number(params.quantity ?? 1)}
                 showOriginalPrice={subscribe?.show_original_price}
                 unitTime={subscribe?.unit_time}
               />
@@ -166,7 +166,7 @@ export default function Purchase({
             </div>
             <Button
               className="fixed bottom-0 left-0 w-full md:relative md:mt-6"
-              disabled={loading}
+              disabled={loading || !params.payment}
               onClick={handleSubmit}
             >
               {loading && <LoaderCircle className="mr-2 animate-spin" />}

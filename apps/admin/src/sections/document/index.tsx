@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { formatDate } from "@/utils/common";
 import DocumentForm from "./document-form";
 
+const toNumber = (value: unknown) => Number(value ?? 0);
+
 export default function Page() {
   const { t } = useTranslation("document");
   const [loading, setLoading] = useState(false);
@@ -128,7 +130,7 @@ export default function Page() {
         {
           accessorKey: "updated_at",
           header: t("updatedAt", "Updated At"),
-          cell: ({ row }) => formatDate(row.getValue("updated_at")),
+          cell: ({ row }) => formatDate(toNumber(row.getValue("updated_at"))),
         },
       ]}
       header={{
