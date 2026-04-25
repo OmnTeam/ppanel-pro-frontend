@@ -54,17 +54,13 @@ export function useProtocolFields() {
           name: "simnet_psk",
           type: "input",
           label: t("simnet_psk", "SimNet PSK"),
-          placeholder: t("simnet_psk_placeholder", "Enter pre-shared key"),
+          placeholder: t(
+            "simnet_psk_placeholder",
+            "Server pre-shared key (shared across all users)"
+          ),
           generate: {
             function: () => generatePassword(32),
           },
-          group: "basic",
-        },
-        {
-          name: "simnet_key_id",
-          type: "number",
-          label: t("simnet_key_id", "SimNet Key ID"),
-          min: 0,
           group: "basic",
         },
         {
@@ -90,9 +86,47 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "sni",
+          type: "input",
+          label: t("security_sni", "SNI"),
+          placeholder: t("sni_placeholder", "e.g. edge.example.com"),
+          group: "security",
+        },
+        {
+          name: "allow_insecure",
+          type: "switch",
+          label: t("security_allow_insecure", "Allow Insecure"),
+          group: "security",
+        },
+        {
+          name: "cert_mode",
+          type: "select",
+          label: t("cert_mode", "Certificate Mode"),
+          options: CERT_MODES,
+          defaultValue: "none",
+          group: "security",
+        },
+        {
+          name: "cert_dns_provider",
+          type: "input",
+          label: t("cert_dns_provider", "DNS Provider"),
+          placeholder: "e.g. cloudflare, aliyun",
+          group: "security",
+          condition: (p) => p.cert_mode === "dns",
+        },
+        {
+          name: "cert_dns_env",
+          type: "textarea",
+          label: t("cert_dns_env", "DNS Environment Variables"),
+          placeholder:
+            "CF_DNS_API_TOKEN=1234567890abcdefghijklmnopqrstuvwxyz\nALI_ACCESS_KEY_ID=your_access_key_id\nALI_ACCESS_KEY_SECRET=your_access_key_secret",
+          group: "security",
+          condition: (p) => p.cert_mode === "dns",
+        },
+        {
           name: "simnet_af_enabled",
           type: "switch",
-          label: t("simnet_af_enabled", "Enable Adaptive Flow"),
+          label: t("simnet_af_enabled", "Enable Anti-Fingerprint"),
           group: "simnet",
         },
         {
@@ -142,6 +176,33 @@ export function useProtocolFields() {
           min: 0,
           suffix: "ms",
           defaultValue: 50,
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_handshake_polymorphism",
+          type: "switch",
+          label: t(
+            "simnet_af_handshake_polymorphism",
+            "Handshake Polymorphism"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_settings_jitter",
+          type: "switch",
+          label: t("simnet_af_settings_jitter", "Settings Jitter"),
+          group: "simnet",
+          condition: (p) => !!p.simnet_af_enabled,
+        },
+        {
+          name: "simnet_af_fake_header_injection",
+          type: "switch",
+          label: t(
+            "simnet_af_fake_header_injection",
+            "Fake Header Injection"
+          ),
           group: "simnet",
           condition: (p) => !!p.simnet_af_enabled,
         },

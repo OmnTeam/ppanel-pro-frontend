@@ -1717,6 +1717,9 @@ declare namespace API {
     simnet_af_path_suffix?: string;
     simnet_af_magic_mode?: string;
     simnet_af_response_jitter_ms?: number;
+    simnet_af_handshake_polymorphism?: boolean;
+    simnet_af_settings_jitter?: boolean;
+    simnet_af_fake_header_injection?: boolean;
   };
 
   type PubilcRegisterConfig = {
