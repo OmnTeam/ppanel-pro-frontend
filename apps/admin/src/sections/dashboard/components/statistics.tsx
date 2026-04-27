@@ -44,6 +44,8 @@ import { RevenueStatisticsCard } from "./revenue-statistics-card";
 import SystemVersionCard from "./system-version-card";
 import { UserStatisticsCard } from "./user-statistics-card";
 
+const toNumber = (value: unknown) => Number(value ?? 0) || 0;
+
 export default function Statistics() {
   const { t } = useTranslation("dashboard");
 
@@ -72,24 +74,24 @@ export default function Statistics() {
       today:
         ServerTotal?.server_traffic_ranking_today?.map((item) => ({
           name: item.name,
-          traffic: item.download + item.upload,
+          traffic: toNumber(item.download) + toNumber(item.upload),
         })) || [],
       yesterday:
         ServerTotal?.server_traffic_ranking_yesterday?.map((item) => ({
           name: item.name,
-          traffic: item.download + item.upload,
+          traffic: toNumber(item.download) + toNumber(item.upload),
         })) || [],
     },
     users: {
       today:
         ServerTotal?.user_traffic_ranking_today?.map((item) => ({
           name: item.sid,
-          traffic: item.download + item.upload,
+          traffic: toNumber(item.download) + toNumber(item.upload),
         })) || [],
       yesterday:
         ServerTotal?.user_traffic_ranking_yesterday?.map((item) => ({
           name: item.sid,
-          traffic: item.download + item.upload,
+          traffic: toNumber(item.download) + toNumber(item.upload),
         })) || [],
     },
   };
@@ -98,13 +100,21 @@ export default function Statistics() {
       timeFrame as "today" | "yesterday"
     ];
 
+  const todayUpload = toNumber(ServerTotal?.today_upload);
+  const todayDownload = toNumber(ServerTotal?.today_download);
+  const monthlyUpload = toNumber(ServerTotal?.monthly_upload);
+  const monthlyDownload = toNumber(ServerTotal?.monthly_download);
+  const onlineServers = toNumber(ServerTotal?.online_servers);
+  const offlineServers = toNumber(ServerTotal?.offline_servers);
+  const onlineUsers = toNumber(ServerTotal?.online_users);
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {[
           {
             title: t("onlineUsersCount", "Online Users"),
-            value: ServerTotal?.online_users || 0,
+            value: onlineUsers,
             subtitle: t("currentlyOnline", "Currently Online"),
             icon: "uil:users-alt",
             href: "/dashboard/user",
@@ -114,32 +124,24 @@ export default function Statistics() {
 
           {
             title: t("todayTraffic", "Today Traffic"),
-            value: formatBytes(
-              (ServerTotal?.today_upload || 0) +
-                (ServerTotal?.today_download || 0)
-            ),
-            subtitle: `↑${formatBytes(ServerTotal?.today_upload || 0)} ↓${formatBytes(ServerTotal?.today_download || 0)}`,
+            value: formatBytes(todayUpload + todayDownload),
+            subtitle: `↑${formatBytes(todayUpload)} ↓${formatBytes(todayDownload)}`,
             icon: "uil:exchange-alt",
             color: "text-purple-600 dark:text-purple-400",
             iconBg: "bg-purple-100 dark:bg-purple-900/30",
           },
           {
             title: t("monthTraffic", "Month Traffic"),
-            value: formatBytes(
-              (ServerTotal?.monthly_upload || 0) +
-                (ServerTotal?.monthly_download || 0)
-            ),
-            subtitle: `↑${formatBytes(ServerTotal?.monthly_upload || 0)} ↓${formatBytes(ServerTotal?.monthly_download || 0)}`,
+            value: formatBytes(monthlyUpload + monthlyDownload),
+            subtitle: `↑${formatBytes(monthlyUpload)} ↓${formatBytes(monthlyDownload)}`,
             icon: "uil:cloud-data-connection",
             color: "text-orange-600 dark:text-orange-400",
             iconBg: "bg-orange-100 dark:bg-orange-900/30",
           },
           {
             title: t("totalServers", "Total Servers"),
-            value:
-              (ServerTotal?.online_servers || 0) +
-              (ServerTotal?.offline_servers || 0),
-            subtitle: `${t("online", "Online")} ${ServerTotal?.online_servers || 0} ${t("offline", "Offline")} ${ServerTotal?.offline_servers || 0}`,
+            value: onlineServers + offlineServers,
+            subtitle: `${t("online", "Online")} ${onlineServers} ${t("offline", "Offline")} ${offlineServers}`,
             icon: "uil:server-network",
             href: "/dashboard/servers",
             color: "text-green-600 dark:text-green-400",
@@ -147,7 +149,7 @@ export default function Statistics() {
           },
           {
             title: t("pendingTickets", "Pending Tickets"),
-            value: TicketTotal || 0,
+            value: toNumber(TicketTotal),
             subtitle: t("pending", "Pending"),
             icon: "uil:clipboard-notes",
             href: "/dashboard/ticket",
@@ -244,7 +246,7 @@ export default function Statistics() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     axisLine={false}
-                    tickFormatter={(value) => formatBytes(value || 0)}
+                    tickFormatter={(value) => formatBytes(toNumber(value))}
                     tickLine={false}
                     type="number"
                   />
@@ -261,7 +263,7 @@ export default function Statistics() {
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
-                        formatter={(value) => formatBytes(Number(value) || 0)}
+                        formatter={(value) => formatBytes(toNumber(value))}
                         label={true}
                         labelFormatter={(label, [payload]) =>
                           dataType === "nodes" ? (

@@ -37,6 +37,8 @@ import {
   XAxis,
 } from "recharts";
 
+const toNumber = (value: unknown) => Number(value ?? 0) || 0;
+
 export function UserStatisticsCard() {
   const { t, i18n } = useTranslation("dashboard");
   const locale = i18n.language;
@@ -64,6 +66,20 @@ export function UserStatisticsCard() {
     },
   });
 
+  const todayRegister = toNumber(UserStatistics?.today?.register);
+  const todayNewOrderUsers = toNumber(UserStatistics?.today?.new_order_users);
+  const todayRenewalOrderUsers = toNumber(
+    UserStatistics?.today?.renewal_order_users
+  );
+  const monthlyRegister = toNumber(UserStatistics?.monthly?.register);
+  const monthlyNewOrderUsers = toNumber(
+    UserStatistics?.monthly?.new_order_users
+  );
+  const monthlyRenewalOrderUsers = toNumber(
+    UserStatistics?.monthly?.renewal_order_users
+  );
+  const allRegister = toNumber(UserStatistics?.all?.register);
+
   return (
     <Tabs defaultValue="today">
       <Card className="h-full pb-0">
@@ -78,9 +94,7 @@ export function UserStatisticsCard() {
 
         <TabsContent className="h-full" value="today">
           <CardContent className="h-80">
-            {UserStatistics?.today.register ||
-            UserStatistics?.today.new_order_users ||
-            UserStatistics?.today.renewal_order_users ? (
+            {todayRegister || todayNewOrderUsers || todayRenewalOrderUsers ? (
               <ChartContainer
                 className="mx-auto max-h-80"
                 config={UserStatisticsConfig}
@@ -95,17 +109,17 @@ export function UserStatisticsCard() {
                     data={[
                       {
                         type: "register",
-                        value: UserStatistics?.today.register || 0,
+                        value: todayRegister,
                         fill: "var(--color-register)",
                       },
                       {
                         type: "new_purchase",
-                        value: UserStatistics?.today.new_order_users || 0,
+                        value: todayNewOrderUsers,
                         fill: "var(--color-new_purchase)",
                       },
                       {
                         type: "repurchase",
-                        value: UserStatistics?.today.renewal_order_users || 0,
+                        value: todayRenewalOrderUsers,
                         fill: "var(--color-repurchase)",
                       },
                     ]}
@@ -118,9 +132,9 @@ export function UserStatisticsCard() {
                       content={({ viewBox }) => {
                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                           const total =
-                            (UserStatistics?.today.register || 0) +
-                            (UserStatistics?.today.new_order_users || 0) +
-                            (UserStatistics?.today.renewal_order_users || 0);
+                            todayRegister +
+                            todayNewOrderUsers +
+                            todayRenewalOrderUsers;
                           return (
                             <text
                               dominantBaseline="middle"
@@ -156,7 +170,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.register.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.today.register}
+                  {todayRegister}
                 </div>
               </div>
               <Separator className="!h-10 mx-2 w-px" orientation="vertical" />
@@ -165,7 +179,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.new_purchase.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.today.new_order_users}
+                  {todayNewOrderUsers}
                 </div>
               </div>
               <Separator className="!h-10 mx-2 w-px" orientation="vertical" />
@@ -174,7 +188,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.repurchase.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.today.renewal_order_users}
+                  {todayRenewalOrderUsers}
                 </div>
               </div>
             </div>
@@ -194,9 +208,9 @@ export function UserStatisticsCard() {
                   data={
                     UserStatistics?.monthly.list?.map((item) => ({
                       date: item.date,
-                      register: item.register,
-                      new_purchase: item.new_order_users,
-                      repurchase: item.renewal_order_users,
+                      register: toNumber(item.register),
+                      new_purchase: toNumber(item.new_order_users),
+                      repurchase: toNumber(item.renewal_order_users),
                     })) || []
                   }
                 >
@@ -255,7 +269,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.register.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.monthly.register}
+                  {monthlyRegister}
                 </div>
               </div>
               <Separator className="!h-10 mx-2 w-px" orientation="vertical" />
@@ -264,7 +278,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.new_purchase.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.monthly.new_order_users}
+                  {monthlyNewOrderUsers}
                 </div>
               </div>
               <Separator className="!h-10 mx-2 w-px" orientation="vertical" />
@@ -273,7 +287,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.repurchase.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.monthly.renewal_order_users}
+                  {monthlyRenewalOrderUsers}
                 </div>
               </div>
             </div>
@@ -292,9 +306,9 @@ export function UserStatisticsCard() {
                   data={
                     UserStatistics?.all.list?.map((item) => ({
                       date: item.date,
-                      register: item.register,
-                      new_purchase: item.new_order_users,
-                      repurchase: item.renewal_order_users,
+                      register: toNumber(item.register),
+                      new_purchase: toNumber(item.new_order_users),
+                      repurchase: toNumber(item.renewal_order_users),
                     })) || []
                   }
                   margin={{
@@ -361,7 +375,7 @@ export function UserStatisticsCard() {
                   {UserStatisticsConfig.register.label}
                 </div>
                 <div className="font-bold text-xl tabular-nums leading-none">
-                  {UserStatistics?.all.register}
+                  {allRegister}
                 </div>
               </div>
             </div>
