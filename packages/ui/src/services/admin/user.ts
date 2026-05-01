@@ -400,10 +400,7 @@ export async function deleteUserSubscribe(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/subscribe`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: serializeInt64Fields(body, ["user_subscribe_id"]),
+      params: serializeInt64Fields(body, ["user_subscribe_id"]),
       ...(options || {}),
     }
   );

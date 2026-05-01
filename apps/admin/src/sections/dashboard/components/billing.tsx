@@ -27,17 +27,17 @@ interface ItemType {
 async function getBillingURL() {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/perfect-panel/ppanel-assets/commits"
+      "https://api.github.com/repos/OmnTeam/ppanel-assets/commits"
     );
     const json = await response.json();
     const version = json[0]?.sha || "latest";
     const url = new URL(
-      "https://cdn.jsdmirror.com/gh/perfect-panel/ppanel-assets"
+      "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets"
     );
     url.pathname += `@${version}/billing/index.json`;
     return url.toString();
   } catch (_error) {
-    return "https://cdn.jsdmirror.com/gh/perfect-panel/ppanel-assets/billing/index.json";
+    return "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets/billing/index.json";
   }
 }
 

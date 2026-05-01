@@ -18,7 +18,7 @@ import {
 } from "@workspace/ui/services/admin/subscribe";
 import { getNodeGroupList } from "@workspace/ui/services/admin/group";
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Display } from "@/components/display";
@@ -68,6 +68,10 @@ export default function SubscribeTable() {
   });
 
   const isGroupEnabled = groupConfigData?.enabled || false;
+  const normalizedNodeGroups = useMemo(
+    () => (nodeGroupsData || []).map((group) => ({ ...group, id: String(group.id) })),
+    [nodeGroupsData]
+  );
 
   return (
     <ProTable<API.SubscribeItem, { group_id: string; query: string; node_group_id?: string }>
@@ -301,7 +305,7 @@ export default function SubscribeTable() {
                 header: t("defaultNodeGroup", "Default Node Group"),
                 cell: ({ row }: { row: any }) => {
                   const nodeGroupId = row.original.node_group_id;
-                  const nodeGroup = nodeGroupsData?.find(
+                  const nodeGroup = normalizedNodeGroups.find(
                     (g) => String(g.id) === String(nodeGroupId)
                   );
                   const specialLabel = getNodeGroupSpecialLabel(nodeGroup);
@@ -404,7 +408,7 @@ export default function SubscribeTable() {
                 placeholder: t("nodeGroups", "Node Groups"),
                 options: [
                   { label: t("all", "All"), value: "" },
-                  ...(nodeGroupsData?.map((item) => ({
+                  ...(normalizedNodeGroups.map((item) => ({
                     label: formatNodeGroupOptionLabel(item),
                     value: String(item.id),
                   })) || []),
