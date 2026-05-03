@@ -33,6 +33,16 @@ function serializeInt64Fields<T extends Record<string, any>>(
   return removeEmptyFields(next);
 }
 
+function normalizeCurrentUserPayload<T extends Record<string, any> | undefined>(
+  payload: T
+) {
+  if (!payload || typeof payload !== "object") {
+    return payload;
+  }
+
+  return "user" in payload ? payload.user : payload;
+}
+
 /** Create user POST /v1/admin/user/ */
 export async function createUser(
   body: API.CreateUserRequest,
@@ -184,13 +194,19 @@ export async function batchDeleteUser(
 
 /** Current user GET /v1/admin/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.Response & { data?: API.User }>(
+  const response = await request<API.Response & { data?: API.User }>(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/current`,
     {
       method: "GET",
       ...(options || {}),
     }
   );
+
+  if (response.data) {
+    response.data.data = normalizeCurrentUserPayload(response.data.data);
+  }
+
+  return response;
 }
 
 /** Get user detail GET /v1/admin/user/detail */
