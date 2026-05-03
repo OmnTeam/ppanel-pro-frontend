@@ -39,6 +39,8 @@ import {
 } from "recharts";
 import { Display } from "@/components/display";
 
+const toNumber = (value: unknown) => Number(value ?? 0) || 0;
+
 export function RevenueStatisticsCard() {
   const { t, i18n } = useTranslation("dashboard");
   const locale = i18n.language;
@@ -213,7 +215,8 @@ export function RevenueStatisticsCard() {
                       ),
                       total: unitConversion(
                         "centsToDollars",
-                        item.new_order_amount + item.renewal_order_amount
+                        toNumber(item.new_order_amount) +
+                          toNumber(item.renewal_order_amount)
                       ),
                     })) || []
                   }
@@ -353,7 +356,8 @@ export function RevenueStatisticsCard() {
                       ),
                       total: unitConversion(
                         "centsToDollars",
-                        item.new_order_amount + item.renewal_order_amount
+                        toNumber(item.new_order_amount) +
+                          toNumber(item.renewal_order_amount)
                       ),
                     })) || []
                   }

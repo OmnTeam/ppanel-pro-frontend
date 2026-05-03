@@ -28,6 +28,21 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function normalizeAdsValues<T extends Record<string, any>>(values?: T) {
+  if (!values) return values;
+  return {
+    ...values,
+    start_time: toNumber(values.start_time),
+    end_time: toNumber(values.end_time),
+  };
+}
+
 const formSchema = z.object({
   title: z.string(),
   type: z.enum(["image", "video"]),
@@ -59,12 +74,12 @@ export default function AdsForm<T extends Record<string, any>>({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ...initialValues,
+      ...normalizeAdsValues(initialValues),
     } as any,
   });
 
   useEffect(() => {
-    form?.reset(initialValues);
+    form?.reset(normalizeAdsValues(initialValues));
   }, [form, initialValues]);
 
   const type = form.watch("type");

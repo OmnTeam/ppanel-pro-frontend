@@ -52,9 +52,15 @@ export default function Statistics() {
   const { data: TicketTotal } = useQuery({
     queryKey: ["queryTicketWaitReply"],
     queryFn: async () => {
-      const { data } = await queryTicketWaitReply();
-      return data.data?.count;
+      try {
+        const response = await queryTicketWaitReply({ skipErrorHandler: true });
+        return Number(response?.data?.data?.count ?? 0) || 0;
+      } catch {
+        return 0;
+      }
     },
+    initialData: 0,
+    retry: false,
   });
   const { data: ServerTotal } = useQuery({
     queryKey: ["queryServerTotalData"],

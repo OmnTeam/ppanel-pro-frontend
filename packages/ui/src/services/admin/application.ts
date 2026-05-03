@@ -68,10 +68,7 @@ export async function deleteSubscribeApplication(
     }/v1/admin/application/subscribe_application`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

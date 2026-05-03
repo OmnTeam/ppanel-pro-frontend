@@ -32,6 +32,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const logCleanupSchema = z.object({
   auto_clear: z.boolean(),
   clear_days: z.number().min(1),
@@ -63,7 +69,10 @@ export default function LogCleanupForm() {
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        ...data,
+        clear_days: toNumber(data.clear_days) ?? 30,
+      });
     }
   }, [data, form]);
 

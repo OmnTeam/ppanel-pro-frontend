@@ -47,10 +47,7 @@ export async function deleteAnnouncement(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/announcement/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

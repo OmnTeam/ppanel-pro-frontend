@@ -107,10 +107,7 @@ export async function deletePaymentMethod(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/payment/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         id: toRequestString(body?.id),
       },

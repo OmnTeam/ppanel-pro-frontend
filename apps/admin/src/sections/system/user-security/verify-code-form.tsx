@@ -31,6 +31,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const verifyCodeSchema = z.object({
   verify_code_expire_time: z.number().optional(),
   verify_code_interval: z.number().optional(),
@@ -64,7 +70,11 @@ export default function VerifyCodeConfig() {
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        verify_code_expire_time: toNumber(data.verify_code_expire_time),
+        verify_code_interval: toNumber(data.verify_code_interval),
+        verify_code_limit: toNumber(data.verify_code_limit),
+      });
     }
   }, [data, form]);
 

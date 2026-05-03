@@ -47,10 +47,7 @@ export async function deleteDocument(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/document/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );
@@ -65,10 +62,7 @@ export async function batchDeleteDocument(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/document/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

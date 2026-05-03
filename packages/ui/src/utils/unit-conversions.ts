@@ -10,14 +10,14 @@ type ConversionType =
 
 const conversionConfig: Record<
   ConversionType,
-  { formula: string; precision: number }
+  { convert: (value: number) => number; precision: number }
 > = {
-  centsToDollars: { formula: "value / 100", precision: 2 },
-  dollarsToCents: { formula: "value * 100", precision: 0 },
-  bitsToMb: { formula: "value / 1024 / 1024", precision: 2 },
-  mbToBits: { formula: "value * 1024 * 1024", precision: 0 },
-  bytesToGb: { formula: "value / 1024 / 1024 / 1024", precision: 2 },
-  gbToBytes: { formula: "value * 1024 * 1024 * 1024", precision: 0 },
+  centsToDollars: { convert: (value) => value / 100, precision: 2 },
+  dollarsToCents: { convert: (value) => value * 100, precision: 0 },
+  bitsToMb: { convert: (value) => value / 1024 / 1024, precision: 2 },
+  mbToBits: { convert: (value) => value * 1024 * 1024, precision: 0 },
+  bytesToGb: { convert: (value) => value / 1024 / 1024 / 1024, precision: 2 },
+  gbToBytes: { convert: (value) => value * 1024 * 1024 * 1024, precision: 0 },
 };
 
 export function unitConversion(type: ConversionType, value?: number | string) {
@@ -30,8 +30,7 @@ export function unitConversion(type: ConversionType, value?: number | string) {
   const config = conversionConfig[type];
   if (!config) throw new Error("Invalid conversion type");
 
-  const formula = config.formula.replace("value", `${numericValue}`);
-  const result = evaluate(formula);
+  const result = config.convert(numericValue);
   return Number(
     format(result, { notation: "fixed", precision: config.precision })
   );

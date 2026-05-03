@@ -32,6 +32,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const inviteSchema = z.object({
   forced_invite: z.boolean().optional(),
   referral_percentage: z.number().optional(),
@@ -65,7 +71,10 @@ export default function InviteConfig() {
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        ...data,
+        referral_percentage: toNumber(data.referral_percentage),
+      });
     }
   }, [data, form]);
 

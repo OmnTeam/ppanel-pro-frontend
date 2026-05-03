@@ -195,10 +195,7 @@ export async function deleteUserGroup(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/group/user`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         id: toRequestString(body?.id),
       },
@@ -280,10 +277,7 @@ export async function deleteNodeGroup(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/group/node`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         id: toRequestString(body?.id),
       },

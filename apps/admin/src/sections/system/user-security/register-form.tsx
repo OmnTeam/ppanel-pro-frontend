@@ -34,6 +34,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useSubscribe } from "@/stores/subscribe";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const registerSchema = z.object({
   stop_register: z.boolean().optional(),
   enable_trial: z.boolean().optional(),
@@ -81,7 +87,13 @@ export default function RegisterConfig() {
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        ...data,
+        trial_time: toNumber(data.trial_time),
+        ip_register_limit: toNumber(data.ip_register_limit),
+        ip_register_limit_duration: toNumber(data.ip_register_limit_duration),
+        device_limit: toNumber(data.device_limit),
+      });
     }
   }, [data, form]);
 

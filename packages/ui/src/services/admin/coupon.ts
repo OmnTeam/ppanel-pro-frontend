@@ -47,10 +47,7 @@ export async function deleteCoupon(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/coupon/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );
@@ -65,10 +62,7 @@ export async function batchDeleteCoupon(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/coupon/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

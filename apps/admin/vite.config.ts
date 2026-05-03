@@ -46,6 +46,9 @@ export default defineConfig(({ mode }) => {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
+    optimizeDeps: {
+      exclude: ["@workspace/ui"],
+    },
     server: {
       host: "0.0.0.0",
       proxy: {

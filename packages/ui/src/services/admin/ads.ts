@@ -47,10 +47,7 @@ export async function deleteAds(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/ads/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

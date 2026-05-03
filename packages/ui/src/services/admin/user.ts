@@ -4,8 +4,20 @@ import request from "@workspace/ui/lib/request";
 
 function toRequestString(value: unknown) {
   return value === undefined || value === null || value === ""
-    ? value
+    ? undefined
     : String(value);
+}
+
+function removeEmptyFields<T extends Record<string, any>>(payload: T) {
+  return Object.fromEntries(
+    Object.entries(payload).filter(
+      ([, value]) =>
+        value !== undefined &&
+        value !== null &&
+        value !== "" &&
+        !(Array.isArray(value) && value.length === 0)
+    )
+  ) as T;
 }
 
 function serializeInt64Fields<T extends Record<string, any>>(
@@ -18,7 +30,7 @@ function serializeInt64Fields<T extends Record<string, any>>(
       next[key] = toRequestString(next[key]);
     }
   }
-  return next;
+  return removeEmptyFields(next);
 }
 
 /** Create user POST /v1/admin/user/ */
@@ -119,10 +131,7 @@ export async function deleteUserAuthMethod(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/auth_method`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: serializeInt64Fields(body, ["user_id"]),
+      params: serializeInt64Fields(body, ["user_id"]),
       ...(options || {}),
     }
   );
@@ -162,10 +171,7 @@ export async function batchDeleteUser(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         ids: Array.isArray(body?.ids)
           ? body.ids.map((id: unknown) => toRequestString(id))
@@ -233,10 +239,7 @@ export async function deleteUserDevice(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/user/device`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: serializeInt64Fields(body, ["id"]),
+      params: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );

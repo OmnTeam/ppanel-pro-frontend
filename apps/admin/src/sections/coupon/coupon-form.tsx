@@ -32,6 +32,28 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { useSubscribe } from "@/stores/subscribe";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function normalizeCouponValues<T extends Record<string, any>>(values?: T) {
+  if (!values) return values;
+  return {
+    ...values,
+    count: toNumber(values.count),
+    type: toNumber(values.type),
+    discount: toNumber(values.discount),
+    start_time: toNumber(values.start_time),
+    expire_time: toNumber(values.expire_time),
+    user_limit: toNumber(values.user_limit),
+    subscribe: Array.isArray(values.subscribe)
+      ? values.subscribe.map((value) => String(value))
+      : values.subscribe,
+  };
+}
+
 const formSchema = z.object({
   name: z.string(),
   code: z.string().optional(),
@@ -66,12 +88,12 @@ export default function CouponForm<T extends Record<string, any>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       type: 1,
-      ...initialValues,
+      ...normalizeCouponValues(initialValues),
     } as any,
   });
 
   useEffect(() => {
-    form?.reset(initialValues);
+    form?.reset(normalizeCouponValues(initialValues));
   }, [form, initialValues]);
 
   async function handleSubmit(data: { [x: string]: any }) {
@@ -205,7 +227,7 @@ export default function CouponForm<T extends Record<string, any>>({
                           max={100}
                           min={1}
                           onValueChange={(value) => {
-                            form.setValue(field.name, value);
+                            form.setValue(field.name, toNumber(value));
                           }}
                           placeholder={t("form.enterValue", "Enter Value")}
                           suffix="%"
@@ -236,7 +258,7 @@ export default function CouponForm<T extends Record<string, any>>({
                             unitConversion("dollarsToCents", value)
                           }
                           onValueChange={(value) => {
-                            form.setValue(field.name, value);
+                            form.setValue(field.name, toNumber(value));
                           }}
                           placeholder={t("form.enterValue", "Enter Value")}
                           type="number"
@@ -336,7 +358,7 @@ export default function CouponForm<T extends Record<string, any>>({
                         type="number"
                         {...field}
                         onValueChange={(value) => {
-                          form.setValue(field.name, value);
+                          form.setValue(field.name, toNumber(value));
                         }}
                       />
                     </FormControl>
@@ -363,7 +385,7 @@ export default function CouponForm<T extends Record<string, any>>({
                         type="number"
                         {...field}
                         onValueChange={(value) => {
-                          form.setValue(field.name, value);
+                          form.setValue(field.name, toNumber(value));
                         }}
                       />
                     </FormControl>

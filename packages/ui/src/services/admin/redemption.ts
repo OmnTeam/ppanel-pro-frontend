@@ -64,10 +64,7 @@ export async function deleteRedemptionCode(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/redemption/code`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );
@@ -82,10 +79,7 @@ export async function batchDeleteRedemptionCode(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/redemption/code/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: body,
+      params: body,
       ...(options || {}),
     }
   );

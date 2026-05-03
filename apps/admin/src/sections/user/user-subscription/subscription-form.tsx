@@ -38,11 +38,11 @@ interface Props {
   title: string;
   loading?: boolean;
   initialData?: API.UserSubscribe;
-  onSubmit: (values: any) => Promise<boolean>;
+  onSubmit: (values: SubscriptionFormValues) => Promise<boolean>;
 }
 
 const formSchema = z.object({
-  subscribe_id: z.string().optional(),
+  subscribe_id: z.string().min(1, "Please select a subscription"),
   traffic: z.number().optional(),
   speed_limit: z.number().optional(),
   device_limit: z.number().optional(),

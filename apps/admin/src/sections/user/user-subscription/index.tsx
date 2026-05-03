@@ -56,9 +56,12 @@ export default function UserSubscription({
             onSubmit={async (values) => {
               setLoading(true);
               await updateUserSubscribe({
-                user_id: String(userId),
                 user_subscribe_id: row.id,
-                ...values,
+                subscribe_id: values.subscribe_id,
+                traffic: String(values.traffic ?? 0),
+                expired_at: String(values.expired_at ?? 0),
+                upload: String(values.upload ?? 0),
+                download: String(values.download ?? 0),
               });
               toast.success(t("updateSuccess", "Updated successfully"));
               ref.current?.refresh();
@@ -233,7 +236,9 @@ export default function UserSubscription({
               setLoading(true);
               await createUserSubscribe({
                 user_id: String(userId),
-                ...values,
+                subscribe_id: values.subscribe_id,
+                traffic: String(values.traffic ?? 0),
+                expired_at: String(values.expired_at ?? 0),
               });
               toast.success(t("createSuccess", "Created successfully"));
               ref.current?.refresh();

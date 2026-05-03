@@ -49,7 +49,7 @@ import {
 import { getGroupConfig, getNodeGroupList } from "@workspace/ui/services/admin/group";
 import { useQuery } from "@tanstack/react-query";
 import { CreditCard, Server, Settings } from "lucide-react";
-import { assign, shake } from "radash";
+import { shake } from "radash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -87,6 +87,64 @@ const defaultValues = {
   deduction_mode: "auto",
   traffic_limit: [],
 };
+
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function normalizeSubscribeValues<T extends Record<string, any>>(values?: T) {
+  const processedValues: Record<string, any> = {
+    ...defaultValues,
+    ...(shake(values, (value) => value === null) as Record<string, any>),
+  };
+
+  return {
+    ...processedValues,
+    unit_price: toNumber(processedValues.unit_price) ?? 0,
+    replacement: toNumber(processedValues.replacement),
+    inventory: toNumber(processedValues.inventory) ?? defaultValues.inventory,
+    speed_limit:
+      toNumber(processedValues.speed_limit) ?? defaultValues.speed_limit,
+    device_limit:
+      toNumber(processedValues.device_limit) ?? defaultValues.device_limit,
+    traffic: toNumber(processedValues.traffic) ?? defaultValues.traffic,
+    quota: toNumber(processedValues.quota) ?? defaultValues.quota,
+    deduction_ratio:
+      toNumber(processedValues.deduction_ratio) ??
+      defaultValues.deduction_ratio,
+    reset_cycle:
+      toNumber(processedValues.reset_cycle) ?? defaultValues.reset_cycle,
+    node_group_id:
+      processedValues.node_group_id === undefined ||
+      processedValues.node_group_id === null
+        ? ""
+        : String(processedValues.node_group_id),
+    nodes: Array.isArray(processedValues.nodes)
+      ? processedValues.nodes.map((id) => String(id))
+      : [],
+    node_group_ids: Array.isArray(processedValues.node_group_ids)
+      ? processedValues.node_group_ids.map((id) => String(id))
+      : [],
+    discount: Array.isArray(processedValues.discount)
+      ? processedValues.discount.map((item: Record<string, any>) => ({
+          ...item,
+          quantity: toNumber(item.quantity) ?? 0,
+          discount: toNumber(item.discount) ?? 0,
+          price: toNumber(item.price) ?? 0,
+        }))
+      : [],
+    traffic_limit: Array.isArray(processedValues.traffic_limit)
+      ? processedValues.traffic_limit.map((item: Record<string, any>) => ({
+          ...item,
+          stat_value: toNumber(item.stat_value) ?? 0,
+          traffic_usage: toNumber(item.traffic_usage) ?? 0,
+          speed_limit: toNumber(item.speed_limit) ?? 0,
+        }))
+      : [],
+  };
+}
 
 function getFirstValidationMessage(error: unknown): string | undefined {
   if (!error || typeof error !== "object") return undefined;
@@ -169,10 +227,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: assign(
-      defaultValues,
-      shake(initialValues, (value) => value === null) as Record<string, any>
-    ),
+    defaultValues: normalizeSubscribeValues(initialValues),
   });
 
   const debouncedCalculateDiscount = useCallback(
@@ -277,26 +332,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
   );
 
   useEffect(() => {
-    const processedValues = assign(
-      defaultValues,
-      shake(initialValues, (value) => value === null) as Record<string, any>
-    );
-
-    // Convert node_group_id from number to string (including 0)
-    if (initialValues?.node_group_id !== undefined) {
-      processedValues.node_group_id = String(initialValues.node_group_id);
-    }
-
-    // Convert nodes from number[] to string[]
-    if (initialValues?.nodes && Array.isArray(initialValues.nodes)) {
-      processedValues.nodes = (initialValues.nodes as Array<string | number>).map((id) => String(id));
-    }
-
-    // Convert node_group_ids from number[] to string[]
-    if (initialValues?.node_group_ids && Array.isArray(initialValues.node_group_ids)) {
-      processedValues.node_group_ids = (initialValues.node_group_ids as any[]).map((id) => String(id));
-    }
-
+    const processedValues = normalizeSubscribeValues(initialValues);
     form?.reset(processedValues);
     const discount = form.getValues("discount") || [];
     if (discount.length > 0) {

@@ -41,6 +41,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === "" || value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const emailSettingsSchema = z.object({
   id: z.string(),
   method: z.string(),
@@ -117,7 +123,18 @@ export default function EmailSettingsForm() {
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        ...data,
+        config: {
+          ...data.config,
+          platform_config: data.config?.platform_config
+            ? {
+                ...data.config.platform_config,
+                port: toNumber(data.config.platform_config.port),
+              }
+            : undefined,
+        },
+      });
     }
   }, [data, form]);
 

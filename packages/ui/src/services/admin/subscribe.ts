@@ -212,10 +212,7 @@ export async function deleteSubscribe(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/subscribe/`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         id: toRequestString(body?.id),
       },
@@ -233,10 +230,7 @@ export async function batchDeleteSubscribe(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/subscribe/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         ids: Array.isArray(body?.ids)
           ? body.ids.map((id: unknown) => toRequestString(id))
@@ -316,10 +310,7 @@ export async function deleteSubscribeGroup(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/subscribe/group`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         id: toRequestString(body?.id),
       },
@@ -337,10 +328,7 @@ export async function batchDeleteSubscribeGroup(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/subscribe/group/batch`,
     {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
+      params: {
         ...body,
         ids: Array.isArray(body?.ids)
           ? body.ids.map((id: unknown) => toRequestString(id))

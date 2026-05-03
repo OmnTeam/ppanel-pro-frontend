@@ -53,6 +53,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { SS_CIPHERS } from "./form-schema";
 
+function toNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 const dnsConfigSchema = z.object({
   proto: z.string(), // z.enum(['tcp', 'udp', 'tls', 'https', 'quic']),
   address: z.string(),
@@ -113,17 +119,18 @@ export default function ServerConfig() {
     if (cfgResp) {
       form.reset({
         node_secret: cfgResp.node_secret ?? "",
-        node_pull_interval: cfgResp.node_pull_interval as number | undefined,
-        node_push_interval: cfgResp.node_push_interval as number | undefined,
-        traffic_report_threshold: cfgResp.traffic_report_threshold as
-          | number
-          | undefined,
+        node_pull_interval: toNumber(cfgResp.node_pull_interval),
+        node_push_interval: toNumber(cfgResp.node_push_interval),
+        traffic_report_threshold: toNumber(cfgResp.traffic_report_threshold),
         ip_strategy:
           (cfgResp.ip_strategy as "prefer_ipv4" | "prefer_ipv6" | undefined) ||
           "prefer_ipv4",
         dns: cfgResp.dns || [],
         block: cfgResp.block || [],
-        outbound: cfgResp.outbound || [],
+        outbound: (cfgResp.outbound || []).map((item) => ({
+          ...item,
+          port: toNumber(item.port) ?? 0,
+        })),
       });
     }
   }, [cfgResp, form]);

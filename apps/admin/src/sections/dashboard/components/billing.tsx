@@ -24,22 +24,8 @@ interface ItemType {
   href: string;
 }
 
-async function getBillingURL() {
-  try {
-    const response = await fetch(
-      "https://api.github.com/repos/OmnTeam/ppanel-assets/commits"
-    );
-    const json = await response.json();
-    const version = json[0]?.sha || "latest";
-    const url = new URL(
-      "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets"
-    );
-    url.pathname += `@${version}/billing/index.json`;
-    return url.toString();
-  } catch (_error) {
-    return "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets/billing/index.json";
-  }
-}
+const BILLING_URL =
+  "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets/billing/index.json";
 
 export default function Billing({ type }: BillingProps) {
   const { t } = useTranslation("dashboard");
@@ -47,8 +33,7 @@ export default function Billing({ type }: BillingProps) {
   const { data: list } = useQuery({
     queryKey: ["billing", type],
     queryFn: async () => {
-      const url = await getBillingURL();
-      const response = await fetch(url, {
+      const response = await fetch(BILLING_URL, {
         headers: {
           Accept: "application/json",
         },
