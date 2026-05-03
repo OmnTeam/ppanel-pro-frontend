@@ -20,6 +20,10 @@ import { Logout } from "@/utils/common";
 export function UserNav() {
   const { t } = useTranslation("auth");
   const { user } = useGlobalStore();
+  const primaryIdentifier =
+    user?.auth_methods?.find((method) => method?.auth_identifier)
+      ?.auth_identifier ?? "";
+  const userInitial = primaryIdentifier.charAt(0).toUpperCase() || "A";
 
   if (user) {
     return (
@@ -29,9 +33,7 @@ export function UserNav() {
             <Avatar className="size-8">
               <AvatarImage alt={user?.avatar ?? ""} src={user?.avatar ?? ""} />
               <AvatarFallback className="rounded-none bg-transparent">
-                {user?.auth_methods?.[0]?.auth_identifier
-                  .toUpperCase()
-                  .charAt(0)}
+                {userInitial}
               </AvatarFallback>
             </Avatar>
           </Button>
@@ -39,9 +41,7 @@ export function UserNav() {
         <DropdownMenuContent align="end" className="w-56" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="font-medium text-sm leading-none">
-                {user?.auth_methods?.[0]?.auth_identifier}
-              </p>
+              <p className="font-medium text-sm leading-none">{primaryIdentifier}</p>
               {/* <p className='text-xs leading-none text-muted-foreground'>ID: {user?.id}</p> */}
             </div>
           </DropdownMenuLabel>
