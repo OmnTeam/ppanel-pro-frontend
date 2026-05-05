@@ -89,7 +89,12 @@ export default function UserForm<T extends Record<string, any>>({
   }, [form, initialValues]);
 
   async function handleSubmit(data: { [x: string]: any }) {
-    const bool = await onSubmit(data as T);
+    const { referer_id, ...rest } = data;
+    const payload = {
+      ...rest,
+      referer_user: referer_id || undefined,
+    };
+    const bool = await onSubmit(payload as T);
 
     if (bool) setOpen(false);
   }

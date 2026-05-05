@@ -34,6 +34,30 @@ function toNumber(value: unknown): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+function normalizeTimestamp(value: number) {
+  return value > 0 && value < 10000000000 ? value * 1000 : value;
+}
+
+function formatDateTimeLocal(value: unknown) {
+  const timestamp = toNumber(value);
+  if (!timestamp) return "";
+
+  const date = new Date(normalizeTimestamp(timestamp));
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function parseDateTimeLocal(value: string) {
+  if (!value) return undefined;
+  const timestamp = Math.floor(new Date(value).getTime() / 1000);
+  return Number.isFinite(timestamp) ? timestamp : undefined;
+}
+
 function normalizeAdsValues<T extends Record<string, any>>(values?: T) {
   if (!values) return values;
   return {
@@ -253,15 +277,13 @@ export default function AdsForm<T extends Record<string, any>>({
                     <FormLabel>{t("form.startTime", "Start Time")}</FormLabel>
                     <FormControl>
                       <EnhancedInput
-                        min={Number(new Date().toISOString().slice(0, 16))}
+                        min={formatDateTimeLocal(Date.now())}
                         onValueChange={(value) => {
-                          const timestamp = value
-                            ? new Date(value).getTime()
-                            : 0;
+                          const timestamp = parseDateTimeLocal(value);
                           form.setValue(field.name, timestamp);
                           const endTime = form.getValues("end_time");
-                          if (endTime && timestamp > endTime) {
-                            form.setValue("end_time", "");
+                          if (!timestamp || (endTime && timestamp > endTime)) {
+                            form.setValue("end_time", undefined);
                           }
                         }}
                         placeholder={t(
@@ -270,11 +292,7 @@ export default function AdsForm<T extends Record<string, any>>({
                         )}
                         step="1"
                         type="datetime-local"
-                        value={
-                          field.value
-                            ? new Date(field.value).toISOString().slice(0, 16)
-                            : ""
-                        }
+                        value={formatDateTimeLocal(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -291,26 +309,20 @@ export default function AdsForm<T extends Record<string, any>>({
                     <FormControl>
                       <EnhancedInput
                         disabled={!startTime}
-                        min={Number(
-                          startTime
-                            ? new Date(startTime).toISOString().slice(0, 16)
-                            : new Date().toISOString().slice(0, 16)
-                        )}
+                        min={formatDateTimeLocal(startTime || Date.now())}
                         onValueChange={(value) => {
-                          const timestamp = value
-                            ? new Date(value).getTime()
-                            : 0;
+                          const timestamp = parseDateTimeLocal(value);
+                          if (!timestamp) {
+                            form.setValue(field.name, undefined);
+                            return;
+                          }
                           if (!startTime || timestamp < startTime) return;
                           form.setValue(field.name, timestamp);
                         }}
                         placeholder={t("form.enterEndTime", "Select end time")}
                         step="1"
                         type="datetime-local"
-                        value={
-                          field.value
-                            ? new Date(field.value).toISOString().slice(0, 16)
-                            : ""
-                        }
+                        value={formatDateTimeLocal(field.value)}
                       />
                     </FormControl>
                     <FormMessage />

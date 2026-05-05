@@ -61,6 +61,7 @@ export async function createUser(
         "balance",
         "commission",
         "gift_amount",
+        "referer_user",
       ]),
       ...(options || {}),
     }

@@ -2,6 +2,25 @@
 /* eslint-disable */
 import request from "@workspace/ui/lib/request";
 
+function toRequestString(value: unknown) {
+  return value === undefined || value === null || value === ""
+    ? undefined
+    : String(value);
+}
+
+function serializeInt64Fields<T extends Record<string, any>>(
+  payload: T,
+  keys: string[]
+) {
+  const next = { ...payload };
+  for (const key of keys) {
+    if (key in next) {
+      next[key] = toRequestString(next[key]);
+    }
+  }
+  return next;
+}
+
 /** Update announcement PUT /v1/admin/announcement/ */
 export async function updateAnnouncement(
   body: API.UpdateAnnouncementRequest,
@@ -14,7 +33,7 @@ export async function updateAnnouncement(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );
@@ -47,7 +66,7 @@ export async function deleteAnnouncement(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/announcement/`,
     {
       method: "DELETE",
-      params: body,
+      params: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );
@@ -63,9 +82,7 @@ export async function getAnnouncement(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/announcement/detail`,
     {
       method: "GET",
-      params: {
-        ...params,
-      },
+      params: serializeInt64Fields(params, ["id"]),
       ...(options || {}),
     }
   );

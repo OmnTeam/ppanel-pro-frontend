@@ -2,6 +2,37 @@
 /* eslint-disable */
 import request from "@workspace/ui/lib/request";
 
+function toRequestString(value: unknown) {
+  return value === undefined || value === null || value === ""
+    ? undefined
+    : String(value);
+}
+
+function removeEmptyFields<T extends Record<string, any>>(payload: T) {
+  return Object.fromEntries(
+    Object.entries(payload).filter(
+      ([, value]) =>
+        value !== undefined &&
+        value !== null &&
+        value !== "" &&
+        !(Array.isArray(value) && value.length === 0)
+    )
+  ) as T;
+}
+
+function serializeInt64Fields<T extends Record<string, any>>(
+  payload: T,
+  keys: string[]
+) {
+  const next = { ...payload };
+  for (const key of keys) {
+    if (key in next) {
+      next[key] = toRequestString(next[key]);
+    }
+  }
+  return removeEmptyFields(next);
+}
+
 /** Update Ads PUT /v1/admin/ads/ */
 export async function updateAds(
   body: API.UpdateAdsRequest,
@@ -14,7 +45,7 @@ export async function updateAds(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["id", "start_time", "end_time"]),
       ...(options || {}),
     }
   );
@@ -32,7 +63,7 @@ export async function createAds(
       headers: {
         "Content-Type": "application/json",
       },
-      data: body,
+      data: serializeInt64Fields(body, ["start_time", "end_time"]),
       ...(options || {}),
     }
   );
@@ -47,7 +78,7 @@ export async function deleteAds(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/ads/`,
     {
       method: "DELETE",
-      params: body,
+      params: serializeInt64Fields(body, ["id"]),
       ...(options || {}),
     }
   );
@@ -63,9 +94,7 @@ export async function getAdsDetail(
     `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/ads/detail`,
     {
       method: "GET",
-      params: {
-        ...params,
-      },
+      params: serializeInt64Fields(params, ["id"]),
       ...(options || {}),
     }
   );
