@@ -1,4 +1,4 @@
-﻿# Docker Run 部署
+# Docker Run 部署
 
 本指南介绍如何使用 `docker run` 命令部署 NPanel。此方法适合快速测试或简单部署。
 

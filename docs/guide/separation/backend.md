@@ -1,4 +1,4 @@
-﻿# Backend Separation Deployment
+# Backend Separation Deployment
 
 This guide will help you independently deploy the NPanel backend service, suitable for front-end and back-end separation deployment scenarios.
 

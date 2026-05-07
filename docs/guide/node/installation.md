@@ -1,4 +1,4 @@
-﻿# Node Agent Installation
+# Node Agent Installation
 
 `NPanel-node` is the lightweight agent each edge server runs to sync routes, heartbeats, and transport keys with the NPanel control plane. This guide covers the fastest install path plus alternative deployments.
 

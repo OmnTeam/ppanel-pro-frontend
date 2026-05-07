@@ -1,4 +1,4 @@
-﻿# Installation Overview
+# Installation Overview
 
 NPanel supports multiple deployment methods to suit different needs and environments. Choose the method that best fits your requirements.
 

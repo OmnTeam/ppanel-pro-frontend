@@ -1,4 +1,4 @@
-﻿# Docker Compose Deployment
+# Docker Compose Deployment
 
 Docker Compose is the recommended deployment method for production environments. It provides better service management, easier configuration, and simplified upgrades.
 

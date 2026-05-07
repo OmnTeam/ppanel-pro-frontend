@@ -1,4 +1,4 @@
-﻿# One-Click Deployment
+# One-Click Deployment
 
 The quickest way to deploy NPanel using automated installation scripts. Perfect for quick testing or production deployment.
 

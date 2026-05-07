@@ -1,4 +1,4 @@
-﻿# Dashboard 仪表盘
+# Dashboard 仪表盘
 
 Dashboard 是管理后台的首页,实时展示系统核心数据和运营状况。
 

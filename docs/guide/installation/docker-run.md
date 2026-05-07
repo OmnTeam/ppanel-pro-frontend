@@ -1,4 +1,4 @@
-﻿# Docker Run Deployment
+# Docker Run Deployment
 
 This guide shows you how to deploy NPanel using the `docker run` command. This method is suitable for quick testing or simple deployments.
 

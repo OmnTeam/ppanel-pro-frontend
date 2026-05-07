@@ -1,4 +1,4 @@
-﻿import yaml from "js-yaml";
+import yaml from "js-yaml";
 import { CDN_URL } from "@/config";
 
 const BASE_URL = `${CDN_URL}/gh/perfect-panel/NPanel-tutorial`;

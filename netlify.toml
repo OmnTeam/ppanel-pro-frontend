@@ -1,4 +1,4 @@
-﻿# 默认配置 - 文档站点
+# 默认配置 - 文档站点
 [build]
   command = "bun install && bun run docs:build"
   publish = "docs/.vitepress/dist"

@@ -1,4 +1,4 @@
-﻿# Docker Compose 部署
+# Docker Compose 部署
 
 Docker Compose 是生产环境推荐的部署方式。它提供更好的服务管理、更简单的配置和更便捷的升级流程。
 

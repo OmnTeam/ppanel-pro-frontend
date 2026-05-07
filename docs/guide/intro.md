@@ -1,4 +1,4 @@
-﻿# Introduction
+# Introduction
 
 Welcome to NPanel! This is a pure, professional, and perfect open-source proxy panel tool designed to provide users with a complete management solution.
 

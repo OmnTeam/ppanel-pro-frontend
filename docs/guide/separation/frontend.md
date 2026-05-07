@@ -1,4 +1,4 @@
-﻿# Frontend Separation Deployment
+# Frontend Separation Deployment
 
 This guide will help you independently deploy NPanel frontend applications and connect them to the deployed backend service.
 

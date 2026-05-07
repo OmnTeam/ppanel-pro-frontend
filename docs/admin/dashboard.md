@@ -1,4 +1,4 @@
-﻿# Dashboard
+# Dashboard
 
 Dashboard is the homepage of the admin panel, displaying real-time system core data and operational status.
 

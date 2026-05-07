@@ -1,4 +1,4 @@
-﻿# Binary Deployment
+# Binary Deployment
 
 This guide shows you how to deploy NPanel using pre-built binary executables. This method is suitable for users who prefer not to use Docker or need more control over the deployment.
 

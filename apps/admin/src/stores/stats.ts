@@ -1,4 +1,4 @@
-﻿import { create } from "zustand";
+import { create } from "zustand";
 
 // Fixed remote stats endpoint and required header
 export const REQUIRED_HEADER_NAME = "stats";

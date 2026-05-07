@@ -1,4 +1,4 @@
-﻿---
+---
 title: 通用服务 API
 outline: false
 aside: false

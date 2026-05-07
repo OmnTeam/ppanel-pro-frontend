@@ -1,4 +1,4 @@
-﻿# Server Management
+# Server Management
 
 Manage proxy servers' basic information, protocol configuration, and runtime status, as well as configure global node parameters.
 

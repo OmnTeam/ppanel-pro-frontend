@@ -1,4 +1,4 @@
-﻿# Contributors
+# Contributors
 
 Thank you to all the developers who have contributed to the NPanel project!
 

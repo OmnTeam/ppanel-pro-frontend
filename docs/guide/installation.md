@@ -1,4 +1,4 @@
-﻿# Installation
+# Installation
 
 This guide will help you deploy NPanel on your server using Docker.
 
