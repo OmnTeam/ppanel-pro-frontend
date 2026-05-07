@@ -15,6 +15,7 @@ import { Fragment, useMemo } from "react";
 import { findNavByUrl, useNavs } from "./navs";
 import TimezoneSwitch from "./timezone-switch";
 import { UserNav } from "./user-nav";
+import { LayoutSwitch } from "./layout-switch";
 
 export function Header() {
   const pathname = useLocation({ select: (location) => location.pathname });
@@ -48,9 +49,11 @@ export function Header() {
       <div className="flex items-center gap-2 px-3">
         <LanguageSwitch />
         <TimezoneSwitch />
+        <LayoutSwitch />
         <ThemeSwitch />
         <UserNav />
       </div>
     </header>
   );
 }
+
