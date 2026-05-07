@@ -60,8 +60,8 @@ export function TopbarLayout({ children }: { children: React.ReactNode }) {
           <Separator className="h-5" orientation="vertical" />
 
           {/* Navigation */}
-          <NavigationMenu className="flex-1">
-            <NavigationMenuList className="flex flex-wrap gap-1">
+          <NavigationMenu className="flex-1" viewport={false}>
+            <NavigationMenuList className="flex flex-wrap gap-1 justify-start">
               {navs.map((nav) => {
                 if (hasChildren(nav)) {
                   const active = isGroupActive(nav);

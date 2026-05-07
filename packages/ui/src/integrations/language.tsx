@@ -45,9 +45,14 @@ export function LanguageProvider({
   const changeLanguage = async (lng: Language) => {
     setIsLoading(true);
     try {
-      // i18n.changeLanguage will automatically handle localStorage caching
       await i18n.changeLanguage(lng);
       setLanguage(lng);
+      // 手动持久化 —— LanguageDetector 已移除，需自行写入 localStorage
+      try {
+        localStorage.setItem("language", lng);
+      } catch {
+        // ignore
+      }
     } catch (error) {
       console.error("Failed to change language:", error);
     } finally {

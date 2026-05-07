@@ -56,6 +56,16 @@
     "unknown": "An error occurred in the system, please try again later."
   },
   "language": "Language",
+  "layout": {
+    "settings": "Layout Settings",
+    "mode": "Layout Mode",
+    "sidebar": "Sidebar",
+    "sidebarDesc": "Classic left sidebar navigation",
+    "topbar": "Top Bar",
+    "topbarDesc": "Horizontal top navigation bar",
+    "bottombar": "Bottom Dock",
+    "bottombarDesc": "macOS-style bottom dock"
+  },
   "pagination": {
     "pageInfo": "Page {{page}} of {{total}}",
     "rowsPerPage": "Rows per page"
