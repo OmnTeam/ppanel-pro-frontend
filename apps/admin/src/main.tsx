@@ -1,5 +1,5 @@
 import {
-  createHashHistory,
+  createBrowserHistory,
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
@@ -35,6 +35,7 @@ initializeI18n({
     "coupon",
     "dashboard",
     "document",
+    "group",
     "log",
     "marketing",
     "menu",
@@ -42,6 +43,7 @@ initializeI18n({
     "order",
     "payment",
     "product",
+    "redemption",
     "servers",
     "subscribe",
     "system",
@@ -56,10 +58,10 @@ window.logout = Logout;
 
 // Create a new router instance
 const TanStackQueryProviderContext = TanStackQueryContext();
-const hashHistory = createHashHistory();
+const browserHistory = createBrowserHistory();
 const router = createRouter({
   routeTree,
-  history: hashHistory,
+  history: browserHistory,
   context: {
     ...TanStackQueryProviderContext,
   },

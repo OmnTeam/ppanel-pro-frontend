@@ -25,8 +25,20 @@ export function LanguageProvider({
 }: LanguageProviderProps) {
   const { i18n } = useTranslation();
 
+  // 同步读取 localStorage 中保存的语言，避免刷新后先闪一下英文
+  const getInitialLanguage = (): Language => {
+    try {
+      const saved = localStorage.getItem("language");
+      if (saved && supportedLanguages.includes(saved)) return saved;
+    } catch {
+      // ignore
+    }
+    return i18n.language || defaultLanguage;
+  };
+
   // Initialize with fallback, will be updated when i18n is ready
-  const [language, setLanguage] = useState<Language>(defaultLanguage);
+  const [language, setLanguage] = useState<Language>(getInitialLanguage);
+
 
   const [isLoading, setIsLoading] = useState(false);
 

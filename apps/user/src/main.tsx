@@ -1,5 +1,5 @@
 import {
-  createHashHistory,
+  createBrowserHistory,
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
@@ -47,10 +47,10 @@ window.logout = Logout;
 
 // Create a new router instance
 const TanStackQueryProviderContext = TanStackQueryContext();
-const hashHistory = createHashHistory();
+const browserHistory = createBrowserHistory();
 const router = createRouter({
   routeTree,
-  history: hashHistory,
+  history: browserHistory,
   context: {
     ...TanStackQueryProviderContext,
   },

@@ -5,7 +5,36 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
+/** 在 i18n 初始化之前同步读取用户上次保存的语言偏好 */
+function getSavedLanguage(
+  supportedLngs: string[],
+  fallback: string,
+  storageKey = "language"
+): string {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved && supportedLngs.includes(saved)) {
+      return saved;
+    }
+  } catch {
+    // localStorage 不可用时静默降级
+  }
+  return fallback;
+}
+
 export function initializeI18n(i18nConfig?: InitOptions) {
+  const supportedLngs = (i18nConfig?.supportedLngs as string[]) ?? [
+    "en-US",
+    "zh-CN",
+  ];
+  const fallbackLng =
+    typeof i18nConfig?.fallbackLng === "string"
+      ? i18nConfig.fallbackLng
+      : "en-US";
+
+  // 同步读取保存的语言，避免刷新后闪英文
+  const initialLng = getSavedLanguage(supportedLngs, fallbackLng);
+
   i18n
     // Load translation using http backend
     // Learn more: https://github.com/i18next/i18next-http-backend
@@ -21,7 +50,8 @@ export function initializeI18n(i18nConfig?: InitOptions) {
       // Language configuration
       fallbackLng: "en-US", // Default language when detection fails
       supportedLngs: ["en-US", "zh-CN"], // Available locales
-      // Note: lng is not set to allow LanguageDetector to handle detection
+      // 显式设置初始语言，确保刷新后立即使用正确语言
+      lng: initialLng,
 
       // Interpolation configuration
       interpolation: {
@@ -55,3 +85,4 @@ export function initializeI18n(i18nConfig?: InitOptions) {
   window.i18n = i18n;
   return i18n;
 }
+
