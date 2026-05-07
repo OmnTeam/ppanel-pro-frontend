@@ -1,11 +1,11 @@
-# Node Agent Installation
+﻿# Node Agent Installation
 
-`ppanel-node` is the lightweight agent each edge server runs to sync routes, heartbeats, and transport keys with the PPanel control plane. This guide covers the fastest install path plus alternative deployments.
+`NPanel-node` is the lightweight agent each edge server runs to sync routes, heartbeats, and transport keys with the NPanel control plane. This guide covers the fastest install path plus alternative deployments.
 
 ## Quick start
 
 ```bash
-wget -N https://raw.githubusercontent.com/perfect-panel/ppanel-node/master/scripts/install.sh
+wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh
 sudo bash install.sh --api-host https://panel.example.com --server-id 1 --secret-key <SECRET>
 ```
 
@@ -16,7 +16,7 @@ The script auto-detects your distro/architecture, downloads the latest release, 
 - 64-bit Linux (Debian/Ubuntu ≥16, CentOS ≥7, Alpine, Arch, etc.)
 - Root access and outbound HTTPS connectivity to `github.com`
 - Firewall ports open for the protocols you expose as well as panel callbacks
-- Matching **Server ID** + **Secret Key** generated in the PPanel admin console
+- Matching **Server ID** + **Secret Key** generated in the NPanel admin console
 
 ### Optional flags
 
@@ -39,7 +39,7 @@ ppnode log         # follow logs
 ppnode update      # upgrade to latest release
 ppnode update v1.2.3
 ppnode uninstall
-ppnode generate    # regenerate /etc/PPanel-node/config.yml
+ppnode generate    # regenerate /etc/NPanel-node/config.yml
 ```
 
 ## Installation methods
@@ -49,8 +49,8 @@ ppnode generate    # regenerate /etc/PPanel-node/config.yml
 Use the Quick Start command above or run `sudo bash install.sh` and answer the prompts. Behind the scenes the script:
 
 1. Installs prerequisites (`wget`, `curl`, `tar`, `socat`, cron, etc.).
-2. Downloads `ppanel-node-linux-<arch>.zip` for amd64, arm64, or s390x.
-3. Extracts to `/usr/local/PPanel-node`, installs `geoip.dat`/`geosite.dat`, and wires the service with systemd/OpenRC.
+2. Downloads `NPanel-node-linux-<arch>.zip` for amd64, arm64, or s390x.
+3. Extracts to `/usr/local/NPanel-node`, installs `geoip.dat`/`geosite.dat`, and wires the service with systemd/OpenRC.
 4. Drops the helper CLI to `/usr/bin/ppnode` and enables auto-start.
 
 ### Method 2 — Build from source
@@ -64,30 +64,30 @@ Use the Quick Start command above or run `sudo bash install.sh` and answer the p
 2. Clone the repository and build:
 
     ```bash
-    git clone https://github.com/perfect-panel/ppanel-node.git
-    cd ppanel-node
+    git clone https://github.com/perfect-panel/NPanel-node.git
+    cd NPanel-node
     GOEXPERIMENT=jsonv2 go build -v -o ./ppnode -trimpath -ldflags "-s -w -buildid="
     ```
 
 3. Copy the binary plus geo assets to their runtime locations:
 
     ```bash
-    sudo install -Dm755 ./ppnode /usr/local/PPanel-node/ppnode
-    sudo install -Dm644 ./geoip.dat /etc/PPanel-node/geoip.dat
-    sudo install -Dm644 ./geosite.dat /etc/PPanel-node/geosite.dat
+    sudo install -Dm755 ./ppnode /usr/local/NPanel-node/ppnode
+    sudo install -Dm644 ./geoip.dat /etc/NPanel-node/geoip.dat
+    sudo install -Dm644 ./geosite.dat /etc/NPanel-node/geosite.dat
     ```
 
 4. Create the systemd unit (adapt paths as needed):
 
     ```bash
-    sudo tee /etc/systemd/system/PPanel-node.service <<'EOF'
+    sudo tee /etc/systemd/system/NPanel-node.service <<'EOF'
     [Unit]
-    Description=PPanel Node
+    Description=NPanel Node
     After=network.target
 
     [Service]
     Type=simple
-    ExecStart=/usr/local/PPanel-node/ppnode server
+    ExecStart=/usr/local/NPanel-node/ppnode server
     Restart=always
     RestartSec=10
 
@@ -95,7 +95,7 @@ Use the Quick Start command above or run `sudo bash install.sh` and answer the p
     WantedBy=multi-user.target
     EOF
     sudo systemctl daemon-reload
-    sudo systemctl enable --now PPanel-node
+    sudo systemctl enable --now NPanel-node
     ```
 
 5. Copy `config.yml` from the repo or create it manually (see the configuration section) and restart the service.
@@ -105,24 +105,24 @@ Use the Quick Start command above or run `sudo bash install.sh` and answer the p
 The repository ships a `Dockerfile`. You can build and run it on hosts where installing directly is undesirable:
 
 ```bash
-git clone https://github.com/perfect-panel/ppanel-node.git
-cd ppanel-node
-docker build -t ppanel-node:latest .
-docker run -d --name ppanel-node \
+git clone https://github.com/perfect-panel/NPanel-node.git
+cd NPanel-node
+docker build -t NPanel-node:latest .
+docker run -d --name NPanel-node \
   --net host \
-  -v /etc/PPanel-node:/etc/PPanel-node \
-  ppanel-node:latest server
+  -v /etc/NPanel-node:/etc/NPanel-node \
+  NPanel-node:latest server
 ```
 
 Recommended bind mounts:
 
-- `/etc/PPanel-node/config.yml` – credentials and API settings.
-- `/etc/PPanel-node/geoip.dat` & `/etc/PPanel-node/geosite.dat` – keep them on the host so updates persist.
-- `/var/log/ppanel-node` (optional) – collect structured logs outside the container.
+- `/etc/NPanel-node/config.yml` – credentials and API settings.
+- `/etc/NPanel-node/geoip.dat` & `/etc/NPanel-node/geosite.dat` – keep them on the host so updates persist.
+- `/var/log/NPanel-node` (optional) – collect structured logs outside the container.
 
 ## Configure the node
 
-The runtime configuration lives in `/etc/PPanel-node/config.yml`. The installer generates the file with the following structure:
+The runtime configuration lives in `/etc/NPanel-node/config.yml`. The installer generates the file with the following structure:
 
 ```yaml
 Log:
@@ -140,14 +140,14 @@ Api:
 After editing the file, restart the service:
 
 ```bash
-sudo systemctl restart PPanel-node
+sudo systemctl restart NPanel-node
 # or
 ppnode restart
 ```
 
 ### Mapping to the panel
 
-1. Create a server entry in the **Maintenance → Servers** page inside the PPanel admin UI.
+1. Create a server entry in the **Maintenance → Servers** page inside the NPanel admin UI.
 2. Copy the generated **Server ID** and **Secret Key** into `config.yml`.
 3. Ensure the node host can reach the panel’s HTTPS endpoint defined as `ApiHost`.
 4. Approve the node once it appears under the panel’s node list (heartbeat should update within ~30 seconds).
@@ -156,13 +156,13 @@ ppnode restart
 
 - `ppnode update` keeps configuration/geo files intact while replacing the binary.
 - `ppnode update vX.Y.Z` pins a specific release for rollbacks.
-- For manual builds, rebuild the target tag, replace `/usr/local/PPanel-node/ppnode`, then `systemctl restart PPanel-node`.
+- For manual builds, rebuild the target tag, replace `/usr/local/NPanel-node/ppnode`, then `systemctl restart NPanel-node`.
 
 ## Troubleshooting
 
-- `ppnode log` or `journalctl -u PPanel-node -f` surfaces runtime logs.
-- Validate `/etc/PPanel-node/config.yml`—typos in `ApiHost` or `SecretKey` cause auth failures.
+- `ppnode log` or `journalctl -u NPanel-node -f` surfaces runtime logs.
+- Validate `/etc/NPanel-node/config.yml`—typos in `ApiHost` or `SecretKey` cause auth failures.
 - Ensure the host can reach GitHub (updates) and your panel domain on port 443.
 - If the panel lists the node as offline, verify firewall rules allow heartbeats and that NTP is synchronized (`chronyc tracking`).
 
-Need more detail? Review the source at [`github.com/perfect-panel/ppanel-node`](https://github.com/perfect-panel/ppanel-node).
+Need more detail? Review the source at [`github.com/perfect-panel/NPanel-node`](https://github.com/perfect-panel/NPanel-node).

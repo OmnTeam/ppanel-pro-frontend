@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+﻿import { useQuery } from "@tanstack/react-query";
 import {
   Avatar,
   AvatarFallback,
@@ -25,7 +25,7 @@ interface ItemType {
 }
 
 const BILLING_URL =
-  "https://cdn.jsdmirror.com/gh/OmnTeam/ppanel-assets/billing/index.json";
+  "https://cdn.jsdmirror.com/gh/OmnTeam/NPanel-assets/billing/index.json";
 
 export default function Billing({ type }: BillingProps) {
   const { t } = useTranslation("dashboard");
@@ -60,7 +60,7 @@ export default function Billing({ type }: BillingProps) {
         <span className="ml-2 text-muted-foreground text-xs">
           {t(
             "billing.description",
-            "Sponsoring helps PPanel to continue releasing updates!"
+            "Sponsoring helps NPanel to continue releasing updates!"
           )}
         </span>
       </h1>

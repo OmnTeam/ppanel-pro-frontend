@@ -1,6 +1,6 @@
-# 安装概览
+﻿# 安装概览
 
-PPanel 支持多种部署方式，以适应不同的需求和环境。选择最适合你需求的部署方式。
+NPanel 支持多种部署方式，以适应不同的需求和环境。选择最适合你需求的部署方式。
 
 ## 部署方式
 
@@ -17,8 +17,8 @@ PPanel 支持多种部署方式，以适应不同的需求和环境。选择最�
 
 ### 高级部署
 
-- **[Kubernetes](/zh/guide/installation/kubernetes)** - 在 Kubernetes 集群中部署 PPanel 以实现高可用
-- **[源码部署](/zh/guide/installation/from-source)** - 从源码构建并运行 PPanel
+- **[Kubernetes](/zh/guide/installation/kubernetes)** - 在 Kubernetes 集群中部署 NPanel 以实现高可用
+- **[源码部署](/zh/guide/installation/from-source)** - 从源码构建并运行 NPanel
 
 ## 系统要求
 
@@ -53,5 +53,5 @@ PPanel 支持多种部署方式，以适应不同的需求和环境。选择最�
 ## 需要帮助？
 
 - 查看我们的[故障排除指南](/zh/guide/troubleshooting)
-- 访问 [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+- 访问 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 - 加入我们的社区讨论

@@ -1,14 +1,14 @@
-# Frontend Separation Deployment
+﻿# Frontend Separation Deployment
 
-This guide will help you independently deploy PPanel frontend applications and connect them to the deployed backend service.
+This guide will help you independently deploy NPanel frontend applications and connect them to the deployed backend service.
 
 ## Overview
 
-Frontend separation deployment allows you to deploy PPanel frontend applications on independent servers or CDN, communicating with backend services through APIs.
+Frontend separation deployment allows you to deploy NPanel frontend applications on independent servers or CDN, communicating with backend services through APIs.
 
-PPanel frontend includes two independent applications:
-- **User Web** (`ppanel-user-web`): User-facing interface
-- **Admin Web** (`ppanel-admin-web`): Administrator backend management interface
+NPanel frontend includes two independent applications:
+- **User Web** (`NPanel-user-web`): User-facing interface
+- **Admin Web** (`NPanel-admin-web`): Administrator backend management interface
 
 ### Advantages
 
@@ -167,11 +167,11 @@ bun run serve  # or npm run serve
 
 Click the button below to deploy to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.ppanel.dev&demo-title=PPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
 
 #### User Web Deployment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.ppanel.dev&demo-title=PPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
 
 After deployment, configure environment variables in Vercel console:
 - `VITE_API_BASE_URL`: Your backend API address
@@ -256,26 +256,26 @@ sudo yum install nginx -y
 
 ```bash
 # Create directories
-sudo mkdir -p /var/www/ppanel/{admin,user}
+sudo mkdir -p /var/www/NPanel/{admin,user}
 
 # Upload build files
-sudo cp -r apps/admin/dist/* /var/www/ppanel/admin/
-sudo cp -r apps/user/dist/* /var/www/ppanel/user/
+sudo cp -r apps/admin/dist/* /var/www/NPanel/admin/
+sudo cp -r apps/user/dist/* /var/www/NPanel/user/
 
 # Set permissions
-sudo chown -R www-data:www-data /var/www/ppanel
+sudo chown -R www-data:www-data /var/www/NPanel
 ```
 
 #### 3. Configure Nginx
 
-**Admin Web Config** (`/etc/nginx/sites-available/ppanel-admin`):
+**Admin Web Config** (`/etc/nginx/sites-available/NPanel-admin`):
 
 ```nginx
 server {
     listen 80;
     server_name admin.your-domain.com;
 
-    root /var/www/ppanel/admin;
+    root /var/www/NPanel/admin;
     index index.html;
 
     # Gzip compression
@@ -303,14 +303,14 @@ server {
 }
 ```
 
-**User Web Config** (`/etc/nginx/sites-available/ppanel-user`):
+**User Web Config** (`/etc/nginx/sites-available/NPanel-user`):
 
 ```nginx
 server {
     listen 80;
     server_name user.your-domain.com;
 
-    root /var/www/ppanel/user;
+    root /var/www/NPanel/user;
     index index.html;
 
     # Other config same as admin web
@@ -336,8 +336,8 @@ server {
 
 ```bash
 # Enable sites
-sudo ln -s /etc/nginx/sites-available/ppanel-admin /etc/nginx/sites-enabled/
-sudo ln -s /etc/nginx/sites-available/ppanel-user /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/NPanel-admin /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/NPanel-user /etc/nginx/sites-enabled/
 
 # Test configuration
 sudo nginx -t
@@ -383,7 +383,7 @@ Create `/etc/caddy/Caddyfile`:
 
 ```caddy
 admin.your-domain.com {
-    root * /var/www/ppanel/admin
+    root * /var/www/NPanel/admin
     encode gzip
     file_server
 
@@ -402,7 +402,7 @@ admin.your-domain.com {
 }
 
 user.your-domain.com {
-    root * /var/www/ppanel/user
+    root * /var/www/NPanel/user
     encode gzip
     file_server
 
@@ -613,10 +613,10 @@ bun install
 bun run build
 
 # Update files
-sudo rm -rf /var/www/ppanel/admin
-sudo rm -rf /var/www/ppanel/user
-sudo cp -r apps/admin/dist /var/www/ppanel/admin
-sudo cp -r apps/user/dist /var/www/ppanel/user
+sudo rm -rf /var/www/NPanel/admin
+sudo rm -rf /var/www/NPanel/user
+sudo cp -r apps/admin/dist /var/www/NPanel/admin
+sudo cp -r apps/user/dist /var/www/NPanel/user
 
 # Clear CDN cache (if using CDN)
 ```

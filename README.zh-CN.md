@@ -1,12 +1,12 @@
-<a name="readme-top"></a>
+﻿<a name="readme-top"></a>
 
 <div align="center">
 
-<img width="160" src="https://raw.githubusercontent.com/perfect-panel/ppanel-assets/refs/heads/main/logo.svg">
+<img width="160" src="https://raw.githubusercontent.com/perfect-panel/NPanel-assets/refs/heads/main/logo.svg">
 
-<h1>PPanel 前端</h1>
+<h1>NPanel 前端</h1>
 
-这是由 PPanel 提供支持的前端
+这是由 NPanel 提供支持的前端
 
 [英文](./README.md)
 ·
@@ -51,8 +51,8 @@
 
 | 📦 Application                                                                                                                                                                                                                                                                                                                                | 🖼️ Preview                                                     |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------- |
-| [**PPanel User Web**][ppanel-user-web-github]<br/>Developed with modern frontend technologies (Next.js, TypeScript, TailwindCSS), providing basic user features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][ppanel-user-web-deploy] | [![Preview][ppanel-user-web-cover]][ppanel-user-web-github]    |
-| [**PPanel Admin Web**][ppanel-admin-web-github]<br/>Developed with modern frontend technologies, this admin web provides basic data management features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][ppanel-admin-web-deploy]        | [![Preview][ppanel-admin-web-cover]][ppanel-admin-web-preview] |
+| [**NPanel User Web**][NPanel-user-web-github]<br/>Developed with modern frontend technologies (Next.js, TypeScript, TailwindCSS), providing basic user features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-user-web-deploy] | [![Preview][NPanel-user-web-cover]][NPanel-user-web-github]    |
+| [**NPanel Admin Web**][NPanel-admin-web-github]<br/>Developed with modern frontend technologies, this admin web provides basic data management features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-admin-web-deploy]        | [![Preview][NPanel-admin-web-cover]][NPanel-admin-web-preview] |
 
 ## ⌨️ 本地开发
 
@@ -68,7 +68,7 @@
 
 ```bash
 git clone https://github.com/perfect-panel/frontend.git
-cd ppanel-web
+cd NPanel-web
 
 # 安装依赖
 bun install
@@ -94,45 +94,45 @@ bun install
 
 ## 📝 许可证
 
-版权所有 © 2024 [PPanel][profile-link]。<br />
+版权所有 © 2024 [NPanel][profile-link]。<br />
 本项目使用 [GNU](./LICENSE) 许可证。
 
 <!-- LINK GROUP -->
 
 [back-to-top]: https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square
-[codespaces-link]: https://codespaces.new/perfect-panel/ppanel-web
+[codespaces-link]: https://codespaces.new/perfect-panel/NPanel-web
 [codespaces-shield]: https://github.com/codespaces/badge.svg
-[contributors-contrib]: https://contrib.rocks/image?repo=perfect-panel/ppanel-web
+[contributors-contrib]: https://contrib.rocks/image?repo=perfect-panel/NPanel-web
 [contributors-url]: https://github.com/perfect-panel/frontend/graphs/contributors
 [github-action-release-link]: https://github.com/perfect-panel/frontend/actions/workflows/release.yml
-[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/ppanel-web/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/NPanel-web/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
 [github-action-test-link]: https://github.com/perfect-panel/frontend/actions/workflows/test.yml
-[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/ppanel-web/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/NPanel-web/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
 [github-contributors-link]: https://github.com/perfect-panel/frontend/graphs/contributors
-[github-contributors-shield]: https://img.shields.io/github/contributors/perfect-panel/ppanel-web?color=c4f042&labelColor=black&style=flat-square
+[github-contributors-shield]: https://img.shields.io/github/contributors/perfect-panel/NPanel-web?color=c4f042&labelColor=black&style=flat-square
 [github-forks-link]: https://github.com/perfect-panel/frontend/network/members
-[github-forks-shield]: https://img.shields.io/github/forks/perfect-panel/ppanel-web?color=8ae8ff&labelColor=black&style=flat-square
+[github-forks-shield]: https://img.shields.io/github/forks/perfect-panel/NPanel-web?color=8ae8ff&labelColor=black&style=flat-square
 [github-issues-link]: https://github.com/perfect-panel/frontend/issues
-[github-issues-shield]: https://img.shields.io/github/issues/perfect-panel/ppanel-web?color=ff80eb&labelColor=black&style=flat-square
+[github-issues-shield]: https://img.shields.io/github/issues/perfect-panel/NPanel-web?color=ff80eb&labelColor=black&style=flat-square
 [github-license-link]: https://github.com/perfect-panel/frontend/blob/master/LICENSE
-[github-license-shield]: https://img.shields.io/github/license/perfect-panel/ppanel-web?color=white&labelColor=black&style=flat-square
+[github-license-shield]: https://img.shields.io/github/license/perfect-panel/NPanel-web?color=white&labelColor=black&style=flat-square
 [github-release-link]: https://github.com/perfect-panel/frontend/releases
-[github-release-shield]: https://img.shields.io/github/v/release/perfect-panel/ppanel-web?style=flat-square&sort=semver&logo=github
+[github-release-shield]: https://img.shields.io/github/v/release/perfect-panel/NPanel-web?style=flat-square&sort=semver&logo=github
 [github-releasedate-link]: https://github.com/perfect-panel/frontend/releases
-[github-releasedate-shield]: https://img.shields.io/github/release-date/perfect-panel/ppanel-web?labelColor=black&style=flat-square
+[github-releasedate-shield]: https://img.shields.io/github/release-date/perfect-panel/NPanel-web?labelColor=black&style=flat-square
 [github-stars-link]: https://github.com/perfect-panel/frontend/network/stargazers
-[github-stars-shield]: https://img.shields.io/github/stars/perfect-panel/ppanel-web?color=ffcb47&labelColor=black&style=flat-square
+[github-stars-shield]: https://img.shields.io/github/stars/perfect-panel/NPanel-web?color=ffcb47&labelColor=black&style=flat-square
 [gitpod-link]: https://gitpod.io/#https://github.com/perfect-panel/frontend
 [issues-link]: https://github.com/perfect-panel/frontend/issues/new/choose
 [pr-welcome-link]: https://github.com/perfect-panel/frontend/pulls
 [pr-welcome-shield]: https://img.shields.io/badge/🤯_pr_welcome-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
 [profile-link]: https://github.com/perfect-panel
 [split]: https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png
-[ppanel-user-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/user
-[ppanel-user-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://user.ppanel.dev
-[ppanel-user-web-preview]: https://user.ppanel.dev
-[ppanel-user-web-deploy]: https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.ppanel.dev&demo-title=PPanel%20User%20Web&demo-url=https%3A%2F%2Fuser.ppanel.dev%2F&from=.&project-name=ppanel-user-web&repository-name=ppanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Fppanel-web&root-directory=apps%2Fuser&skippable-integrations=1
-[ppanel-admin-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/admin
-[ppanel-admin-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://admin.ppanel.dev
-[ppanel-admin-web-preview]: https://admin.ppanel.dev
-[ppanel-admin-web-deploy]: https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.ppanel.dev&demo-title=PPanel%20Admin%20Web&demo-url=https%3A%2F%2Fadmin.ppanel.dev%2F&from=.&project-name=ppanel-admin-web&repository-name=ppanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Fppanel-web&root-directory=apps%2Fadmin&skippable-integrations=1
+[NPanel-user-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/user
+[NPanel-user-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://user.NPanel.dev
+[NPanel-user-web-preview]: https://user.NPanel.dev
+[NPanel-user-web-deploy]: https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&demo-url=https%3A%2F%2Fuser.NPanel.dev%2F&from=.&project-name=NPanel-user-web&repository-name=NPanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2FNPanel-web&root-directory=apps%2Fuser&skippable-integrations=1
+[NPanel-admin-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/admin
+[NPanel-admin-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://admin.NPanel.dev
+[NPanel-admin-web-preview]: https://admin.NPanel.dev
+[NPanel-admin-web-deploy]: https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&demo-url=https%3A%2F%2Fadmin.NPanel.dev%2F&from=.&project-name=NPanel-admin-web&repository-name=NPanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2FNPanel-web&root-directory=apps%2Fadmin&skippable-integrations=1

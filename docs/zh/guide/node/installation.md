@@ -1,11 +1,11 @@
-# 节点端安装
+﻿# 节点端安装
 
-`ppanel-node` 是部署在边缘服务器上的轻量代理守护进程，基于 `xray-core`，负责同步路由、订阅、心跳与密钥。本指南提供最快速的一键安装方式，并补充源码与容器方案。
+`NPanel-node` 是部署在边缘服务器上的轻量代理守护进程，基于 `xray-core`，负责同步路由、订阅、心跳与密钥。本指南提供最快速的一键安装方式，并补充源码与容器方案。
 
 ## 快速开始
 
 ```bash
-wget -N https://raw.githubusercontent.com/perfect-panel/ppanel-node/master/scripts/install.sh
+wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh
 sudo bash install.sh --api-host https://panel.example.com --server-id 1 --secret-key <SECRET>
 ```
 
@@ -39,7 +39,7 @@ ppnode log         # 查看日志
 ppnode update      # 升级至最新版本
 ppnode update v1.2 # 安装指定版本
 ppnode uninstall   # 卸载
-ppnode generate    # 重新生成 /etc/PPanel-node/config.yml
+ppnode generate    # 重新生成 /etc/NPanel-node/config.yml
 ```
 
 ## 安装方式
@@ -49,8 +49,8 @@ ppnode generate    # 重新生成 /etc/PPanel-node/config.yml
 执行上方快速开始命令或运行 `sudo bash install.sh` 并按提示填写信息。脚本包含以下步骤：
 
 1. 根据发行版安装依赖（`wget`、`curl`、`tar`、`socat`、cron 等）。
-2. 下载 `ppanel-node-linux-<arch>.zip`（支持 amd64/arm64/s390x）。
-3. 解压到 `/usr/local/PPanel-node`，安装 `geoip.dat`、`geosite.dat`，配置系统服务。
+2. 下载 `NPanel-node-linux-<arch>.zip`（支持 amd64/arm64/s390x）。
+3. 解压到 `/usr/local/NPanel-node`，安装 `geoip.dat`、`geosite.dat`，配置系统服务。
 4. 安装 `/usr/bin/ppnode` 管理脚本并设置开机自启。
 
 ### 方式二：从源码构建
@@ -64,30 +64,30 @@ ppnode generate    # 重新生成 /etc/PPanel-node/config.yml
 2. 克隆仓库并编译：
 
     ```bash
-    git clone https://github.com/perfect-panel/ppanel-node.git
-    cd ppanel-node
+    git clone https://github.com/perfect-panel/NPanel-node.git
+    cd NPanel-node
     GOEXPERIMENT=jsonv2 go build -v -o ./ppnode -trimpath -ldflags "-s -w -buildid="
     ```
 
 3. 复制二进制与 geo 数据：
 
     ```bash
-    sudo install -Dm755 ./ppnode /usr/local/PPanel-node/ppnode
-    sudo install -Dm644 ./geoip.dat /etc/PPanel-node/geoip.dat
-    sudo install -Dm644 ./geosite.dat /etc/PPanel-node/geosite.dat
+    sudo install -Dm755 ./ppnode /usr/local/NPanel-node/ppnode
+    sudo install -Dm644 ./geoip.dat /etc/NPanel-node/geoip.dat
+    sudo install -Dm644 ./geosite.dat /etc/NPanel-node/geosite.dat
     ```
 
 4. 创建 systemd 服务：
 
     ```bash
-    sudo tee /etc/systemd/system/PPanel-node.service <<'EOF'
+    sudo tee /etc/systemd/system/NPanel-node.service <<'EOF'
     [Unit]
-    Description=PPanel Node
+    Description=NPanel Node
     After=network.target
 
     [Service]
     Type=simple
-    ExecStart=/usr/local/PPanel-node/ppnode server
+    ExecStart=/usr/local/NPanel-node/ppnode server
     Restart=always
     RestartSec=10
 
@@ -95,7 +95,7 @@ ppnode generate    # 重新生成 /etc/PPanel-node/config.yml
     WantedBy=multi-user.target
     EOF
     sudo systemctl daemon-reload
-    sudo systemctl enable --now PPanel-node
+    sudo systemctl enable --now NPanel-node
     ```
 
 5. 复制仓库中的 `config.yml` 或手动创建（见配置章节），最后重启服务。
@@ -105,24 +105,24 @@ ppnode generate    # 重新生成 /etc/PPanel-node/config.yml
 仓库自带 `Dockerfile`，可在不方便直接安装的宿主机上运行：
 
 ```bash
-git clone https://github.com/perfect-panel/ppanel-node.git
-cd ppanel-node
-docker build -t ppanel-node:latest .
-docker run -d --name ppanel-node \
+git clone https://github.com/perfect-panel/NPanel-node.git
+cd NPanel-node
+docker build -t NPanel-node:latest .
+docker run -d --name NPanel-node \
   --net host \
-  -v /etc/PPanel-node:/etc/PPanel-node \
-  ppanel-node:latest server
+  -v /etc/NPanel-node:/etc/NPanel-node \
+  NPanel-node:latest server
 ```
 
 建议挂载的目录：
 
-- `/etc/PPanel-node/config.yml` —— 保存 API/密钥配置。
-- `/etc/PPanel-node/geoip.dat` 与 `/etc/PPanel-node/geosite.dat` —— 持久化 Geo 数据文件。
-- `/var/log/ppanel-node`（可选）—— 在宿主机收集日志。
+- `/etc/NPanel-node/config.yml` —— 保存 API/密钥配置。
+- `/etc/NPanel-node/geoip.dat` 与 `/etc/NPanel-node/geosite.dat` —— 持久化 Geo 数据文件。
+- `/var/log/NPanel-node`（可选）—— 在宿主机收集日志。
 
 ## 配置节点
 
-运行时配置位于 `/etc/PPanel-node/config.yml`，结构如下：
+运行时配置位于 `/etc/NPanel-node/config.yml`，结构如下：
 
 ```yaml
 Log:
@@ -140,7 +140,7 @@ Api:
 修改完成后重启服务：
 
 ```bash
-sudo systemctl restart PPanel-node
+sudo systemctl restart NPanel-node
 # 或
 ppnode restart
 ```
@@ -156,13 +156,13 @@ ppnode restart
 
 - `ppnode update` 仅替换二进制，保留配置与 geo 文件。
 - `ppnode update vX.Y.Z` 可按版本号回滚。
-- 源码部署时，重新构建目标 tag，替换 `/usr/local/PPanel-node/ppnode` 并 `systemctl restart PPanel-node`。
+- 源码部署时，重新构建目标 tag，替换 `/usr/local/NPanel-node/ppnode` 并 `systemctl restart NPanel-node`。
 
 ## 故障排查
 
-- `ppnode log` 或 `journalctl -u PPanel-node -f` 查看运行日志。
-- 确认 `/etc/PPanel-node/config.yml` 中 `ApiHost`、`SecretKey` 填写正确。
+- `ppnode log` 或 `journalctl -u NPanel-node -f` 查看运行日志。
+- 确认 `/etc/NPanel-node/config.yml` 中 `ApiHost`、`SecretKey` 填写正确。
 - 保证服务器可访问 GitHub（更新）与面板域名的 443 端口。
 - 面板显示离线时检查防火墙是否放行心跳、系统时间是否同步（`chronyc tracking`）。
 
-更多细节可参阅源仓库：[`github.com/perfect-panel/ppanel-node`](https://github.com/perfect-panel/ppanel-node)。
+更多细节可参阅源仓库：[`github.com/perfect-panel/NPanel-node`](https://github.com/perfect-panel/NPanel-node)。

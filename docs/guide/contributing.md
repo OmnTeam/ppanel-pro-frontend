@@ -1,10 +1,10 @@
-# Contributors
+﻿# Contributors
 
-Thank you to all the developers who have contributed to the PPanel project!
+Thank you to all the developers who have contributed to the NPanel project!
 
 ## Project Contributors
 
-PPanel is an open-source project, and we welcome and appreciate all forms of contributions, including but not limited to:
+NPanel is an open-source project, and we welcome and appreciate all forms of contributions, including but not limited to:
 
 - 💻 Code contributions
 - 📝 Documentation improvements
@@ -26,7 +26,7 @@ const frontendLoading = ref(true)
 onMounted(async () => {
   // Fetch contributors from backend related repositories
   try {
-    const repos = ['server', 'ppanel', 'ppanel-node']
+    const repos = ['server', 'NPanel', 'NPanel-node']
     const contributorsMap = new Map()
 
     for (const repo of repos) {
@@ -59,7 +59,7 @@ onMounted(async () => {
 
   // Fetch contributors from frontend related repositories
   try {
-    const repos = ['frontend', 'ppanel-web', 'ppanel-docs']
+    const repos = ['frontend', 'NPanel-web', 'NPanel-docs']
     const contributorsMap = new Map()
 
     for (const repo of repos) {
@@ -357,7 +357,7 @@ Documentation source files are located in the `/docs` directory.
 
 ### Translation Contributions
 
-We welcome translating PPanel into more languages:
+We welcome translating NPanel into more languages:
 
 1. Check if there's already a folder for the target language in `/docs`
 2. If not, create a new language folder (e.g., `/docs/ja` for Japanese)
@@ -372,7 +372,7 @@ Join our community and connect with other developers:
 
 - **GitHub Discussions**: [Discussion Forum](https://github.com/perfect-panel/frontend/discussions)
 - **GitHub Issues**: [Issue Tracker](https://github.com/perfect-panel/frontend/issues)
-- **Telegram**: [Join Group](https://t.me/PPanelChat)
+- **Telegram**: [Join Group](https://t.me/NPanelChat)
 
 ## Code of Conduct
 
@@ -380,7 +380,7 @@ We are committed to providing a friendly, safe, and welcoming environment for ev
 
 ## Acknowledgments
 
-Special thanks to all developers, testers, documentation writers, and community members who have contributed to the PPanel project. You make PPanel better!
+Special thanks to all developers, testers, documentation writers, and community members who have contributed to the NPanel project. You make NPanel better!
 
 ## License
 

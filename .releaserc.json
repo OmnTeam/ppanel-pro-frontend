@@ -1,4 +1,4 @@
-{
+﻿{
   "repositoryUrl": "https://github.com/perfect-panel/frontend",
   "branches": [
     "main",
@@ -144,22 +144,22 @@
         "assets": [
           {
             "path": "admin.tar.gz",
-            "name": "ppanel-admin-web.tar.gz",
+            "name": "NPanel-admin-web.tar.gz",
             "label": "Admin Web (without API prefix)"
           },
           {
             "path": "user.tar.gz",
-            "name": "ppanel-user-web.tar.gz",
+            "name": "NPanel-user-web.tar.gz",
             "label": "User Web (without API prefix)"
           },
           {
             "path": "admin-with-api.tar.gz",
-            "name": "ppanel-admin-web-with-api.tar.gz",
+            "name": "NPanel-admin-web-with-api.tar.gz",
             "label": "Admin Web (with /api prefix)"
           },
           {
             "path": "user-with-api.tar.gz",
-            "name": "ppanel-user-web-with-api.tar.gz",
+            "name": "NPanel-user-web-with-api.tar.gz",
             "label": "User Web (with /api prefix)"
           }
         ]

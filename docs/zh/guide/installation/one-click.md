@@ -1,6 +1,6 @@
-# 一键部署
+﻿# 一键部署
 
-使用自动化安装脚本快速部署 PPanel。适合快速测试或生产环境部署。
+使用自动化安装脚本快速部署 NPanel。适合快速测试或生产环境部署。
 
 ## 前置条件
 
@@ -12,11 +12,11 @@
 
 ### 方式一：完整安装（推荐）
 
-一条命令同时安装 Docker 和 PPanel：
+一条命令同时安装 Docker 和 NPanel：
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash && \
-curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-docker.sh | sudo bash && \
+curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 ### 方式二：分步安装
@@ -26,7 +26,7 @@ curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
 #### 步骤 1: 安装 Docker 和 Docker Compose
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-docker.sh | sudo bash
 ```
 
 此脚本将会：
@@ -36,10 +36,10 @@ curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash
 - ✅ 将当前用户添加到 docker 组
 - ✅ 验证安装是否成功
 
-#### 步骤 2: 安装 PPanel
+#### 步骤 2: 安装 NPanel
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 此脚本将会：
@@ -60,9 +60,9 @@ curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
 
 ```
 MySQL 地址 (默认: localhost:3306):
-MySQL 用户名 (默认: ppanel):
+MySQL 用户名 (默认: NPanel):
 MySQL 密码: [你的密码]
-MySQL 数据库名 (默认: ppanel):
+MySQL 数据库名 (默认: NPanel):
 ```
 
 ### Redis 配置（必需）
@@ -79,18 +79,18 @@ Redis DB (默认: 0):
 
 ## 自定义安装目录
 
-默认情况下，PPanel 安装到 `~/ppanel`。你可以指定自定义目录：
+默认情况下，NPanel 安装到 `~/NPanel`。你可以指定自定义目录：
 
 ```bash
-INSTALL_DIR=/opt/ppanel curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+INSTALL_DIR=/opt/NPanel curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 ## 自定义端口
 
-默认情况下，PPanel 监听 8080 端口。要使用其他端口：
+默认情况下，NPanel 监听 8080 端口。要使用其他端口：
 
 ```bash
-HOST_PORT=3000 curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+HOST_PORT=3000 curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 ## 部署后配置
@@ -108,7 +108,7 @@ HOST_PORT=3000 curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
 
 ```bash
 # 进入安装目录
-cd ~/ppanel
+cd ~/NPanel
 
 # 查看服务状态
 docker compose ps
@@ -178,7 +178,7 @@ your-domain.com {
 
 ## 升级
 
-直接从**管理后台**主页升级 PPanel。在仪表盘主页可以检查新版本并一键升级。
+直接从**管理后台**主页升级 NPanel。在仪表盘主页可以检查新版本并一键升级。
 
 ::: tip 提示
 系统会自动处理升级过程，包括拉取新镜像和重启服务。
@@ -204,7 +204,7 @@ your-domain.com {
 docker --version
 
 # 如果未安装，先运行 Docker 安装脚本
-curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-docker.sh | sudo bash
 ```
 
 ### 服务无法启动
@@ -212,7 +212,7 @@ curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash
 查看日志检查错误：
 
 ```bash
-cd ~/ppanel
+cd ~/NPanel
 docker compose logs -f
 ```
 
@@ -235,13 +235,13 @@ newgrp docker
 
 ## 卸载
 
-完全移除 PPanel：
+完全移除 NPanel：
 
 ```bash
-cd ~/ppanel
+cd ~/NPanel
 docker compose down
 cd ~
-rm -rf ~/ppanel
+rm -rf ~/NPanel
 ```
 
 ## 高级选项
@@ -251,17 +251,17 @@ rm -rf ~/ppanel
 对于自动化部署，可以使用环境变量预配置设置：
 
 ```bash
-export INSTALL_DIR=/opt/ppanel
+export INSTALL_DIR=/opt/NPanel
 export HOST_PORT=8080
 export MYSQL_ADDR=localhost:3306
-export MYSQL_USER=ppanel
+export MYSQL_USER=NPanel
 export MYSQL_PASSWORD=your-password
-export MYSQL_DB=ppanel
+export MYSQL_DB=NPanel
 export REDIS_HOST=localhost:6379
 export REDIS_PASS=your-redis-password
 export REDIS_DB=0
 
-curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 ### 代理环境下安装
@@ -272,18 +272,18 @@ curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
 export HTTP_PROXY=http://proxy.example.com:8080
 export HTTPS_PROXY=http://proxy.example.com:8080
 
-curl -fsSL https://ppanel.dev/scripts/zh/install-docker.sh | sudo bash
-curl -fsSL https://ppanel.dev/scripts/zh/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 ```
 
 ## 下一步
 
-- [配置指南](/zh/guide/configuration) - 自定义你的 PPanel 设置
+- [配置指南](/zh/guide/configuration) - 自定义你的 NPanel 设置
 - [管理后台](/zh/admin/dashboard) - 开始管理你的面板
 - [API 参考](/zh/api/reference) - 与你的应用集成
 
 ## 需要帮助？
 
-- 查看 [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+- 查看 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 - 查看安装日志
 - 加入我们的社区获取支持

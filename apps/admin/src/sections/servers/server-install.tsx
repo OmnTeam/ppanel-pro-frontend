@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@workspace/ui/components/button";
@@ -50,7 +50,7 @@ export default function ServerInstall({ server }: Props) {
 
   const installCommand = useMemo(() => {
     const secret = cfgResp?.node_secret ?? "";
-    return `wget -N https://raw.githubusercontent.com/perfect-panel/ppanel-node/master/scripts/install.sh && bash install.sh --api-host ${domain} --server-id ${server.id} --secret-key ${secret}`;
+    return `wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh && bash install.sh --api-host ${domain} --server-id ${server.id} --secret-key ${secret}`;
   }, [domain, server.id, cfgResp?.node_secret]);
 
   async function handleCopy() {

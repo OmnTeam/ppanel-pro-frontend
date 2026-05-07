@@ -1,6 +1,6 @@
-# One-Click Deployment
+﻿# One-Click Deployment
 
-The quickest way to deploy PPanel using automated installation scripts. Perfect for quick testing or production deployment.
+The quickest way to deploy NPanel using automated installation scripts. Perfect for quick testing or production deployment.
 
 ## Prerequisites
 
@@ -12,11 +12,11 @@ The quickest way to deploy PPanel using automated installation scripts. Perfect 
 
 ### Option 1: Complete Installation (Recommended)
 
-Install both Docker and PPanel in one command:
+Install both Docker and NPanel in one command:
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/en/install-docker.sh | sudo bash && \
-curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/en/install-docker.sh | sudo bash && \
+curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 ### Option 2: Step-by-Step Installation
@@ -26,7 +26,7 @@ If you prefer to install components separately:
 #### Step 1: Install Docker & Docker Compose
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/en/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/en/install-docker.sh | sudo bash
 ```
 
 This script will:
@@ -36,10 +36,10 @@ This script will:
 - ✅ Add current user to docker group
 - ✅ Verify installation
 
-#### Step 2: Install PPanel
+#### Step 2: Install NPanel
 
 ```bash
-curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 This script will:
@@ -60,9 +60,9 @@ The installation script will prompt you for the following information:
 
 ```
 MySQL Address (default: localhost:3306):
-MySQL Username (default: ppanel):
+MySQL Username (default: NPanel):
 MySQL Password: [your-password]
-MySQL Database (default: ppanel):
+MySQL Database (default: NPanel):
 ```
 
 ### Redis Configuration (Required)
@@ -79,18 +79,18 @@ The installation script will automatically generate a secure JWT secret for you.
 
 ## Custom Installation Directory
 
-By default, PPanel is installed to `~/ppanel`. You can specify a custom directory:
+By default, NPanel is installed to `~/NPanel`. You can specify a custom directory:
 
 ```bash
-INSTALL_DIR=/opt/ppanel curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+INSTALL_DIR=/opt/NPanel curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 ## Custom Port
 
-By default, PPanel listens on port 8080. To use a different port:
+By default, NPanel listens on port 8080. To use a different port:
 
 ```bash
-HOST_PORT=3000 curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+HOST_PORT=3000 curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 ## Post-Installation
@@ -108,7 +108,7 @@ The installation script displays these useful commands:
 
 ```bash
 # Navigate to installation directory
-cd ~/ppanel
+cd ~/NPanel
 
 # Check service status
 docker compose ps
@@ -178,7 +178,7 @@ your-domain.com {
 
 ## Upgrading
 
-Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
+Upgrade NPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
 
 ::: tip
 The system will automatically handle the upgrade process, including pulling the new image and restarting the service.
@@ -204,7 +204,7 @@ If you get "Docker not found" error:
 docker --version
 
 # If not installed, run the Docker installation script first
-curl -fsSL https://ppanel.dev/scripts/en/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/en/install-docker.sh | sudo bash
 ```
 
 ### Service Won't Start
@@ -212,7 +212,7 @@ curl -fsSL https://ppanel.dev/scripts/en/install-docker.sh | sudo bash
 Check the logs for errors:
 
 ```bash
-cd ~/ppanel
+cd ~/NPanel
 docker compose logs -f
 ```
 
@@ -235,13 +235,13 @@ newgrp docker
 
 ## Uninstalling
 
-To completely remove PPanel:
+To completely remove NPanel:
 
 ```bash
-cd ~/ppanel
+cd ~/NPanel
 docker compose down
 cd ~
-rm -rf ~/ppanel
+rm -rf ~/NPanel
 ```
 
 ## Advanced Options
@@ -251,17 +251,17 @@ rm -rf ~/ppanel
 For automated deployments, you can pre-configure settings using environment variables:
 
 ```bash
-export INSTALL_DIR=/opt/ppanel
+export INSTALL_DIR=/opt/NPanel
 export HOST_PORT=8080
 export MYSQL_ADDR=localhost:3306
-export MYSQL_USER=ppanel
+export MYSQL_USER=NPanel
 export MYSQL_PASSWORD=your-password
-export MYSQL_DB=ppanel
+export MYSQL_DB=NPanel
 export REDIS_HOST=localhost:6379
 export REDIS_PASS=your-redis-password
 export REDIS_DB=0
 
-curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 ### Installation Behind Proxy
@@ -272,18 +272,18 @@ If your server is behind a proxy:
 export HTTP_PROXY=http://proxy.example.com:8080
 export HTTPS_PROXY=http://proxy.example.com:8080
 
-curl -fsSL https://ppanel.dev/scripts/en/install-docker.sh | sudo bash
-curl -fsSL https://ppanel.dev/scripts/en/install-ppanel.sh | bash
+curl -fsSL https://NPanel.dev/scripts/en/install-docker.sh | sudo bash
+curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 ```
 
 ## Next Steps
 
-- [Configuration Guide](/guide/configuration) - Customize your PPanel setup
+- [Configuration Guide](/guide/configuration) - Customize your NPanel setup
 - [Admin Dashboard](/admin/dashboard) - Start managing your panel
 - [API Reference](/api/reference) - Integrate with your applications
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 - Review installation logs
 - Join our community for support

@@ -1,10 +1,10 @@
-# 贡献者
+﻿# 贡献者
 
-感谢所有为 PPanel 项目做出贡献的开发者！
+感谢所有为 NPanel 项目做出贡献的开发者！
 
 ## 项目贡献者
 
-PPanel 是一个开源项目，我们欢迎并感谢所有形式的贡献，包括但不限于：
+NPanel 是一个开源项目，我们欢迎并感谢所有形式的贡献，包括但不限于：
 
 - 💻 代码贡献
 - 📝 文档改进
@@ -26,7 +26,7 @@ const frontendLoading = ref(true)
 onMounted(async () => {
   // 获取后端相关仓库的贡献者
   try {
-    const repos = ['server', 'ppanel', 'ppanel-node', 'subscription-template']
+    const repos = ['server', 'NPanel', 'NPanel-node', 'subscription-template']
     const contributorsMap = new Map()
 
     for (const repo of repos) {
@@ -59,7 +59,7 @@ onMounted(async () => {
 
   // 获取前端相关仓库的贡献者
   try {
-    const repos = ['frontend', 'ppanel-web', 'ppanel-docs']
+    const repos = ['frontend', 'NPanel-web', 'NPanel-docs']
     const contributorsMap = new Map()
 
     for (const repo of repos) {
@@ -357,7 +357,7 @@ onMounted(async () => {
 
 ### 翻译贡献
 
-我们欢迎将 PPanel 翻译成更多语言：
+我们欢迎将 NPanel 翻译成更多语言：
 
 1. 检查 `/docs` 目录下是否已有目标语言的文件夹
 2. 如果没有，创建新的语言文件夹（如 `/docs/ja` 为日语）
@@ -372,7 +372,7 @@ onMounted(async () => {
 
 - **GitHub Discussions**: [讨论区](https://github.com/perfect-panel/frontend/discussions)
 - **GitHub Issues**: [问题追踪](https://github.com/perfect-panel/frontend/issues)
-- **Telegram**: [加入群组](https://t.me/PPanelChat)
+- **Telegram**: [加入群组](https://t.me/NPanelChat)
 
 ## 行为准则
 
@@ -380,7 +380,7 @@ onMounted(async () => {
 
 ## 致谢
 
-特别感谢所有为 PPanel 项目做出贡献的开发者、测试者、文档编写者和社区成员。是你们让 PPanel 变得更好！
+特别感谢所有为 NPanel 项目做出贡献的开发者、测试者、文档编写者和社区成员。是你们让 NPanel 变得更好！
 
 ## 许可证
 

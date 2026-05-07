@@ -1,4 +1,4 @@
-# Dashboard
+﻿# Dashboard
 
 Dashboard is the homepage of the admin panel, displaying real-time system core data and operational status.
 
@@ -8,7 +8,7 @@ Dashboard consists of three main areas:
 
 1. **Key Metrics Cards** - 6 core business indicators
 2. **Statistics Charts** - Revenue, user, and traffic statistics
-3. **Sponsor Display** - Shows PPanel sponsors
+3. **Sponsor Display** - Shows NPanel sponsors
 
 ## Key Metrics Cards
 
@@ -161,7 +161,7 @@ Traffic = Upload traffic + Download traffic, automatically converted to KB/MB/GB
 
 ## Sponsor Display
 
-Bottom of page shows sponsors supporting the PPanel project:
+Bottom of page shows sponsors supporting the NPanel project:
 
 **Display Content**:
 - Sponsor logo
@@ -177,8 +177,8 @@ Bottom of page shows sponsors supporting the PPanel project:
 - Click card to visit sponsor website
 - Opens in new window
 
-::: tip Support PPanel
-Sponsoring helps PPanel continue releasing updates! Click sponsor cards to visit their services.
+::: tip Support NPanel
+Sponsoring helps NPanel continue releasing updates! Click sponsor cards to visit their services.
 :::
 
 ## Data Refresh

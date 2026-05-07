@@ -1,4 +1,4 @@
-# Docker Compose Deployment
+﻿# Docker Compose Deployment
 
 Docker Compose is the recommended deployment method for production environments. It provides better service management, easier configuration, and simplified upgrades.
 
@@ -65,8 +65,8 @@ sudo docker run hello-world
 
 ```bash
 # Create project directory
-mkdir -p ~/ppanel
-cd ~/ppanel
+mkdir -p ~/NPanel
+cd ~/NPanel
 ```
 
 ### Step 2: Create docker-compose.yml
@@ -77,9 +77,9 @@ Create a `docker-compose.yml` file with the following content:
 version: '3.8'
 
 services:
-  ppanel-service:
-    image: ppanel/ppanel:latest
-    container_name: ppanel-service
+  NPanel-service:
+    image: NPanel/NPanel:latest
+    container_name: NPanel-service
     restart: always
     ports:
       - "8080:8080"
@@ -87,7 +87,7 @@ services:
       - ./config:/app/etc:ro
       - ./web:/app/static
     networks:
-      - ppanel-net
+      - NPanel-net
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
       interval: 30s
@@ -96,7 +96,7 @@ services:
       start_period: 40s
 
 networks:
-  ppanel-net:
+  NPanel-net:
     driver: bridge
 ```
 
@@ -119,7 +119,7 @@ networks:
 mkdir -p config
 
 # Create configuration file
-cat > config/ppanel.yaml <<EOF
+cat > config/NPanel.yaml <<EOF
 Host: 0.0.0.0
 Port: 8080
 TLS:
@@ -163,7 +163,7 @@ MySQL:
     Addr: localhost:3306
     Username: your-username
     Password: your-password
-    Dbname: ppanel
+    Dbname: NPanel
     Config: charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
     MaxIdleConns: 10
     MaxOpenConns: 10
@@ -210,7 +210,7 @@ docker compose ps
 curl http://localhost:8080
 
 # View real-time logs
-docker compose logs -f ppanel
+docker compose logs -f NPanel
 ```
 
 ## Post-Installation
@@ -224,7 +224,7 @@ After successful installation, you can access:
 
 ::: warning Default Credentials
 **Default Administrator Account** (if not configured):
-- **Email**: `admin@ppanel.dev`
+- **Email**: `admin@NPanel.dev`
 - **Password**: `password`
 
 **Security**: Change the default credentials immediately after first login.
@@ -288,7 +288,7 @@ docker compose logs
 docker compose logs -f
 
 # View specific service logs
-docker compose logs ppanel
+docker compose logs NPanel
 ```
 
 ### Stop Services
@@ -298,7 +298,7 @@ docker compose logs ppanel
 docker compose stop
 
 # Stop specific service
-docker compose stop ppanel
+docker compose stop NPanel
 ```
 
 ### Restart Services
@@ -308,7 +308,7 @@ docker compose stop ppanel
 docker compose restart
 
 # Restart specific service
-docker compose restart ppanel
+docker compose restart NPanel
 ```
 
 ### Stop and Remove Services
@@ -327,7 +327,7 @@ Using `docker compose down -v` will delete all data volumes. Only use this if yo
 
 ## Upgrading
 
-Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
+Upgrade NPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
 
 ::: tip
 The system will automatically handle the upgrade process, including pulling the new image and restarting the service.
@@ -341,7 +341,7 @@ To use a different port, edit `docker-compose.yml`:
 
 ```yaml
 services:
-  ppanel-service:
+  NPanel-service:
     ports:
       - "3000:8080"  # Host port 3000 -> Container port 8080
 ```
@@ -352,13 +352,13 @@ To run multiple instances, create separate directories:
 
 ```bash
 # Instance 1
-mkdir ~/ppanel-1
-cd ~/ppanel-1
+mkdir ~/NPanel-1
+cd ~/NPanel-1
 # Create docker-compose.yml with port 8081
 
 # Instance 2
-mkdir ~/ppanel-2
-cd ~/ppanel-2
+mkdir ~/NPanel-2
+cd ~/NPanel-2
 # Create docker-compose.yml with port 8082
 ```
 
@@ -368,7 +368,7 @@ Add resource limits to prevent overconsumption:
 
 ```yaml
 services:
-  ppanel:
+  NPanel:
     # ... other config ...
     deploy:
       resources:
@@ -388,13 +388,13 @@ Create a custom network for better isolation:
 version: '3.8'
 
 services:
-  ppanel:
+  NPanel:
     # ... other config ...
     networks:
-      - ppanel-net
+      - NPanel-net
 
 networks:
-  ppanel-net:
+  NPanel-net:
     driver: bridge
 ```
 
@@ -404,7 +404,7 @@ networks:
 
 ```bash
 # Check logs for errors
-docker compose logs ppanel
+docker compose logs NPanel
 
 # Check container status
 docker compose ps
@@ -431,7 +431,7 @@ sudo lsof -i :8080
 sudo chown -R $USER:$USER config/
 
 # Make sure files are readable
-chmod 644 config/ppanel.yaml
+chmod 644 config/NPanel.yaml
 ```
 
 ### Cannot Access from Outside
@@ -464,5 +464,5 @@ If you encounter any issues:
 
 1. Check the [Troubleshooting](#troubleshooting) section above
 2. Review [Docker Compose logs](#view-logs)
-3. Search [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+3. Search [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 4. Create a new issue with detailed system information and logs

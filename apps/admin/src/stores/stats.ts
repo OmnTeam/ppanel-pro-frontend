@@ -1,10 +1,10 @@
-import { create } from "zustand";
+﻿import { create } from "zustand";
 
 // Fixed remote stats endpoint and required header
 export const REQUIRED_HEADER_NAME = "stats";
-export const REQUIRED_HEADER_VALUE = "ppanel.dev";
-const STATS_URL = "https://stats.ppanel.dev";
-const STATS_LOADED_KEY = "ppanel:stats:loaded";
+export const REQUIRED_HEADER_VALUE = "NPanel.dev";
+const STATS_URL = "https://stats.NPanel.dev";
+const STATS_LOADED_KEY = "NPanel:stats:loaded";
 
 interface StatsState {
   loading: boolean;

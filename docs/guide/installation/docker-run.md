@@ -1,6 +1,6 @@
-# Docker Run Deployment
+﻿# Docker Run Deployment
 
-This guide shows you how to deploy PPanel using the `docker run` command. This method is suitable for quick testing or simple deployments.
+This guide shows you how to deploy NPanel using the `docker run` command. This method is suitable for quick testing or simple deployments.
 
 ::: tip
 For production environments, we recommend using [Docker Compose](/guide/installation/docker-compose) instead.
@@ -53,20 +53,20 @@ sudo docker run hello-world
 
 ```bash
 # Pull latest version
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # Or pull a specific version
-docker pull ppanel/ppanel:v0.1.2
+docker pull NPanel/NPanel:v0.1.2
 ```
 
 ### Step 2: Prepare Configuration
 
 ```bash
 # Create configuration directory
-mkdir -p ~/ppanel-config
+mkdir -p ~/NPanel-config
 
 # Create configuration file
-cat > ~/ppanel-config/ppanel.yaml <<EOF
+cat > ~/NPanel-config/NPanel.yaml <<EOF
 Host: 0.0.0.0
 Port: 8080
 TLS:
@@ -110,7 +110,7 @@ MySQL:
     Addr: localhost:3306
     Username: your-username
     Password: your-password
-    Dbname: ppanel
+    Dbname: NPanel
     Config: charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
     MaxIdleConns: 10
     MaxOpenConns: 10
@@ -135,47 +135,47 @@ EOF
 **Basic Command:**
 ```bash
 docker run -d \
-  --name ppanel-service \
+  --name NPanel-service \
   -p 8080:8080 \
-  -v ~/ppanel-config:/app/etc:ro \
-  -v ~/ppanel-web:/app/static \
+  -v ~/NPanel-config:/app/etc:ro \
+  -v ~/NPanel-web:/app/static \
   --restart always \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 **With All Options:**
 ```bash
 docker run -d \
-  --name ppanel-service \
+  --name NPanel-service \
   -p 8080:8080 \
-  -v ~/ppanel-config:/app/etc:ro \
-  -v ~/ppanel-web:/app/static \
+  -v ~/NPanel-config:/app/etc:ro \
+  -v ~/NPanel-web:/app/static \
   --restart always \
   --memory="2g" \
   --cpus="2" \
-  --network ppanel-net \
-  ppanel/ppanel:latest
+  --network NPanel-net \
+  NPanel/NPanel:latest
 ```
 
 **Parameter Explanation:**
 - `-d`: Run in detached mode (background)
-- `--name ppanel-service`: Set container name
+- `--name NPanel-service`: Set container name
 - `-p 8080:8080`: Map port (host:container)
-- `-v ~/ppanel-config:/app/etc:ro`: Mount configuration (read-only)
-- `-v ~/ppanel-web:/app/static`: Mount static files directory
+- `-v ~/NPanel-config:/app/etc:ro`: Mount configuration (read-only)
+- `-v ~/NPanel-web:/app/static`: Mount static files directory
 - `--restart always`: Auto-restart policy (always restart)
 - `--memory="2g"`: Memory limit (optional)
 - `--cpus="2"`: CPU limit (optional)
-- `--network ppanel-net`: Connect to custom network (optional)
+- `--network NPanel-net`: Connect to custom network (optional)
 
 ### Step 4: Verify Running
 
 ```bash
 # Check container status
-docker ps | grep ppanel
+docker ps | grep NPanel
 
 # View logs
-docker logs -f ppanel
+docker logs -f NPanel
 
 # Test access
 curl http://localhost:8080
@@ -187,54 +187,54 @@ curl http://localhost:8080
 
 ```bash
 # View all logs
-docker logs ppanel
+docker logs NPanel
 
 # Follow logs in real-time
-docker logs -f ppanel
+docker logs -f NPanel
 
 # View last 100 lines
-docker logs --tail 100 ppanel
+docker logs --tail 100 NPanel
 
 # View logs with timestamps
-docker logs -t ppanel
+docker logs -t NPanel
 ```
 
 ### Stop Container
 
 ```bash
-docker stop ppanel
+docker stop NPanel
 ```
 
 ### Start Container
 
 ```bash
-docker start ppanel
+docker start NPanel
 ```
 
 ### Restart Container
 
 ```bash
-docker restart ppanel
+docker restart NPanel
 ```
 
 ### Remove Container
 
 ```bash
 # Stop and remove
-docker stop ppanel
-docker rm ppanel
+docker stop NPanel
+docker rm NPanel
 ```
 
 ::: warning
 Removing the container does not delete the data volume. To remove the volume:
 ```bash
-docker volume rm ppanel-data
+docker volume rm NPanel-data
 ```
 :::
 
 ::: warning Default Credentials
 **Default Administrator Account**:
-- **Email**: `admin@ppanel.dev`
+- **Email**: `admin@NPanel.dev`
 - **Password**: `password`
 
 **Security**: Change the default credentials immediately after first login.
@@ -242,7 +242,7 @@ docker volume rm ppanel-data
 
 ## Upgrading
 
-Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
+Upgrade NPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
 
 ::: tip
 The system will automatically handle the upgrade process, including pulling the new image and restarting the service.
@@ -254,30 +254,30 @@ The system will automatically handle the upgrade process, including pulling the 
 
 ```bash
 # Create network
-docker network create ppanel-net
+docker network create NPanel-net
 
 # Run with custom network
 docker run -d \
-  --name ppanel \
-  --network ppanel-net \
+  --name NPanel \
+  --network NPanel-net \
   -p 8080:8080 \
-  -v ~/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
-  ppanel/ppanel:latest
+  -v ~/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ### Environment Variables
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
   -e SERVER_PORT=8080 \
   -e DATABASE_TYPE=sqlite \
   -e TZ=Asia/Shanghai \
-  -v ~/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
-  ppanel/ppanel:latest
+  -v ~/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ### Multiple Instances
@@ -285,34 +285,34 @@ docker run -d \
 ```bash
 # Instance 1 on port 8081
 docker run -d \
-  --name ppanel-1 \
+  --name NPanel-1 \
   -p 8081:8080 \
-  -v ~/ppanel-config-1:/app/etc:ro \
-  -v ppanel-data-1:/app/data \
-  ppanel/ppanel:latest
+  -v ~/NPanel-config-1:/app/etc:ro \
+  -v NPanel-data-1:/app/data \
+  NPanel/NPanel:latest
 
 # Instance 2 on port 8082
 docker run -d \
-  --name ppanel-2 \
+  --name NPanel-2 \
   -p 8082:8080 \
-  -v ~/ppanel-config-2:/app/etc:ro \
-  -v ppanel-data-2:/app/data \
-  ppanel/ppanel:latest
+  -v ~/NPanel-config-2:/app/etc:ro \
+  -v NPanel-data-2:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ### Resource Limits
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
   --memory="2g" \
   --memory-swap="2g" \
   --cpus="2" \
   --pids-limit=100 \
-  -v ~/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
-  ppanel/ppanel:latest
+  -v ~/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ## Troubleshooting
@@ -321,11 +321,11 @@ docker run -d \
 
 ```bash
 # Check logs
-docker logs ppanel
+docker logs NPanel
 
 # Check architecture
 uname -m
-docker image inspect ppanel/ppanel:latest --format '{{.Architecture}}'
+docker image inspect NPanel/NPanel:latest --format '{{.Architecture}}'
 ```
 
 ### Port Already in Use
@@ -335,33 +335,33 @@ docker image inspect ppanel/ppanel:latest --format '{{.Architecture}}'
 sudo lsof -i :8080
 
 # Use different port
-docker run -d --name ppanel -p 8081:8080 ...
+docker run -d --name NPanel -p 8081:8080 ...
 ```
 
 ### Configuration Not Loading
 
 ```bash
 # Verify mount
-docker exec ppanel ls -la /app/etc
+docker exec NPanel ls -la /app/etc
 
 # Check file content
-docker exec ppanel cat /app/etc/ppanel.yaml
+docker exec NPanel cat /app/etc/NPanel.yaml
 
 # Check permissions
-ls -la ~/ppanel-config/
+ls -la ~/NPanel-config/
 ```
 
 ### Access Container Shell
 
 ```bash
 # Access bash (if available)
-docker exec -it ppanel bash
+docker exec -it NPanel bash
 
 # Access sh
-docker exec -it ppanel sh
+docker exec -it NPanel sh
 
 # Run command
-docker exec ppanel ls -la /app
+docker exec NPanel ls -la /app
 ```
 
 ## Next Steps
@@ -372,6 +372,6 @@ docker exec ppanel ls -la /app
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
-- Review Docker logs: `docker logs ppanel`
+- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Review Docker logs: `docker logs NPanel`
 - Verify system requirements

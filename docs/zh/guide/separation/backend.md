@@ -1,10 +1,10 @@
-# 后端分离部署
+﻿# 后端分离部署
 
-本指南将帮助您独立部署 PPanel 后端服务，适用于前后端分离部署场景。
+本指南将帮助您独立部署 NPanel 后端服务，适用于前后端分离部署场景。
 
 ## 概述
 
-后端分离部署允许您将 PPanel 后端服务部署在独立的服务器上，提供 API 服务给前端应用。这种部署方式具有以下优势：
+后端分离部署允许您将 NPanel 后端服务部署在独立的服务器上，提供 API 服务给前端应用。这种部署方式具有以下优势：
 
 - 🚀 独立扩展后端服务性能
 - 🔒 更好的安全隔离
@@ -49,9 +49,9 @@ database:
   type: mysql
   host: localhost
   port: 3306
-  username: ppanel
+  username: NPanel
   password: your_password
-  database: ppanel
+  database: NPanel
 
 # Redis 配置
 redis:
@@ -95,13 +95,13 @@ api:
 ```bash
 # 使用 Docker 运行 MySQL
 docker run -d \
-  --name ppanel-mysql \
+  --name NPanel-mysql \
   -e MYSQL_ROOT_PASSWORD=root_password \
-  -e MYSQL_DATABASE=ppanel \
-  -e MYSQL_USER=ppanel \
+  -e MYSQL_DATABASE=NPanel \
+  -e MYSQL_USER=NPanel \
   -e MYSQL_PASSWORD=your_password \
   -p 3306:3306 \
-  -v ppanel-mysql-data:/var/lib/mysql \
+  -v NPanel-mysql-data:/var/lib/mysql \
   mysql:8.0
 
 # 等待 MySQL 启动
@@ -113,9 +113,9 @@ sleep 10
 ```bash
 # 使用 Docker 运行 Redis
 docker run -d \
-  --name ppanel-redis \
+  --name NPanel-redis \
   -p 6379:6379 \
-  -v ppanel-redis-data:/data \
+  -v NPanel-redis-data:/data \
   redis:7-alpine
 ```
 
@@ -123,23 +123,23 @@ docker run -d \
 
 ```bash
 # 拉取后端镜像
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # 运行后端容器
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -v $(pwd)/config.yaml:/app/config.yaml \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 ```
 
 #### 6. 初始化数据库
 
 ```bash
 # 执行数据库迁移
-docker exec ppanel-backend ./ppanel migrate
+docker exec NPanel-backend ./NPanel migrate
 ```
 
 ### 方式二：二进制部署
@@ -148,14 +148,14 @@ docker exec ppanel-backend ./ppanel migrate
 
 ```bash
 # 下载最新版本
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/ppanel-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 
 # 解压
-tar -xzf ppanel-linux-amd64.tar.gz
-cd ppanel
+tar -xzf NPanel-linux-amd64.tar.gz
+cd NPanel
 
 # 赋予执行权限
-chmod +x ppanel
+chmod +x NPanel
 ```
 
 #### 2. 配置后端服务
@@ -171,9 +171,9 @@ sudo apt install mysql-server -y
 
 # 创建数据库和用户
 sudo mysql <<EOF
-CREATE DATABASE ppanel;
-CREATE USER 'ppanel'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON ppanel.* TO 'ppanel'@'localhost';
+CREATE DATABASE NPanel;
+CREATE USER 'NPanel'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON NPanel.* TO 'NPanel'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 ```
@@ -191,23 +191,23 @@ sudo systemctl enable redis-server
 
 ```bash
 # 执行数据库迁移
-./ppanel migrate
+./NPanel migrate
 ```
 
 #### 6. 创建 systemd 服务
 
-创建服务文件 `/etc/systemd/system/ppanel.service`：
+创建服务文件 `/etc/systemd/system/NPanel.service`：
 
 ```ini
 [Unit]
-Description=PPanel Backend Service
+Description=NPanel Backend Service
 After=network.target mysql.service redis.service
 
 [Service]
 Type=simple
-User=ppanel
-WorkingDirectory=/opt/ppanel
-ExecStart=/opt/ppanel/ppanel server
+User=NPanel
+WorkingDirectory=/opt/NPanel
+ExecStart=/opt/NPanel/NPanel server
 Restart=on-failure
 RestartSec=5s
 StandardOutput=journal
@@ -221,20 +221,20 @@ WantedBy=multi-user.target
 
 ```bash
 # 创建专用用户
-sudo useradd -r -s /bin/false ppanel
+sudo useradd -r -s /bin/false NPanel
 
 # 移动文件到安装目录
-sudo mkdir -p /opt/ppanel
-sudo mv ppanel config.yaml /opt/ppanel/
-sudo chown -R ppanel:ppanel /opt/ppanel
+sudo mkdir -p /opt/NPanel
+sudo mv NPanel config.yaml /opt/NPanel/
+sudo chown -R NPanel:NPanel /opt/NPanel
 
 # 启动服务
 sudo systemctl daemon-reload
-sudo systemctl start ppanel
-sudo systemctl enable ppanel
+sudo systemctl start NPanel
+sudo systemctl enable NPanel
 
 # 查看服务状态
-sudo systemctl status ppanel
+sudo systemctl status NPanel
 ```
 
 ## 配置反向代理
@@ -328,9 +328,9 @@ curl http://localhost:8080/api/v1/ping
 # 数据库配置
 export DB_HOST=localhost
 export DB_PORT=3306
-export DB_USER=ppanel
+export DB_USER=NPanel
 export DB_PASSWORD=your_password
-export DB_NAME=ppanel
+export DB_NAME=NPanel
 
 # Redis 配置
 export REDIS_HOST=localhost
@@ -348,15 +348,15 @@ Docker 运行时使用环境变量：
 
 ```bash
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -e DB_HOST=mysql \
-  -e DB_USER=ppanel \
+  -e DB_USER=NPanel \
   -e DB_PASSWORD=your_password \
   -e REDIS_HOST=redis \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 ```
 
 ## 安全建议
@@ -374,17 +374,17 @@ docker run -d \
 
 ```bash
 # 查看服务日志
-sudo journalctl -u ppanel -n 50 --no-pager
+sudo journalctl -u NPanel -n 50 --no-pager
 
 # Docker 查看日志
-docker logs ppanel-backend
+docker logs NPanel-backend
 ```
 
 ### 数据库连接失败
 
 ```bash
 # 测试 MySQL 连接
-mysql -h localhost -u ppanel -p -e "SELECT 1;"
+mysql -h localhost -u NPanel -p -e "SELECT 1;"
 
 # 检查 MySQL 服务状态
 sudo systemctl status mysql
@@ -449,53 +449,53 @@ server:
 
 ```bash
 # 拉取最新镜像
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # 停止旧容器
-docker stop ppanel-backend
+docker stop NPanel-backend
 
 # 备份数据
-docker exec ppanel-mysql mysqldump -u ppanel -p ppanel > backup.sql
+docker exec NPanel-mysql mysqldump -u NPanel -p NPanel > backup.sql
 
 # 删除旧容器
-docker rm ppanel-backend
+docker rm NPanel-backend
 
 # 运行新容器
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -v $(pwd)/config.yaml:/app/config.yaml \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 
 # 执行数据库迁移
-docker exec ppanel-backend ./ppanel migrate
+docker exec NPanel-backend ./NPanel migrate
 ```
 
 ### 二进制升级
 
 ```bash
 # 停止服务
-sudo systemctl stop ppanel
+sudo systemctl stop NPanel
 
 # 备份旧版本
-sudo cp /opt/ppanel/ppanel /opt/ppanel/ppanel.backup
+sudo cp /opt/NPanel/NPanel /opt/NPanel/NPanel.backup
 
 # 下载新版本
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/ppanel-linux-amd64.tar.gz
-tar -xzf ppanel-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+tar -xzf NPanel-linux-amd64.tar.gz
 
 # 替换文件
-sudo mv ppanel /opt/ppanel/
-sudo chown ppanel:ppanel /opt/ppanel/ppanel
+sudo mv NPanel /opt/NPanel/
+sudo chown NPanel:NPanel /opt/NPanel/NPanel
 
 # 执行数据库迁移
-cd /opt/ppanel
-sudo -u ppanel ./ppanel migrate
+cd /opt/NPanel
+sudo -u NPanel ./NPanel migrate
 
 # 启动服务
-sudo systemctl start ppanel
+sudo systemctl start NPanel
 ```
 
 ## 下一步

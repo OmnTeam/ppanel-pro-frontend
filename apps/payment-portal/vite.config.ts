@@ -1,4 +1,4 @@
-import { readFile, readdir } from "node:fs/promises";
+﻿import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
@@ -63,7 +63,7 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       proxy: {
         "/api": {
-          target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",
+          target: env.VITE_API_BASE_URL || "https://api.NPanel.dev",
           changeOrigin: true,
           secure: false,
         },

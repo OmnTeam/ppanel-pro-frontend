@@ -1,12 +1,12 @@
-import yaml from "js-yaml";
+﻿import yaml from "js-yaml";
 import { CDN_URL } from "@/config";
 
-const BASE_URL = `${CDN_URL}/gh/perfect-panel/ppanel-tutorial`;
+const BASE_URL = `${CDN_URL}/gh/perfect-panel/NPanel-tutorial`;
 
 // async function getVersion() {
 //   // API rate limit: 60 requests per hour
 //   const response = await fetch(
-//     'https://data.jsdelivr.com/v1/stats/packages/gh/perfect-panel/ppanel-tutorial/versions',
+//     'https://data.jsdelivr.com/v1/stats/packages/gh/perfect-panel/NPanel-tutorial/versions',
 //   );
 //   const json = await response.json();
 //   return json[0].version;

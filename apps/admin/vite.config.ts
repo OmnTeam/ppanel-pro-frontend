@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       proxy: {
         "/api": {
-          target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",
+          target: env.VITE_API_BASE_URL || "https://api.NPanel.dev",
           changeOrigin: true,
           secure: false,
         },

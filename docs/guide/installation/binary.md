@@ -1,6 +1,6 @@
-# Binary Deployment
+﻿# Binary Deployment
 
-This guide shows you how to deploy PPanel using pre-built binary executables. This method is suitable for users who prefer not to use Docker or need more control over the deployment.
+This guide shows you how to deploy NPanel using pre-built binary executables. This method is suitable for users who prefer not to use Docker or need more control over the deployment.
 
 ## Prerequisites
 
@@ -21,28 +21,28 @@ uname -m
 
 ### Step 2: Download Latest Release
 
-Visit the [GitHub Releases](https://github.com/perfect-panel/ppanel/releases) page or download directly:
+Visit the [GitHub Releases](https://github.com/perfect-panel/NPanel/releases) page or download directly:
 
 ::: tip Installation Directory
-You can install PPanel in any directory. This guide uses `/opt/ppanel` as an example. If you choose a different directory, adjust the paths in subsequent commands accordingly.
+You can install NPanel in any directory. This guide uses `/opt/NPanel` as an example. If you choose a different directory, adjust the paths in subsequent commands accordingly.
 :::
 
 ```bash
 # Create installation directory (customizable)
-sudo mkdir -p /opt/ppanel
-cd /opt/ppanel
+sudo mkdir -p /opt/NPanel
+cd /opt/NPanel
 
 # Download for Linux amd64
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-amd64.tar.gz
 
 # Or for Linux arm64
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-linux-arm64.tar.gz
+# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-arm64.tar.gz
 
 # Or for macOS amd64
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-darwin-amd64.tar.gz
+# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-amd64.tar.gz
 
 # Or for macOS arm64 (Apple Silicon)
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-darwin-arm64.tar.gz
+# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-arm64.tar.gz
 
 # Extract
 tar -xzf gateway-linux-amd64.tar.gz
@@ -53,10 +53,10 @@ ls -la
 
 Expected files:
 ```
-/opt/ppanel/
+/opt/NPanel/
 ├── gateway          # Gateway executable
 └── etc/             # Configuration directory
-    └── ppanel.yaml  # Configuration file
+    └── NPanel.yaml  # Configuration file
 ```
 
 ## Configuration
@@ -65,13 +65,13 @@ Expected files:
 
 ```bash
 # Edit configuration
-sudo nano /opt/ppanel/etc/ppanel.yaml
+sudo nano /opt/NPanel/etc/NPanel.yaml
 ```
 
 **Configuration Example:**
 
 ::: tip Relative Paths
-Paths in the configuration (such as `Path`, `logs`, etc.) support relative paths. Relative paths are relative to the program's working directory (WorkingDirectory), which is `/opt/ppanel` in the systemd service.
+Paths in the configuration (such as `Path`, `logs`, etc.) support relative paths. Relative paths are relative to the program's working directory (WorkingDirectory), which is `/opt/NPanel` in the systemd service.
 :::
 
 ```yaml
@@ -118,7 +118,7 @@ MySQL:
     Addr: localhost:3306
     Username: your-username
     Password: your-password
-    Dbname: ppanel
+    Dbname: NPanel
     Config: charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
     MaxIdleConns: 10
     MaxOpenConns: 10
@@ -141,15 +141,15 @@ Redis:
 
 ```bash
 # Create data and log directories
-sudo mkdir -p /opt/ppanel/data
-sudo mkdir -p /opt/ppanel/logs
-sudo mkdir -p /opt/ppanel/static
+sudo mkdir -p /opt/NPanel/data
+sudo mkdir -p /opt/NPanel/logs
+sudo mkdir -p /opt/NPanel/static
 
 # Set proper permissions
-sudo chmod 755 /opt/ppanel
-sudo chmod 700 /opt/ppanel/data
-sudo chmod 755 /opt/ppanel/logs
-sudo chmod 755 /opt/ppanel/static
+sudo chmod 755 /opt/NPanel
+sudo chmod 700 /opt/NPanel/data
+sudo chmod 755 /opt/NPanel/logs
+sudo chmod 755 /opt/NPanel/static
 ```
 
 ## Running the Service
@@ -160,10 +160,10 @@ For quick testing:
 
 ```bash
 # Make binary executable
-sudo chmod +x /opt/ppanel/gateway
+sudo chmod +x /opt/NPanel/gateway
 
 # Run directly
-cd /opt/ppanel
+cd /opt/NPanel
 sudo ./gateway
 ```
 
@@ -176,23 +176,23 @@ Create a systemd service for production deployment:
 #### Step 1: Create Service File
 
 ```bash
-sudo nano /etc/systemd/system/ppanel.service
+sudo nano /etc/systemd/system/NPanel.service
 ```
 
 **Service File Content:**
 
 ```ini
 [Unit]
-Description=PPanel Server
-Documentation=https://github.com/perfect-panel/ppanel
+Description=NPanel Server
+Documentation=https://github.com/perfect-panel/NPanel
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/opt/ppanel
-ExecStart=/opt/ppanel/gateway
+WorkingDirectory=/opt/NPanel
+ExecStart=/opt/NPanel/gateway
 Restart=always
 RestartSec=10
 
@@ -201,7 +201,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/ppanel/data /opt/ppanel/logs
+ReadWritePaths=/opt/NPanel/data /opt/NPanel/logs
 
 # Resource limits
 LimitNOFILE=65535
@@ -210,7 +210,7 @@ LimitNPROC=4096
 # Logging
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=ppanel
+SyslogIdentifier=NPanel
 
 [Install]
 WantedBy=multi-user.target
@@ -223,13 +223,13 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 
 # Enable service (start on boot)
-sudo systemctl enable ppanel
+sudo systemctl enable NPanel
 
 # Start service
-sudo systemctl start ppanel
+sudo systemctl start NPanel
 
 # Check status
-sudo systemctl status ppanel
+sudo systemctl status NPanel
 ```
 
 ## Service Management
@@ -238,52 +238,52 @@ sudo systemctl status ppanel
 
 ```bash
 # Check if service is running
-sudo systemctl status ppanel
+sudo systemctl status NPanel
 
 # View detailed status
-sudo systemctl show ppanel
+sudo systemctl show NPanel
 ```
 
 ### View Logs
 
 ```bash
 # View systemd logs
-sudo journalctl -u ppanel -f
+sudo journalctl -u NPanel -f
 
 # View last 100 lines
-sudo journalctl -u ppanel -n 100
+sudo journalctl -u NPanel -n 100
 
 # View application logs
-sudo tail -f /opt/ppanel/logs/ppanel.log
+sudo tail -f /opt/NPanel/logs/NPanel.log
 ```
 
 ### Start/Stop/Restart
 
 ```bash
 # Start service
-sudo systemctl start ppanel
+sudo systemctl start NPanel
 
 # Stop service
-sudo systemctl stop ppanel
+sudo systemctl stop NPanel
 
 # Restart service
-sudo systemctl restart ppanel
+sudo systemctl restart NPanel
 
 # Reload configuration (if supported)
-sudo systemctl reload ppanel
+sudo systemctl reload NPanel
 ```
 
 ### Enable/Disable Auto-start
 
 ```bash
 # Enable auto-start on boot
-sudo systemctl enable ppanel
+sudo systemctl enable NPanel
 
 # Disable auto-start
-sudo systemctl disable ppanel
+sudo systemctl disable NPanel
 
 # Check if enabled
-sudo systemctl is-enabled ppanel
+sudo systemctl is-enabled NPanel
 ```
 
 ## Post-Installation
@@ -301,7 +301,7 @@ sudo ss -tlnp | grep 8080
 curl http://localhost:8080
 
 # Check process
-ps aux | grep ppanel
+ps aux | grep NPanel
 ```
 
 ### Access the Application
@@ -311,7 +311,7 @@ ps aux | grep ppanel
 
 ::: warning Default Credentials
 **Default Administrator Account**:
-- **Email**: `admin@ppanel.dev`
+- **Email**: `admin@NPanel.dev`
 - **Password**: `password`
 
 **Security**: Change the default credentials immediately after first login.
@@ -334,7 +334,7 @@ sudo firewall-cmd --list-ports
 
 For production, use Nginx or Caddy as reverse proxy:
 
-**Nginx Configuration** (`/etc/nginx/sites-available/ppanel`):
+**Nginx Configuration** (`/etc/nginx/sites-available/NPanel`):
 
 ```nginx
 server {
@@ -358,14 +358,14 @@ server {
 
 Enable the configuration:
 ```bash
-sudo ln -s /etc/nginx/sites-available/ppanel /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/NPanel /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
 ## Upgrading
 
-Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
+Upgrade NPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
 
 ::: tip
 The system will automatically handle the upgrade process, including downloading the new binary and restarting the service.
@@ -377,14 +377,14 @@ The system will automatically handle the upgrade process, including downloading 
 
 ```bash
 # Check detailed logs
-sudo journalctl -u ppanel -xe
+sudo journalctl -u NPanel -xe
 
 # Check configuration syntax
-/opt/ppanel/ppanel-server --check-config
+/opt/NPanel/NPanel-server --check-config
 
 # Verify permissions
-ls -la /opt/ppanel
-sudo chown -R root:root /opt/ppanel
+ls -la /opt/NPanel
+sudo chown -R root:root /opt/NPanel
 ```
 
 ### Port Already in Use
@@ -395,11 +395,11 @@ sudo lsof -i :8080
 sudo netstat -tlnp | grep 8080
 
 # Change port in configuration
-sudo nano /opt/ppanel/etc/ppanel.yaml
+sudo nano /opt/NPanel/etc/NPanel.yaml
 # Update server.port value
 
 # Restart service
-sudo systemctl restart ppanel
+sudo systemctl restart NPanel
 ```
 
 ### Binary Won't Execute
@@ -407,64 +407,64 @@ sudo systemctl restart ppanel
 ```bash
 # Check architecture compatibility
 uname -m
-file /opt/ppanel/gateway
+file /opt/NPanel/gateway
 
 # Check if executable
-ls -la /opt/ppanel/gateway
-sudo chmod +x /opt/ppanel/gateway
+ls -la /opt/NPanel/gateway
+sudo chmod +x /opt/NPanel/gateway
 
 # Check for missing libraries (should be none for static binary)
-ldd /opt/ppanel/gateway
+ldd /opt/NPanel/gateway
 ```
 
 ### High Memory Usage
 
 ```bash
 # Check memory usage
-ps aux | grep ppanel
-top -p $(pgrep ppanel-server)
+ps aux | grep NPanel
+top -p $(pgrep NPanel-server)
 
 # Add memory limit to systemd service
-sudo nano /etc/systemd/system/ppanel.service
+sudo nano /etc/systemd/system/NPanel.service
 # Add under [Service]:
 # MemoryMax=2G
 # MemoryHigh=1.5G
 
 sudo systemctl daemon-reload
-sudo systemctl restart ppanel
+sudo systemctl restart NPanel
 ```
 
 ### Database Connection Issues
 
 ```bash
 # Check database file permissions
-ls -la /opt/ppanel/data/
+ls -la /opt/NPanel/data/
 
 # For SQLite, verify path in config
-sudo nano /opt/ppanel/etc/ppanel.yaml
+sudo nano /opt/NPanel/etc/NPanel.yaml
 
 # Test database connection
-sqlite3 /opt/ppanel/data/ppanel.db "SELECT 1;"
+sqlite3 /opt/NPanel/data/NPanel.db "SELECT 1;"
 
 # Check logs for database errors
-sudo journalctl -u ppanel | grep -i database
+sudo journalctl -u NPanel | grep -i database
 ```
 
 ## Uninstallation
 
-To completely remove PPanel:
+To completely remove NPanel:
 
 ```bash
 # Stop and disable service
-sudo systemctl stop ppanel
-sudo systemctl disable ppanel
+sudo systemctl stop NPanel
+sudo systemctl disable NPanel
 
 # Remove service file
-sudo rm /etc/systemd/system/ppanel.service
+sudo rm /etc/systemd/system/NPanel.service
 sudo systemctl daemon-reload
 
 # Remove installation directory
-sudo rm -rf /opt/ppanel
+sudo rm -rf /opt/NPanel
 
 # Remove firewall rules (if added)
 sudo ufw delete allow 8080/tcp
@@ -481,20 +481,20 @@ For better security, run as dedicated user:
 
 ```bash
 # Create dedicated user
-sudo useradd -r -s /bin/false ppanel
+sudo useradd -r -s /bin/false NPanel
 
 # Change ownership
-sudo chown -R ppanel:ppanel /opt/ppanel
+sudo chown -R NPanel:NPanel /opt/NPanel
 
 # Update systemd service
-sudo nano /etc/systemd/system/ppanel.service
-# Change: User=ppanel
+sudo nano /etc/systemd/system/NPanel.service
+# Change: User=NPanel
 
 # If binding to port < 1024, grant capability
-sudo setcap 'cap_net_bind_service=+ep' /opt/ppanel/gateway
+sudo setcap 'cap_net_bind_service=+ep' /opt/NPanel/gateway
 
 sudo systemctl daemon-reload
-sudo systemctl restart ppanel
+sudo systemctl restart NPanel
 ```
 
 ### Multiple Instances
@@ -503,25 +503,25 @@ To run multiple instances:
 
 ```bash
 # Create separate directories
-sudo mkdir -p /opt/ppanel-1
-sudo mkdir -p /opt/ppanel-2
+sudo mkdir -p /opt/NPanel-1
+sudo mkdir -p /opt/NPanel-2
 
 # Copy binaries and configs
-sudo cp -r /opt/ppanel/* /opt/ppanel-1/
-sudo cp -r /opt/ppanel/* /opt/ppanel-2/
+sudo cp -r /opt/NPanel/* /opt/NPanel-1/
+sudo cp -r /opt/NPanel/* /opt/NPanel-2/
 
 # Edit configs with different ports
-sudo nano /opt/ppanel-1/etc/ppanel.yaml  # port: 8081
-sudo nano /opt/ppanel-2/etc/ppanel.yaml  # port: 8082
+sudo nano /opt/NPanel-1/etc/NPanel.yaml  # port: 8081
+sudo nano /opt/NPanel-2/etc/NPanel.yaml  # port: 8082
 
 # Create separate systemd services
-sudo cp /etc/systemd/system/ppanel.service /etc/systemd/system/ppanel-1.service
-sudo cp /etc/systemd/system/ppanel.service /etc/systemd/system/ppanel-2.service
+sudo cp /etc/systemd/system/NPanel.service /etc/systemd/system/NPanel-1.service
+sudo cp /etc/systemd/system/NPanel.service /etc/systemd/system/NPanel-2.service
 
 # Edit service files accordingly
 sudo systemctl daemon-reload
-sudo systemctl enable ppanel-1 ppanel-2
-sudo systemctl start ppanel-1 ppanel-2
+sudo systemctl enable NPanel-1 NPanel-2
+sudo systemctl start NPanel-1 NPanel-2
 ```
 
 ### Custom Environment Variables
@@ -530,9 +530,9 @@ Add environment variables to systemd service:
 
 ```ini
 [Service]
-Environment="PPANEL_ENV=production"
-Environment="PPANEL_DEBUG=false"
-EnvironmentFile=/opt/ppanel/env.conf
+Environment="NPanel_ENV=production"
+Environment="NPanel_DEBUG=false"
+EnvironmentFile=/opt/NPanel/env.conf
 ```
 
 ## Performance Tuning
@@ -556,10 +556,10 @@ sudo nano /etc/security/limits.conf
 For SQLite:
 
 ```bash
-# Add to ppanel.yaml
+# Add to NPanel.yaml
 database:
   type: sqlite
-  path: /opt/ppanel/data/ppanel.db
+  path: /opt/NPanel/data/NPanel.db
   options:
     cache_size: -2000
     journal_mode: WAL
@@ -574,6 +574,6 @@ database:
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
-- Review systemd logs: `sudo journalctl -u ppanel -f`
-- Check application logs: `tail -f /opt/ppanel/logs/ppanel.log`
+- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Review systemd logs: `sudo journalctl -u NPanel -f`
+- Check application logs: `tail -f /opt/NPanel/logs/NPanel.log`

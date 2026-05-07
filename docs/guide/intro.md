@@ -1,10 +1,10 @@
-# Introduction
+﻿# Introduction
 
-Welcome to PPanel! This is a pure, professional, and perfect open-source proxy panel tool designed to provide users with a complete management solution.
+Welcome to NPanel! This is a pure, professional, and perfect open-source proxy panel tool designed to provide users with a complete management solution.
 
-## What is PPanel?
+## What is NPanel?
 
-PPanel is a modern proxy panel system that uses a separated frontend-backend architecture, providing complete user management, subscription services, order management, node management, and more. Whether you're an individual or enterprise user, PPanel can meet your needs.
+NPanel is a modern proxy panel system that uses a separated frontend-backend architecture, providing complete user management, subscription services, order management, node management, and more. Whether you're an individual or enterprise user, NPanel can meet your needs.
 
 ## Core Features
 
@@ -17,7 +17,7 @@ PPanel is a modern proxy panel system that uses a separated frontend-backend arc
 
 ## Terminology
 
-Some of PPanel's terminology differs from other panel systems. To ensure accurate understanding and avoid confusion, please familiarize yourself with the following terms before reading the documentation:
+Some of NPanel's terminology differs from other panel systems. To ensure accurate understanding and avoid confusion, please familiarize yourself with the following terms before reading the documentation:
 
 ### User Frontend
 The interface provided to end users, through which users interact with the system. You can customize or refactor this interface according to your needs to achieve site personalization.
@@ -26,17 +26,17 @@ The interface provided to end users, through which users interact with the syste
 The interface for administrator operations, responsible for managing the system, users, and data. You can customize or refactor this interface according to your management needs.
 
 ### Backend Server
-PPanel's API layer that handles all data interactions with the frontend, responsible for executing business logic and providing data services.
+NPanel's API layer that handles all data interactions with the frontend, responsible for executing business logic and providing data services.
 
 ### Node Server
-Responsible for communication between PPanel's backend server and various nodes (landing points), ensuring network node connectivity and service stability.
+Responsible for communication between NPanel's backend server and various nodes (landing points), ensuring network node connectivity and service stability.
 
 ### Client
 The application program users use to connect to the system, typically referring to user device software or applications, responsible for establishing connections with the system and using related services.
 
 ## Project Architecture
 
-PPanel uses Monorepo architecture for unified management and maintenance:
+NPanel uses Monorepo architecture for unified management and maintenance:
 
 ### Frontend Applications
 - **apps/admin**: Admin panel application providing complete backend management features
@@ -88,6 +88,6 @@ PPanel uses Monorepo architecture for unified management and maintenance:
 
 ## Next Steps
 
-- [Installation](/guide/installation/) - Learn how to deploy PPanel
-- [Configuration](/guide/configuration) - Configure your PPanel instance
+- [Installation](/guide/installation/) - Learn how to deploy NPanel
+- [Configuration](/guide/configuration) - Configure your NPanel instance
 - [Admin Panel](/admin/dashboard) - Start using admin features

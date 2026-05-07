@@ -1,4 +1,4 @@
-# 服务器管理
+﻿# 服务器管理
 
 管理代理服务器的基础信息、协议配置和运行状态,并配置全局节点参数。
 
@@ -189,7 +189,7 @@
 **安装命令:**
 生成的 bash 脚本包含:
 ```bash
-wget -N https://raw.githubusercontent.com/perfect-panel/ppanel-node/master/scripts/install.sh && bash install.sh --api-host [域名] --server-id [ID] --secret-key [密钥]
+wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh && bash install.sh --api-host [域名] --server-id [ID] --secret-key [密钥]
 ```
 
 **操作:**

@@ -1,12 +1,12 @@
-# Installation Overview
+﻿# Installation Overview
 
-PPanel supports multiple deployment methods to suit different needs and environments. Choose the method that best fits your requirements.
+NPanel supports multiple deployment methods to suit different needs and environments. Choose the method that best fits your requirements.
 
 ## Deployment Methods
 
 ### Docker Deployment (Recommended)
 
-The easiest and most reliable way to deploy PPanel. Docker ensures consistent environments and simplifies updates.
+The easiest and most reliable way to deploy NPanel. Docker ensures consistent environments and simplifies updates.
 
 - **[Docker Run](/guide/installation/docker-run)** - Quick deployment with a single command
 - **[Docker Compose](/guide/installation/docker-compose)** - Production-ready deployment with better management
@@ -17,8 +17,8 @@ The easiest and most reliable way to deploy PPanel. Docker ensures consistent en
 
 ### Advanced Deployment
 
-- **[Kubernetes](/guide/installation/kubernetes)** - Deploy PPanel in Kubernetes clusters for high availability
-- **[From Source](/guide/installation/from-source)** - Build and run PPanel from source code
+- **[Kubernetes](/guide/installation/kubernetes)** - Deploy NPanel in Kubernetes clusters for high availability
+- **[From Source](/guide/installation/from-source)** - Build and run NPanel from source code
 
 ## System Requirements
 
@@ -53,5 +53,5 @@ For most users, we recommend starting with Docker Compose:
 ## Need Help?
 
 - Check our [Troubleshooting Guide](/guide/troubleshooting)
-- Visit [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+- Visit [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 - Join our community discussions

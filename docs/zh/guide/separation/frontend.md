@@ -1,14 +1,14 @@
-# 前端分离部署
+﻿# 前端分离部署
 
-本指南将帮助您独立部署 PPanel 前端应用，连接到已部署的后端服务。
+本指南将帮助您独立部署 NPanel 前端应用，连接到已部署的后端服务。
 
 ## 概述
 
-前端分离部署允许您将 PPanel 前端应用部署在独立的服务器或 CDN 上，通过 API 与后端服务通信。
+前端分离部署允许您将 NPanel 前端应用部署在独立的服务器或 CDN 上，通过 API 与后端服务通信。
 
-PPanel 前端包含两个独立应用：
-- **用户端** (`ppanel-user-web`): 面向最终用户的界面
-- **管理端** (`ppanel-admin-web`): 面向管理员的后台管理界面
+NPanel 前端包含两个独立应用：
+- **用户端** (`NPanel-user-web`): 面向最终用户的界面
+- **管理端** (`NPanel-admin-web`): 面向管理员的后台管理界面
 
 ### 优势
 
@@ -167,11 +167,11 @@ bun run serve  # 或 npm run serve
 
 点击下方按钮一键部署到 Vercel：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.ppanel.dev&demo-title=PPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
 
 #### 用户端部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=PPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.ppanel.dev&demo-title=PPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
 
 部署后在 Vercel 控制台配置环境变量：
 - `VITE_API_BASE_URL`: 你的后端 API 地址
@@ -256,26 +256,26 @@ sudo yum install nginx -y
 
 ```bash
 # 创建目录
-sudo mkdir -p /var/www/ppanel/{admin,user}
+sudo mkdir -p /var/www/NPanel/{admin,user}
 
 # 上传构建文件
-sudo cp -r apps/admin/dist/* /var/www/ppanel/admin/
-sudo cp -r apps/user/dist/* /var/www/ppanel/user/
+sudo cp -r apps/admin/dist/* /var/www/NPanel/admin/
+sudo cp -r apps/user/dist/* /var/www/NPanel/user/
 
 # 设置权限
-sudo chown -R www-data:www-data /var/www/ppanel
+sudo chown -R www-data:www-data /var/www/NPanel
 ```
 
 #### 3. 配置 Nginx
 
-**管理端配置** (`/etc/nginx/sites-available/ppanel-admin`)：
+**管理端配置** (`/etc/nginx/sites-available/NPanel-admin`)：
 
 ```nginx
 server {
     listen 80;
     server_name admin.your-domain.com;
 
-    root /var/www/ppanel/admin;
+    root /var/www/NPanel/admin;
     index index.html;
 
     # Gzip 压缩
@@ -303,14 +303,14 @@ server {
 }
 ```
 
-**用户端配置** (`/etc/nginx/sites-available/ppanel-user`)：
+**用户端配置** (`/etc/nginx/sites-available/NPanel-user`)：
 
 ```nginx
 server {
     listen 80;
     server_name user.your-domain.com;
 
-    root /var/www/ppanel/user;
+    root /var/www/NPanel/user;
     index index.html;
 
     # 其他配置同管理端
@@ -336,8 +336,8 @@ server {
 
 ```bash
 # 启用站点
-sudo ln -s /etc/nginx/sites-available/ppanel-admin /etc/nginx/sites-enabled/
-sudo ln -s /etc/nginx/sites-available/ppanel-user /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/NPanel-admin /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/NPanel-user /etc/nginx/sites-enabled/
 
 # 测试配置
 sudo nginx -t
@@ -383,7 +383,7 @@ sudo apt install caddy
 
 ```caddy
 admin.your-domain.com {
-    root * /var/www/ppanel/admin
+    root * /var/www/NPanel/admin
     encode gzip
     file_server
 
@@ -402,7 +402,7 @@ admin.your-domain.com {
 }
 
 user.your-domain.com {
-    root * /var/www/ppanel/user
+    root * /var/www/NPanel/user
     encode gzip
     file_server
 
@@ -613,10 +613,10 @@ bun install
 bun run build
 
 # 更新文件
-sudo rm -rf /var/www/ppanel/admin
-sudo rm -rf /var/www/ppanel/user
-sudo cp -r apps/admin/dist /var/www/ppanel/admin
-sudo cp -r apps/user/dist /var/www/ppanel/user
+sudo rm -rf /var/www/NPanel/admin
+sudo rm -rf /var/www/NPanel/user
+sudo cp -r apps/admin/dist /var/www/NPanel/admin
+sudo cp -r apps/user/dist /var/www/NPanel/user
 
 # 清除 CDN 缓存（如使用 CDN）
 ```

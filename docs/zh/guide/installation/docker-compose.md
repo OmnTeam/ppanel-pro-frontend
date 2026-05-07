@@ -1,4 +1,4 @@
-# Docker Compose 部署
+﻿# Docker Compose 部署
 
 Docker Compose 是生产环境推荐的部署方式。它提供更好的服务管理、更简单的配置和更便捷的升级流程。
 
@@ -65,8 +65,8 @@ sudo docker run hello-world
 
 ```bash
 # 创建项目目录
-mkdir -p ~/ppanel
-cd ~/ppanel
+mkdir -p ~/NPanel
+cd ~/NPanel
 ```
 
 ### 步骤 2: 创建 docker-compose.yml
@@ -77,9 +77,9 @@ cd ~/ppanel
 version: '3.8'
 
 services:
-  ppanel-service:
-    image: ppanel/ppanel:latest
-    container_name: ppanel-service
+  NPanel-service:
+    image: NPanel/NPanel:latest
+    container_name: NPanel-service
     restart: always
     ports:
       - "8080:8080"
@@ -87,7 +87,7 @@ services:
       - ./config:/app/etc:ro
       - ./web:/app/static
     networks:
-      - ppanel-net
+      - NPanel-net
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
       interval: 30s
@@ -96,7 +96,7 @@ services:
       start_period: 40s
 
 networks:
-  ppanel-net:
+  NPanel-net:
     driver: bridge
 ```
 
@@ -119,7 +119,7 @@ networks:
 mkdir -p config
 
 # 创建配置文件
-cat > config/ppanel.yaml <<EOF
+cat > config/NPanel.yaml <<EOF
 Host: 0.0.0.0
 Port: 8080
 TLS:
@@ -163,7 +163,7 @@ MySQL:
     Addr: localhost:3306
     Username: your-username
     Password: your-password
-    Dbname: ppanel
+    Dbname: NPanel
     Config: charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
     MaxIdleConns: 10
     MaxOpenConns: 10
@@ -206,7 +206,7 @@ docker compose ps
 curl http://localhost:8080
 
 # 查看实时日志
-docker compose logs -f ppanel
+docker compose logs -f NPanel
 ```
 
 ## 部署后配置
@@ -220,7 +220,7 @@ docker compose logs -f ppanel
 
 ::: warning 默认凭据
 **默认管理员账号**（如果未配置时）:
-- **邮箱**: `admin@ppanel.dev`
+- **邮箱**: `admin@NPanel.dev`
 - **密码**: `password`
 
 **安全提醒**: 首次登录后请立即修改默认凭据。
@@ -284,7 +284,7 @@ docker compose logs
 docker compose logs -f
 
 # 查看特定服务日志
-docker compose logs ppanel
+docker compose logs NPanel
 ```
 
 ### 停止服务
@@ -294,7 +294,7 @@ docker compose logs ppanel
 docker compose stop
 
 # 停止特定服务
-docker compose stop ppanel
+docker compose stop NPanel
 ```
 
 ### 重启服务
@@ -304,7 +304,7 @@ docker compose stop ppanel
 docker compose restart
 
 # 重启特定服务
-docker compose restart ppanel
+docker compose restart NPanel
 ```
 
 ### 停止并删除服务
@@ -323,7 +323,7 @@ docker compose down -v
 
 ## 升级
 
-直接从**管理后台**主页升级 PPanel。在仪表盘主页可以检查新版本并一键升级。
+直接从**管理后台**主页升级 NPanel。在仪表盘主页可以检查新版本并一键升级。
 
 ::: tip 提示
 系统会自动处理升级过程，包括拉取新镜像和重启服务。
@@ -337,7 +337,7 @@ docker compose down -v
 
 ```yaml
 services:
-  ppanel-service:
+  NPanel-service:
     ports:
       - "3000:8080"  # 宿主机端口 3000 -> 容器端口 8080
 ```
@@ -348,13 +348,13 @@ services:
 
 ```bash
 # 实例 1
-mkdir ~/ppanel-1
-cd ~/ppanel-1
+mkdir ~/NPanel-1
+cd ~/NPanel-1
 # 创建 docker-compose.yml，使用端口 8081
 
 # 实例 2
-mkdir ~/ppanel-2
-cd ~/ppanel-2
+mkdir ~/NPanel-2
+cd ~/NPanel-2
 # 创建 docker-compose.yml，使用端口 8082
 ```
 
@@ -364,7 +364,7 @@ cd ~/ppanel-2
 
 ```yaml
 services:
-  ppanel:
+  NPanel:
     # ... 其他配置 ...
     deploy:
       resources:
@@ -384,13 +384,13 @@ services:
 version: '3.8'
 
 services:
-  ppanel:
+  NPanel:
     # ... 其他配置 ...
     networks:
-      - ppanel-net
+      - NPanel-net
 
 networks:
-  ppanel-net:
+  NPanel-net:
     driver: bridge
 ```
 
@@ -400,7 +400,7 @@ networks:
 
 ```bash
 # 查看错误日志
-docker compose logs ppanel
+docker compose logs NPanel
 
 # 检查容器状态
 docker compose ps
@@ -427,7 +427,7 @@ sudo lsof -i :8080
 sudo chown -R $USER:$USER config/
 
 # 确保文件可读
-chmod 644 config/ppanel.yaml
+chmod 644 config/NPanel.yaml
 ```
 
 ### 无法从外部访问
@@ -460,5 +460,5 @@ chmod 644 config/ppanel.yaml
 
 1. 查看上面的[故障排除](#故障排除)部分
 2. 查看 [Docker Compose 日志](#查看日志)
-3. 搜索 [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+3. 搜索 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 4. 创建新 issue 并附上详细的系统信息和日志

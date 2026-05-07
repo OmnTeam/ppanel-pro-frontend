@@ -1,6 +1,6 @@
-# Installation
+﻿# Installation
 
-This guide will help you deploy PPanel on your server using Docker.
+This guide will help you deploy NPanel on your server using Docker.
 
 ## System Requirements
 
@@ -82,10 +82,10 @@ sudo docker run hello-world
 
 ```bash
 # Pull latest version
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # Or pull a specific version
-docker pull ppanel/ppanel:v0.1.2
+docker pull NPanel/NPanel:v0.1.2
 ```
 
 #### Step 2: Prepare Configuration
@@ -94,18 +94,18 @@ Create a configuration directory and prepare the configuration file:
 
 ```bash
 # Create configuration directory
-mkdir -p ppanel-config
+mkdir -p NPanel-config
 
 # Create configuration file
-cat > ppanel-config/ppanel.yaml <<EOF
-# PPanel Configuration
+cat > NPanel-config/NPanel.yaml <<EOF
+# NPanel Configuration
 server:
   host: 0.0.0.0
   port: 8080
 
 database:
   type: sqlite
-  path: /app/data/ppanel.db
+  path: /app/data/NPanel.db
 
 # Add more configuration as needed
 EOF
@@ -119,30 +119,30 @@ For detailed configuration options, please refer to the [Configuration Guide](/g
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 **Parameter Explanation:**
 - `-d`: Run container in detached mode (background)
-- `--name ppanel`: Set container name
+- `--name NPanel`: Set container name
 - `-p 8080:8080`: Map container port 8080 to host port 8080
-- `-v $(pwd)/ppanel-config:/app/etc:ro`: Mount configuration directory (read-only)
-- `-v ppanel-data:/app/data`: Create a volume for persistent data storage
+- `-v $(pwd)/NPanel-config:/app/etc:ro`: Mount configuration directory (read-only)
+- `-v NPanel-data:/app/data`: Create a volume for persistent data storage
 - `--restart unless-stopped`: Auto-restart container unless manually stopped
 
 #### Step 4: Verify Running Status
 
 ```bash
 # Check container status
-docker ps | grep ppanel
+docker ps | grep NPanel
 
 # View logs
-docker logs -f ppanel
+docker logs -f NPanel
 
 # Check if service is accessible
 curl http://localhost:8080
@@ -156,14 +156,14 @@ curl http://localhost:8080
 version: '3.8'
 
 services:
-  ppanel:
-    image: ppanel/ppanel:latest
-    container_name: ppanel
+  NPanel:
+    image: NPanel/NPanel:latest
+    container_name: NPanel
     ports:
       - "8080:8080"
     volumes:
-      - ./ppanel-config:/app/etc:ro
-      - ppanel-data:/app/data
+      - ./NPanel-config:/app/etc:ro
+      - NPanel-data:/app/data
     restart: unless-stopped
     environment:
       - TZ=UTC
@@ -175,7 +175,7 @@ services:
       start_period: 40s
 
 volumes:
-  ppanel-data:
+  NPanel-data:
     driver: local
 ```
 
@@ -183,7 +183,7 @@ volumes:
 
 ```bash
 # Create configuration directory
-mkdir -p ppanel-config
+mkdir -p NPanel-config
 
 # Copy or create your configuration file
 # See Configuration Guide for details
@@ -213,11 +213,11 @@ After successful installation, you can access:
 
 ::: warning Administrator Account
 **Default Administrator Account** (if not configured in config file):
-- **Email**: `admin@ppanel.dev`
+- **Email**: `admin@NPanel.dev`
 - **Password**: `password`
 
 **One-Click Installation Script** will automatically generate random administrator credentials displayed at the end:
-- **Email**: `admin-[8 random characters]@ppanel.dev`
+- **Email**: `admin-[8 random characters]@NPanel.dev`
 - **Password**: `[Randomly generated 16-character password]`
 
 **Security Recommendations**:
@@ -261,7 +261,7 @@ your-domain.com {
 
 ```bash
 # Docker Run
-docker logs -f ppanel
+docker logs -f NPanel
 
 # Docker Compose
 docker compose logs -f
@@ -271,7 +271,7 @@ docker compose logs -f
 
 ```bash
 # Docker Run
-docker stop ppanel
+docker stop NPanel
 
 # Docker Compose
 docker compose stop
@@ -281,7 +281,7 @@ docker compose stop
 
 ```bash
 # Docker Run
-docker restart ppanel
+docker restart NPanel
 
 # Docker Compose
 docker compose restart
@@ -291,8 +291,8 @@ docker compose restart
 
 ```bash
 # Docker Run
-docker stop ppanel
-docker rm ppanel
+docker stop NPanel
+docker rm NPanel
 
 # Docker Compose
 docker compose down
@@ -313,13 +313,13 @@ Before upgrading, backup your configuration and data:
 
 ```bash
 # Backup configuration
-tar czf ppanel-config-backup-$(date +%Y%m%d).tar.gz ppanel-config/
+tar czf NPanel-config-backup-$(date +%Y%m%d).tar.gz NPanel-config/
 
 # Backup data volume
 docker run --rm \
-  -v ppanel-data:/data \
+  -v NPanel-data:/data \
   -v $(pwd):/backup \
-  alpine tar czf /backup/ppanel-data-backup-$(date +%Y%m%d).tar.gz /data
+  alpine tar czf /backup/NPanel-data-backup-$(date +%Y%m%d).tar.gz /data
 ```
 
 ### Upgrade Steps
@@ -328,20 +328,20 @@ docker run --rm \
 
 ```bash
 # Pull latest image
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # Stop and remove old container
-docker stop ppanel
-docker rm ppanel
+docker stop NPanel
+docker rm NPanel
 
 # Start new container with same configuration
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 #### Using Docker Compose
@@ -358,10 +358,10 @@ docker compose up -d
 
 ```bash
 # Check container is running
-docker ps | grep ppanel
+docker ps | grep NPanel
 
 # Check logs for any errors
-docker logs ppanel
+docker logs NPanel
 
 # Verify application is accessible
 curl http://localhost:8080
@@ -377,24 +377,24 @@ curl http://localhost:8080
 uname -m
 
 # Check image architecture
-docker image inspect ppanel/ppanel:latest --format '{{.Architecture}}'
+docker image inspect NPanel/NPanel:latest --format '{{.Architecture}}'
 ```
 
 **Check logs:**
 ```bash
-docker logs ppanel
+docker logs NPanel
 ```
 
 ### Cannot Access Service
 
 1. **Check if container is running:**
    ```bash
-   docker ps | grep ppanel
+   docker ps | grep NPanel
    ```
 
 2. **Check port mapping:**
    ```bash
-   docker port ppanel
+   docker port NPanel
    ```
 
 3. **Check firewall rules:**
@@ -413,24 +413,24 @@ docker logs ppanel
 
 1. **Verify mount path:**
    ```bash
-   docker exec ppanel ls -la /app/etc
+   docker exec NPanel ls -la /app/etc
    ```
 
 2. **Check configuration syntax:**
    ```bash
-   docker exec ppanel cat /app/etc/ppanel.yaml
+   docker exec NPanel cat /app/etc/NPanel.yaml
    ```
 
 3. **Restart container:**
    ```bash
-   docker restart ppanel
+   docker restart NPanel
    ```
 
 ### Performance Issues
 
 1. **Check resource usage:**
    ```bash
-   docker stats ppanel
+   docker stats NPanel
    ```
 
 2. **Increase container resources** (if using Docker Desktop):
@@ -452,14 +452,14 @@ You can override configuration via environment variables:
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
   -e SERVER_PORT=8080 \
   -e DATABASE_TYPE=sqlite \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 ### Running Multiple Instances
@@ -469,19 +469,19 @@ To run multiple instances, use different ports and container names:
 ```bash
 # Instance 1
 docker run -d \
-  --name ppanel-1 \
+  --name NPanel-1 \
   -p 8081:8080 \
-  -v $(pwd)/ppanel-config-1:/app/etc:ro \
-  -v ppanel-data-1:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config-1:/app/etc:ro \
+  -v NPanel-data-1:/app/data \
+  NPanel/NPanel:latest
 
 # Instance 2
 docker run -d \
-  --name ppanel-2 \
+  --name NPanel-2 \
   -p 8082:8080 \
-  -v $(pwd)/ppanel-config-2:/app/etc:ro \
-  -v ppanel-data-2:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config-2:/app/etc:ro \
+  -v NPanel-data-2:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ### Custom Network
@@ -490,29 +490,29 @@ Create a custom Docker network for better isolation:
 
 ```bash
 # Create network
-docker network create ppanel-net
+docker network create NPanel-net
 
 # Run container on custom network
 docker run -d \
-  --name ppanel \
-  --network ppanel-net \
+  --name NPanel \
+  --network NPanel-net \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ## Next Steps
 
 - [Configuration Guide](/guide/configuration) - Learn about detailed configuration options
 - [Admin Dashboard](/admin/dashboard) - Start managing your panel
-- [API Reference](/api/reference) - Integrate with PPanel API
+- [API Reference](/api/reference) - Integrate with NPanel API
 
 ## Need Help?
 
 If you encounter any issues:
 
 1. Check the [Troubleshooting](#troubleshooting) section above
-2. Search [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+2. Search [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 3. Join our community discussions
 4. Create a new issue with detailed logs and system information

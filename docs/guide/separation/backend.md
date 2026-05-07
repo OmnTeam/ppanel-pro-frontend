@@ -1,10 +1,10 @@
-# Backend Separation Deployment
+﻿# Backend Separation Deployment
 
-This guide will help you independently deploy the PPanel backend service, suitable for front-end and back-end separation deployment scenarios.
+This guide will help you independently deploy the NPanel backend service, suitable for front-end and back-end separation deployment scenarios.
 
 ## Overview
 
-Backend separation deployment allows you to deploy the PPanel backend service on an independent server to provide API services for frontend applications. This deployment method has the following advantages:
+Backend separation deployment allows you to deploy the NPanel backend service on an independent server to provide API services for frontend applications. This deployment method has the following advantages:
 
 - 🚀 Independently scale backend service performance
 - 🔒 Better security isolation
@@ -49,9 +49,9 @@ database:
   type: mysql
   host: localhost
   port: 3306
-  username: ppanel
+  username: NPanel
   password: your_password
-  database: ppanel
+  database: NPanel
 
 # Redis configuration
 redis:
@@ -95,13 +95,13 @@ api:
 ```bash
 # Run MySQL with Docker
 docker run -d \
-  --name ppanel-mysql \
+  --name NPanel-mysql \
   -e MYSQL_ROOT_PASSWORD=root_password \
-  -e MYSQL_DATABASE=ppanel \
-  -e MYSQL_USER=ppanel \
+  -e MYSQL_DATABASE=NPanel \
+  -e MYSQL_USER=NPanel \
   -e MYSQL_PASSWORD=your_password \
   -p 3306:3306 \
-  -v ppanel-mysql-data:/var/lib/mysql \
+  -v NPanel-mysql-data:/var/lib/mysql \
   mysql:8.0
 
 # Wait for MySQL to start
@@ -113,9 +113,9 @@ sleep 10
 ```bash
 # Run Redis with Docker
 docker run -d \
-  --name ppanel-redis \
+  --name NPanel-redis \
   -p 6379:6379 \
-  -v ppanel-redis-data:/data \
+  -v NPanel-redis-data:/data \
   redis:7-alpine
 ```
 
@@ -123,23 +123,23 @@ docker run -d \
 
 ```bash
 # Pull backend image
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # Run backend container
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -v $(pwd)/config.yaml:/app/config.yaml \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 ```
 
 #### 6. Initialize Database
 
 ```bash
 # Execute database migration
-docker exec ppanel-backend ./ppanel migrate
+docker exec NPanel-backend ./NPanel migrate
 ```
 
 ### Method 2: Binary Deployment
@@ -148,14 +148,14 @@ docker exec ppanel-backend ./ppanel migrate
 
 ```bash
 # Download latest version
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/ppanel-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 
 # Extract
-tar -xzf ppanel-linux-amd64.tar.gz
-cd ppanel
+tar -xzf NPanel-linux-amd64.tar.gz
+cd NPanel
 
 # Grant execute permission
-chmod +x ppanel
+chmod +x NPanel
 ```
 
 #### 2. Configure Backend Service
@@ -171,9 +171,9 @@ sudo apt install mysql-server -y
 
 # Create database and user
 sudo mysql <<EOF
-CREATE DATABASE ppanel;
-CREATE USER 'ppanel'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON ppanel.* TO 'ppanel'@'localhost';
+CREATE DATABASE NPanel;
+CREATE USER 'NPanel'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON NPanel.* TO 'NPanel'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 ```
@@ -191,23 +191,23 @@ sudo systemctl enable redis-server
 
 ```bash
 # Execute database migration
-./ppanel migrate
+./NPanel migrate
 ```
 
 #### 6. Create systemd Service
 
-Create service file `/etc/systemd/system/ppanel.service`:
+Create service file `/etc/systemd/system/NPanel.service`:
 
 ```ini
 [Unit]
-Description=PPanel Backend Service
+Description=NPanel Backend Service
 After=network.target mysql.service redis.service
 
 [Service]
 Type=simple
-User=ppanel
-WorkingDirectory=/opt/ppanel
-ExecStart=/opt/ppanel/ppanel server
+User=NPanel
+WorkingDirectory=/opt/NPanel
+ExecStart=/opt/NPanel/NPanel server
 Restart=on-failure
 RestartSec=5s
 StandardOutput=journal
@@ -221,20 +221,20 @@ Start service:
 
 ```bash
 # Create dedicated user
-sudo useradd -r -s /bin/false ppanel
+sudo useradd -r -s /bin/false NPanel
 
 # Move files to installation directory
-sudo mkdir -p /opt/ppanel
-sudo mv ppanel config.yaml /opt/ppanel/
-sudo chown -R ppanel:ppanel /opt/ppanel
+sudo mkdir -p /opt/NPanel
+sudo mv NPanel config.yaml /opt/NPanel/
+sudo chown -R NPanel:NPanel /opt/NPanel
 
 # Start service
 sudo systemctl daemon-reload
-sudo systemctl start ppanel
-sudo systemctl enable ppanel
+sudo systemctl start NPanel
+sudo systemctl enable NPanel
 
 # Check service status
-sudo systemctl status ppanel
+sudo systemctl status NPanel
 ```
 
 ## Configure Reverse Proxy
@@ -328,9 +328,9 @@ Besides config file, you can also use environment variables:
 # Database configuration
 export DB_HOST=localhost
 export DB_PORT=3306
-export DB_USER=ppanel
+export DB_USER=NPanel
 export DB_PASSWORD=your_password
-export DB_NAME=ppanel
+export DB_NAME=NPanel
 
 # Redis configuration
 export REDIS_HOST=localhost
@@ -348,15 +348,15 @@ Using environment variables with Docker:
 
 ```bash
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -e DB_HOST=mysql \
-  -e DB_USER=ppanel \
+  -e DB_USER=NPanel \
   -e DB_PASSWORD=your_password \
   -e REDIS_HOST=redis \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 ```
 
 ## Security Recommendations
@@ -374,17 +374,17 @@ docker run -d \
 
 ```bash
 # View service logs
-sudo journalctl -u ppanel -n 50 --no-pager
+sudo journalctl -u NPanel -n 50 --no-pager
 
 # Docker view logs
-docker logs ppanel-backend
+docker logs NPanel-backend
 ```
 
 ### Database Connection Failed
 
 ```bash
 # Test MySQL connection
-mysql -h localhost -u ppanel -p -e "SELECT 1;"
+mysql -h localhost -u NPanel -p -e "SELECT 1;"
 
 # Check MySQL service status
 sudo systemctl status mysql
@@ -449,53 +449,53 @@ server:
 
 ```bash
 # Pull latest image
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # Stop old container
-docker stop ppanel-backend
+docker stop NPanel-backend
 
 # Backup data
-docker exec ppanel-mysql mysqldump -u ppanel -p ppanel > backup.sql
+docker exec NPanel-mysql mysqldump -u NPanel -p NPanel > backup.sql
 
 # Remove old container
-docker rm ppanel-backend
+docker rm NPanel-backend
 
 # Run new container
 docker run -d \
-  --name ppanel-backend \
+  --name NPanel-backend \
   -p 8080:8080 \
   -v $(pwd)/config.yaml:/app/config.yaml \
-  --link ppanel-mysql:mysql \
-  --link ppanel-redis:redis \
-  ppanel/ppanel:latest
+  --link NPanel-mysql:mysql \
+  --link NPanel-redis:redis \
+  NPanel/NPanel:latest
 
 # Execute database migration
-docker exec ppanel-backend ./ppanel migrate
+docker exec NPanel-backend ./NPanel migrate
 ```
 
 ### Binary Upgrade
 
 ```bash
 # Stop service
-sudo systemctl stop ppanel
+sudo systemctl stop NPanel
 
 # Backup old version
-sudo cp /opt/ppanel/ppanel /opt/ppanel/ppanel.backup
+sudo cp /opt/NPanel/NPanel /opt/NPanel/NPanel.backup
 
 # Download new version
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/ppanel-linux-amd64.tar.gz
-tar -xzf ppanel-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+tar -xzf NPanel-linux-amd64.tar.gz
 
 # Replace file
-sudo mv ppanel /opt/ppanel/
-sudo chown ppanel:ppanel /opt/ppanel/ppanel
+sudo mv NPanel /opt/NPanel/
+sudo chown NPanel:NPanel /opt/NPanel/NPanel
 
 # Execute database migration
-cd /opt/ppanel
-sudo -u ppanel ./ppanel migrate
+cd /opt/NPanel
+sudo -u NPanel ./NPanel migrate
 
 # Start service
-sudo systemctl start ppanel
+sudo systemctl start NPanel
 ```
 
 ## Next Steps

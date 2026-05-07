@@ -1,6 +1,6 @@
-# 安装部署
+﻿# 安装部署
 
-本指南将帮助你使用 Docker 在服务器上部署 PPanel。
+本指南将帮助你使用 Docker 在服务器上部署 NPanel。
 
 ## 系统要求
 
@@ -82,10 +82,10 @@ sudo docker run hello-world
 
 ```bash
 # 拉取最新版本
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # 或拉取指定版本
-docker pull ppanel/ppanel:v0.1.2
+docker pull NPanel/NPanel:v0.1.2
 ```
 
 #### 步骤 2: 准备配置
@@ -94,18 +94,18 @@ docker pull ppanel/ppanel:v0.1.2
 
 ```bash
 # 创建配置目录
-mkdir -p ppanel-config
+mkdir -p NPanel-config
 
 # 创建配置文件
-cat > ppanel-config/ppanel.yaml <<EOF
-# PPanel 配置文件
+cat > NPanel-config/NPanel.yaml <<EOF
+# NPanel 配置文件
 server:
   host: 0.0.0.0
   port: 8080
 
 database:
   type: sqlite
-  path: /app/data/ppanel.db
+  path: /app/data/NPanel.db
 
 # 根据需要添加更多配置
 EOF
@@ -119,30 +119,30 @@ EOF
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 **参数说明:**
 - `-d`: 以守护进程模式运行容器（后台运行）
-- `--name ppanel`: 设置容器名称
+- `--name NPanel`: 设置容器名称
 - `-p 8080:8080`: 将容器的 8080 端口映射到宿主机的 8080 端口
-- `-v $(pwd)/ppanel-config:/app/etc:ro`: 挂载配置目录（只读）
-- `-v ppanel-data:/app/data`: 创建数据卷用于持久化存储
+- `-v $(pwd)/NPanel-config:/app/etc:ro`: 挂载配置目录（只读）
+- `-v NPanel-data:/app/data`: 创建数据卷用于持久化存储
 - `--restart unless-stopped`: 容器自动重启（除非手动停止）
 
 #### 步骤 4: 验证运行状态
 
 ```bash
 # 查看容器状态
-docker ps | grep ppanel
+docker ps | grep NPanel
 
 # 查看日志
-docker logs -f ppanel
+docker logs -f NPanel
 
 # 测试服务是否可访问
 curl http://localhost:8080
@@ -156,14 +156,14 @@ curl http://localhost:8080
 version: '3.8'
 
 services:
-  ppanel:
-    image: ppanel/ppanel:latest
-    container_name: ppanel
+  NPanel:
+    image: NPanel/NPanel:latest
+    container_name: NPanel
     ports:
       - "8080:8080"
     volumes:
-      - ./ppanel-config:/app/etc:ro
-      - ppanel-data:/app/data
+      - ./NPanel-config:/app/etc:ro
+      - NPanel-data:/app/data
     restart: unless-stopped
     environment:
       - TZ=Asia/Shanghai
@@ -175,7 +175,7 @@ services:
       start_period: 40s
 
 volumes:
-  ppanel-data:
+  NPanel-data:
     driver: local
 ```
 
@@ -183,7 +183,7 @@ volumes:
 
 ```bash
 # 创建配置目录
-mkdir -p ppanel-config
+mkdir -p NPanel-config
 
 # 复制或创建配置文件
 # 详细配置请参考配置指南
@@ -213,11 +213,11 @@ docker compose ps
 
 ::: warning 管理员账户
 **默认管理员账户**（如果配置文件未设置）：
-- **邮箱**: `admin@ppanel.dev`
+- **邮箱**: `admin@NPanel.dev`
 - **密码**: `password`
 
 **一键安装脚本**会自动生成随机的管理员账户并在安装结束时显示：
-- **邮箱**: `admin-[8位随机字符]@ppanel.dev`
+- **邮箱**: `admin-[8位随机字符]@NPanel.dev`
 - **密码**: `[随机生成的16位密码]`
 
 **安全建议**：
@@ -261,7 +261,7 @@ your-domain.com {
 
 ```bash
 # Docker Run
-docker logs -f ppanel
+docker logs -f NPanel
 
 # Docker Compose
 docker compose logs -f
@@ -271,7 +271,7 @@ docker compose logs -f
 
 ```bash
 # Docker Run
-docker stop ppanel
+docker stop NPanel
 
 # Docker Compose
 docker compose stop
@@ -281,7 +281,7 @@ docker compose stop
 
 ```bash
 # Docker Run
-docker restart ppanel
+docker restart NPanel
 
 # Docker Compose
 docker compose restart
@@ -291,8 +291,8 @@ docker compose restart
 
 ```bash
 # Docker Run
-docker stop ppanel
-docker rm ppanel
+docker stop NPanel
+docker rm NPanel
 
 # Docker Compose
 docker compose down
@@ -313,13 +313,13 @@ docker compose down -v
 
 ```bash
 # 备份配置
-tar czf ppanel-config-backup-$(date +%Y%m%d).tar.gz ppanel-config/
+tar czf NPanel-config-backup-$(date +%Y%m%d).tar.gz NPanel-config/
 
 # 备份数据卷
 docker run --rm \
-  -v ppanel-data:/data \
+  -v NPanel-data:/data \
   -v $(pwd):/backup \
-  alpine tar czf /backup/ppanel-data-backup-$(date +%Y%m%d).tar.gz /data
+  alpine tar czf /backup/NPanel-data-backup-$(date +%Y%m%d).tar.gz /data
 ```
 
 ### 升级步骤
@@ -328,20 +328,20 @@ docker run --rm \
 
 ```bash
 # 拉取最新镜像
-docker pull ppanel/ppanel:latest
+docker pull NPanel/NPanel:latest
 
 # 停止并删除旧容器
-docker stop ppanel
-docker rm ppanel
+docker stop NPanel
+docker rm NPanel
 
 # 使用相同配置启动新容器
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 #### 使用 Docker Compose
@@ -358,10 +358,10 @@ docker compose up -d
 
 ```bash
 # 检查容器是否正在运行
-docker ps | grep ppanel
+docker ps | grep NPanel
 
 # 检查日志是否有错误
-docker logs ppanel
+docker logs NPanel
 
 # 验证应用是否可访问
 curl http://localhost:8080
@@ -377,24 +377,24 @@ curl http://localhost:8080
 uname -m
 
 # 查看镜像架构
-docker image inspect ppanel/ppanel:latest --format '{{.Architecture}}'
+docker image inspect NPanel/NPanel:latest --format '{{.Architecture}}'
 ```
 
 **查看日志:**
 ```bash
-docker logs ppanel
+docker logs NPanel
 ```
 
 ### 无法访问服务
 
 1. **检查容器是否运行:**
    ```bash
-   docker ps | grep ppanel
+   docker ps | grep NPanel
    ```
 
 2. **检查端口映射:**
    ```bash
-   docker port ppanel
+   docker port NPanel
    ```
 
 3. **检查防火墙规则:**
@@ -413,24 +413,24 @@ docker logs ppanel
 
 1. **验证挂载路径:**
    ```bash
-   docker exec ppanel ls -la /app/etc
+   docker exec NPanel ls -la /app/etc
    ```
 
 2. **检查配置语法:**
    ```bash
-   docker exec ppanel cat /app/etc/ppanel.yaml
+   docker exec NPanel cat /app/etc/NPanel.yaml
    ```
 
 3. **重启容器:**
    ```bash
-   docker restart ppanel
+   docker restart NPanel
    ```
 
 ### 性能问题
 
 1. **检查资源使用情况:**
    ```bash
-   docker stats ppanel
+   docker stats NPanel
    ```
 
 2. **增加容器资源**（如果使用 Docker Desktop）:
@@ -452,14 +452,14 @@ docker logs ppanel
 
 ```bash
 docker run -d \
-  --name ppanel \
+  --name NPanel \
   -p 8080:8080 \
   -e SERVER_PORT=8080 \
   -e DATABASE_TYPE=sqlite \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
   --restart unless-stopped \
-  ppanel/ppanel:latest
+  NPanel/NPanel:latest
 ```
 
 ### 运行多个实例
@@ -469,19 +469,19 @@ docker run -d \
 ```bash
 # 实例 1
 docker run -d \
-  --name ppanel-1 \
+  --name NPanel-1 \
   -p 8081:8080 \
-  -v $(pwd)/ppanel-config-1:/app/etc:ro \
-  -v ppanel-data-1:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config-1:/app/etc:ro \
+  -v NPanel-data-1:/app/data \
+  NPanel/NPanel:latest
 
 # 实例 2
 docker run -d \
-  --name ppanel-2 \
+  --name NPanel-2 \
   -p 8082:8080 \
-  -v $(pwd)/ppanel-config-2:/app/etc:ro \
-  -v ppanel-data-2:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config-2:/app/etc:ro \
+  -v NPanel-data-2:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ### 自定义网络
@@ -490,29 +490,29 @@ docker run -d \
 
 ```bash
 # 创建网络
-docker network create ppanel-net
+docker network create NPanel-net
 
 # 在自定义网络上运行容器
 docker run -d \
-  --name ppanel \
-  --network ppanel-net \
+  --name NPanel \
+  --network NPanel-net \
   -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc:ro \
-  -v ppanel-data:/app/data \
-  ppanel/ppanel:latest
+  -v $(pwd)/NPanel-config:/app/etc:ro \
+  -v NPanel-data:/app/data \
+  NPanel/NPanel:latest
 ```
 
 ## 下一步
 
 - [配置指南](/zh/guide/configuration) - 了解详细的配置选项
 - [管理后台](/zh/admin/dashboard) - 开始管理你的面板
-- [API 参考](/zh/api/reference) - 集成 PPanel API
+- [API 参考](/zh/api/reference) - 集成 NPanel API
 
 ## 需要帮助？
 
 如果遇到任何问题：
 
 1. 查看上面的[故障排除](#故障排除)部分
-2. 搜索 [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+2. 搜索 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
 3. 加入我们的社区讨论
 4. 创建新 issue 并附上详细的日志和系统信息

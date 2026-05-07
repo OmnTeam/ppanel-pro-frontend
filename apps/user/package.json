@@ -1,5 +1,5 @@
-{
-  "name": "ppanel-user-web",
+﻿{
+  "name": "NPanel-user-web",
   "private": true,
   "type": "module",
   "scripts": {
