@@ -153,6 +153,15 @@ export default defineConfig({
               ],
             },
             {
+              text: "Operations",
+              items: [
+                {
+                  text: "Group Management",
+                  link: "/admin/operations/group",
+                },
+              ],
+            },
+            {
               text: "Users & Support",
               items: [
                 {
@@ -316,6 +325,12 @@ export default defineConfig({
                 { text: "优惠券管理", link: "/zh/admin/commerce/coupons" },
                 { text: "营销管理", link: "/zh/admin/commerce/marketing" },
                 { text: "公告管理", link: "/zh/admin/commerce/announcements" },
+              ],
+            },
+            {
+              text: "运营管理",
+              items: [
+                { text: "分组管理", link: "/zh/admin/operations/group" },
               ],
             },
             {
