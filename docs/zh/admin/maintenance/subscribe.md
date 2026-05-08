@@ -97,7 +97,7 @@
 
 **顶部工具栏:**
 - **Template Repo 链接**: 跳转到 GitHub 模板仓库
-  - 地址: https://github.com/perfect-panel/subscription-template
+  - 地址: https://github.com/npanel-dev/subscription-template
   - 提供订阅模板示例和文档
 - **添加 (Add)**: 创建新的客户端配置
 

@@ -97,7 +97,7 @@ Manage subscription templates and download links for different proxy clients.
 
 **Top Toolbar:**
 - **Template Repo Link**: Jump to GitHub template repository
-  - URL: https://github.com/perfect-panel/subscription-template
+  - URL: https://github.com/npanel-dev/subscription-template
   - Provides subscription template examples and documentation
 - **Add**: Create new client configuration
 
