@@ -6,9 +6,9 @@
 
 <h1>NPanel 前端</h1>
 
-这是由 NPanel 提供支持的前端
+**互联网生来是为了连接人类——而不是分裂人类。**
 
-[英文](./README.md)
+[English](./README.md)
 ·
 中文
 ·
@@ -34,6 +34,8 @@
 
 </div>
 
+---
+
 > **第一条**
 > 人人生而自由，在尊严与权利上一律平等。
 > 他们赋有理性与良知，应当以兄弟般的精神彼此相待。
@@ -45,14 +47,44 @@
 > **第十九条**
 > 人人有思想与表达的自由；此项自由包括持有主张而不受干预，以及通过任何媒介、无论国界，自由寻求、接受和传播信息与思想。
 >
-> _来源： [United Nations – Universal Declaration of Human Rights (UN.org)](https://www.un.org/sites/un2.un.org/files/2021/03/udhr.pdf)_
+> _来源：[联合国《世界人权宣言》](https://www.un.org/sites/un2.un.org/files/2021/03/udhr.pdf)_
 
-## 📦 Application List
+---
 
-| 📦 Application                                                                                                                                                                                                                                                                                                                                | 🖼️ Preview                                                     |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------- |
-| [**NPanel User Web**][NPanel-user-web-github]<br/>Developed with modern frontend technologies (Next.js, TypeScript, TailwindCSS), providing basic user features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-user-web-deploy] | [![Preview][NPanel-user-web-cover]][NPanel-user-web-github]    |
-| [**NPanel Admin Web**][NPanel-admin-web-github]<br/>Developed with modern frontend technologies, this admin web provides basic data management features with support for multiple languages and themes.<br/>[![One-Click Deploy](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-admin-web-deploy]        | [![Preview][NPanel-admin-web-cover]][NPanel-admin-web-preview] |
+## 🌏 我们为何而来
+
+每一天，数以亿计的人醒来，面对的是一个被过滤、被限速、被噤声的互联网。
+搜索结果凭空消失，新闻被悄然改写，声音被抹去——不是被黑客，而是被那些本应连接我们的基础设施本身。
+
+**我们认为，这是错的。**
+
+知识应当自由流动。新闻不应需要护照才能旅行。一座城市的学生应该能读到和世界另一端的学生一样的维基百科。一个家庭应该能够视频通话，而不必担心谈话被监听。一个敢于说出真相的人，不应活在午夜敲门声的恐惧中。
+
+这些不是激进的想法。它们是开放互联网的奠基承诺，是七十多年前世界���国共同签署的《世界人权宣言》中明文写就的权利。
+
+**NPanel 的存在，就是为了兑现这些承诺。**
+
+我们不是在为利润打造一款产品。我们是在为人民构建基础设施——开源、可审计、免费——让每一个有意愿运行服务器的人，都能为自己的社群打开一扇通往完整、未经审查的互联网的门。
+
+这个仓库的每一颗星，都代表一个理解这一切的人。
+每一个 Pull Request，都是一份连结彼此的声援。
+每一次部署，都是对数字高墙无声的反抗。
+
+> _"网络将审查视为损坏，并绕道而行。"_
+> — John Gilmore，1993
+
+我们，就是那条绕行的路。
+
+---
+
+## 📦 应用列表
+
+| 📦 应用 | 🖼️ 预览 |
+| :--- | :--- |
+| [**NPanel 用户端**][NPanel-user-web-github]<br/>用户看到的门户——简洁、快速、适配每一种设备。多语言、深色模式、一键导入订阅。<br/>[![一键部署](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-user-web-deploy] | [![预览][NPanel-user-web-cover]][NPanel-user-web-github] |
+| [**NPanel 管理端**][NPanel-admin-web-github]<br/>运营者的指挥中心——完整的节点管理、数据分析、用户控制与账单系统，尽在一个仪表盘。<br/>[![一键部署](https://img.shields.io/badge/Deploy%20with-Vercel-blue?style=for-the-badge)][NPanel-admin-web-deploy] | [![预览][NPanel-admin-web-cover]][NPanel-admin-web-preview] |
+
+---
 
 ## ⌨️ 本地开发
 
@@ -60,25 +92,30 @@
 
 [![][codespaces-shield]][codespaces-link]
 
-您可以使用 Gitpod 进行在线开发：
-
-[![在 Gitpod 中打开](https://gitpod.io/button/open-in-gitpod.svg)][gitpod-link]
-
 或者克隆项目进行本地开发：
 
 ```bash
-git clone https://github.com/perfect-panel/frontend.git
-cd NPanel-web
+git clone https://github.com/OmnTeam/ppanel-pro-frontend.git
+cd ppanel-pro-frontend
 
 # 安装依赖
 bun install
+
+# 启动用户端开发服务器
+bun run dev --filter=user
+
+# 启动管理端开发服务器
+bun run dev --filter=admin
 ```
 
-## 🤝 贡献
+---
 
-欢迎各种类型的贡献，
-如果您有兴趣贡献代码，请随时查看我们的 GitHub
-[问题][github-issues-link] 来展示您的能力。
+## 🤝 参与贡献
+
+这个项目因贡献者而生，因贡献者而活。
+如果你相信我们正在做的事，我们期待你的参与——无论是一份 Bug 反馈、一段翻译、一个功能想法，还是一行代码。
+
+自由不是旁观者的权利。
 
 [![][pr-welcome-shield]][pr-welcome-link]
 
@@ -95,44 +132,44 @@ bun install
 ## 📝 许可证
 
 版权所有 © 2024 [NPanel][profile-link]。<br />
-本项目使用 [GNU](./LICENSE) 许可证。
+本项目使用 [GNU 通用公共许可证](./LICENSE)——因为守护自由的软件，本身也必须是自由的。
 
 <!-- LINK GROUP -->
 
 [back-to-top]: https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square
-[codespaces-link]: https://codespaces.new/perfect-panel/NPanel-web
+[codespaces-link]: https://codespaces.new/OmnTeam/ppanel-pro-frontend
 [codespaces-shield]: https://github.com/codespaces/badge.svg
-[contributors-contrib]: https://contrib.rocks/image?repo=perfect-panel/NPanel-web
-[contributors-url]: https://github.com/perfect-panel/frontend/graphs/contributors
-[github-action-release-link]: https://github.com/perfect-panel/frontend/actions/workflows/release.yml
-[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/NPanel-web/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
-[github-action-test-link]: https://github.com/perfect-panel/frontend/actions/workflows/test.yml
-[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/perfect-panel/NPanel-web/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
-[github-contributors-link]: https://github.com/perfect-panel/frontend/graphs/contributors
-[github-contributors-shield]: https://img.shields.io/github/contributors/perfect-panel/NPanel-web?color=c4f042&labelColor=black&style=flat-square
-[github-forks-link]: https://github.com/perfect-panel/frontend/network/members
-[github-forks-shield]: https://img.shields.io/github/forks/perfect-panel/NPanel-web?color=8ae8ff&labelColor=black&style=flat-square
-[github-issues-link]: https://github.com/perfect-panel/frontend/issues
-[github-issues-shield]: https://img.shields.io/github/issues/perfect-panel/NPanel-web?color=ff80eb&labelColor=black&style=flat-square
-[github-license-link]: https://github.com/perfect-panel/frontend/blob/master/LICENSE
-[github-license-shield]: https://img.shields.io/github/license/perfect-panel/NPanel-web?color=white&labelColor=black&style=flat-square
-[github-release-link]: https://github.com/perfect-panel/frontend/releases
-[github-release-shield]: https://img.shields.io/github/v/release/perfect-panel/NPanel-web?style=flat-square&sort=semver&logo=github
-[github-releasedate-link]: https://github.com/perfect-panel/frontend/releases
-[github-releasedate-shield]: https://img.shields.io/github/release-date/perfect-panel/NPanel-web?labelColor=black&style=flat-square
-[github-stars-link]: https://github.com/perfect-panel/frontend/network/stargazers
-[github-stars-shield]: https://img.shields.io/github/stars/perfect-panel/NPanel-web?color=ffcb47&labelColor=black&style=flat-square
-[gitpod-link]: https://gitpod.io/#https://github.com/perfect-panel/frontend
-[issues-link]: https://github.com/perfect-panel/frontend/issues/new/choose
-[pr-welcome-link]: https://github.com/perfect-panel/frontend/pulls
+[contributors-contrib]: https://contrib.rocks/image?repo=OmnTeam/ppanel-pro-frontend
+[contributors-url]: https://github.com/OmnTeam/ppanel-pro-frontend/graphs/contributors
+[github-action-release-link]: https://github.com/OmnTeam/ppanel-pro-frontend/actions/workflows/release.yml
+[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/OmnTeam/ppanel-pro-frontend/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-action-test-link]: https://github.com/OmnTeam/ppanel-pro-frontend/actions/workflows/test.yml
+[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/OmnTeam/ppanel-pro-frontend/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-contributors-link]: https://github.com/OmnTeam/ppanel-pro-frontend/graphs/contributors
+[github-contributors-shield]: https://img.shields.io/github/contributors/OmnTeam/ppanel-pro-frontend?color=c4f042&labelColor=black&style=flat-square
+[github-forks-link]: https://github.com/OmnTeam/ppanel-pro-frontend/network/members
+[github-forks-shield]: https://img.shields.io/github/forks/OmnTeam/ppanel-pro-frontend?color=8ae8ff&labelColor=black&style=flat-square
+[github-issues-link]: https://github.com/OmnTeam/ppanel-pro-frontend/issues
+[github-issues-shield]: https://img.shields.io/github/issues/OmnTeam/ppanel-pro-frontend?color=ff80eb&labelColor=black&style=flat-square
+[github-license-link]: https://github.com/OmnTeam/ppanel-pro-frontend/blob/main/LICENSE
+[github-license-shield]: https://img.shields.io/github/license/OmnTeam/ppanel-pro-frontend?color=white&labelColor=black&style=flat-square
+[github-release-link]: https://github.com/OmnTeam/ppanel-pro-frontend/releases
+[github-release-shield]: https://img.shields.io/github/v/release/OmnTeam/ppanel-pro-frontend?style=flat-square&sort=semver&logo=github
+[github-releasedate-link]: https://github.com/OmnTeam/ppanel-pro-frontend/releases
+[github-releasedate-shield]: https://img.shields.io/github/release-date/OmnTeam/ppanel-pro-frontend?labelColor=black&style=flat-square
+[github-stars-link]: https://github.com/OmnTeam/ppanel-pro-frontend/stargazers
+[github-stars-shield]: https://img.shields.io/github/stars/OmnTeam/ppanel-pro-frontend?color=ffcb47&labelColor=black&style=flat-square
+[gitpod-link]: https://gitpod.io/#https://github.com/OmnTeam/ppanel-pro-frontend
+[issues-link]: https://github.com/OmnTeam/ppanel-pro-frontend/issues/new/choose
+[pr-welcome-link]: https://github.com/OmnTeam/ppanel-pro-frontend/pulls
 [pr-welcome-shield]: https://img.shields.io/badge/🤯_pr_welcome-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
-[profile-link]: https://github.com/perfect-panel
+[profile-link]: https://github.com/OmnTeam
 [split]: https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png
-[NPanel-user-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/user
-[NPanel-user-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://user.NPanel.dev
-[NPanel-user-web-preview]: https://user.NPanel.dev
-[NPanel-user-web-deploy]: https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&demo-url=https%3A%2F%2Fuser.NPanel.dev%2F&from=.&project-name=NPanel-user-web&repository-name=NPanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2FNPanel-web&root-directory=apps%2Fuser&skippable-integrations=1
-[NPanel-admin-web-github]: https://github.com/perfect-panel/frontend/tree/main/apps/admin
-[NPanel-admin-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://admin.NPanel.dev
-[NPanel-admin-web-preview]: https://admin.NPanel.dev
-[NPanel-admin-web-deploy]: https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool%2C%20designed%20to%20be%20your%20ideal%20choice%20for%20learning%20and%20practical%20use&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&demo-url=https%3A%2F%2Fadmin.NPanel.dev%2F&from=.&project-name=NPanel-admin-web&repository-name=NPanel-web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2FNPanel-web&root-directory=apps%2Fadmin&skippable-integrations=1
+[NPanel-user-web-github]: https://github.com/OmnTeam/ppanel-pro-frontend/tree/main/apps/user
+[NPanel-user-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://user.npanel.dev
+[NPanel-user-web-preview]: https://user.npanel.dev
+[NPanel-user-web-deploy]: https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FOmnTeam%2Fppanel-pro-frontend&root-directory=apps%2Fuser&project-name=npanel-user-web&repository-name=ppanel-pro-frontend&skippable-integrations=1
+[NPanel-admin-web-github]: https://github.com/OmnTeam/ppanel-pro-frontend/tree/main/apps/admin
+[NPanel-admin-web-cover]: https://urlscan.io/liveshot/?width=1920&height=1080&url=https://admin.npanel.dev
+[NPanel-admin-web-preview]: https://admin.npanel.dev
+[NPanel-admin-web-deploy]: https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FOmnTeam%2Fppanel-pro-frontend&root-directory=apps%2Fadmin&project-name=npanel-admin-web&repository-name=ppanel-pro-frontend&skippable-integrations=1
