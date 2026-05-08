@@ -64,7 +64,7 @@ ppnode generate    # 重新生成 /etc/NPanel-node/config.yml
 2. 克隆仓库并编译：
 
     ```bash
-    git clone https://github.com/next-panel/NPanel-node.git
+    git clone https://github.com/npanel-dev/NPanel-node.git
     cd NPanel-node
     GOEXPERIMENT=jsonv2 go build -v -o ./ppnode -trimpath -ldflags "-s -w -buildid="
     ```
@@ -105,7 +105,7 @@ ppnode generate    # 重新生成 /etc/NPanel-node/config.yml
 仓库自带 `Dockerfile`，可在不方便直接安装的宿主机上运行：
 
 ```bash
-git clone https://github.com/next-panel/NPanel-node.git
+git clone https://github.com/npanel-dev/NPanel-node.git
 cd NPanel-node
 docker build -t NPanel-node:latest .
 docker run -d --name NPanel-node \
@@ -165,4 +165,4 @@ ppnode restart
 - 保证服务器可访问 GitHub（更新）与面板域名的 443 端口。
 - 面板显示离线时检查防火墙是否放行心跳、系统时间是否同步（`chronyc tracking`）。
 
-更多细节可参阅源仓库：[`github.com/next-panel/NPanel-node`](https://github.com/next-panel/NPanel-node)。
+更多细节可参阅源仓库：[`github.com/npanel-dev/NPanel-node`](https://github.com/npanel-dev/NPanel-node)。

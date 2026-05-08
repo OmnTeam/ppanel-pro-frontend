@@ -513,6 +513,6 @@ docker run -d \
 如果遇到任何问题：
 
 1. 查看上面的[故障排除](#故障排除)部分
-2. 搜索 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+2. 搜索 [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 3. 加入我们的社区讨论
 4. 创建新 issue 并附上详细的日志和系统信息

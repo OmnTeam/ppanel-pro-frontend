@@ -333,7 +333,7 @@ onMounted(async () => {
 
 如果你发现了 Bug 或有功能建议：
 
-1. 在 [GitHub Issues](https://github.com/next-panel/frontend/issues) 中搜索是否已有类似问题
+1. 在 [GitHub Issues](https://github.com/npanel-dev/frontend/issues) 中搜索是否已有类似问题
 2. 如果没有，创建一个新的 Issue
 3. 提供详细的信息：
    - 问题描述
@@ -370,13 +370,13 @@ onMounted(async () => {
 
 加入我们的社区，与其他开发者交流：
 
-- **GitHub Discussions**: [讨论区](https://github.com/next-panel/frontend/discussions)
-- **GitHub Issues**: [问题追踪](https://github.com/next-panel/frontend/issues)
+- **GitHub Discussions**: [讨论区](https://github.com/npanel-dev/frontend/discussions)
+- **GitHub Issues**: [问题追踪](https://github.com/npanel-dev/frontend/issues)
 - **Telegram**: [加入群组](https://t.me/NPanelChat)
 
 ## 行为准则
 
-我们致力于为所有人提供一个友好、安全和受欢迎的环境。请阅读并遵守我们的 [行为准则](https://github.com/next-panel/frontend/blob/main/CODE_OF_CONDUCT.md)。
+我们致力于为所有人提供一个友好、安全和受欢迎的环境。请阅读并遵守我们的 [行为准则](https://github.com/npanel-dev/frontend/blob/main/CODE_OF_CONDUCT.md)。
 
 ## 致谢
 
@@ -384,4 +384,4 @@ onMounted(async () => {
 
 ## 许可证
 
-通过贡献代码，你同意你的贡献将按照项目的 [GNU License](https://github.com/next-panel/frontend/blob/main/LICENSE) 许可证发布。
+通过贡献代码，你同意你的贡献将按照项目的 [GNU License](https://github.com/npanel-dev/frontend/blob/main/LICENSE) 许可证发布。

@@ -460,5 +460,5 @@ chmod 644 config/NPanel.yaml
 
 1. 查看上面的[故障排除](#故障排除)部分
 2. 查看 [Docker Compose 日志](#查看日志)
-3. 搜索 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+3. 搜索 [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 4. 创建新 issue 并附上详细的系统信息和日志

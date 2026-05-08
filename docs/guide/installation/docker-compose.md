@@ -464,5 +464,5 @@ If you encounter any issues:
 
 1. Check the [Troubleshooting](#troubleshooting) section above
 2. Review [Docker Compose logs](#view-logs)
-3. Search [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+3. Search [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 4. Create a new issue with detailed system information and logs

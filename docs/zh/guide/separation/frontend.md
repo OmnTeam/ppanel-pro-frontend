@@ -66,7 +66,7 @@ node --version  # 应该是 v20 或更高
 #### 2. 克隆代码仓库
 
 ```bash
-git clone https://github.com/next-panel/frontend.git
+git clone https://github.com/npanel-dev/frontend.git
 cd frontend
 ```
 

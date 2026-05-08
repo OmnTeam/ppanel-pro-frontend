@@ -64,7 +64,7 @@ Use the Quick Start command above or run `sudo bash install.sh` and answer the p
 2. Clone the repository and build:
 
     ```bash
-    git clone https://github.com/next-panel/NPanel-node.git
+    git clone https://github.com/npanel-dev/NPanel-node.git
     cd NPanel-node
     GOEXPERIMENT=jsonv2 go build -v -o ./ppnode -trimpath -ldflags "-s -w -buildid="
     ```
@@ -105,7 +105,7 @@ Use the Quick Start command above or run `sudo bash install.sh` and answer the p
 The repository ships a `Dockerfile`. You can build and run it on hosts where installing directly is undesirable:
 
 ```bash
-git clone https://github.com/next-panel/NPanel-node.git
+git clone https://github.com/npanel-dev/NPanel-node.git
 cd NPanel-node
 docker build -t NPanel-node:latest .
 docker run -d --name NPanel-node \
@@ -165,4 +165,4 @@ ppnode restart
 - Ensure the host can reach GitHub (updates) and your panel domain on port 443.
 - If the panel lists the node as offline, verify firewall rules allow heartbeats and that NTP is synchronized (`chronyc tracking`).
 
-Need more detail? Review the source at [`github.com/next-panel/NPanel-node`](https://github.com/next-panel/NPanel-node).
+Need more detail? Review the source at [`github.com/npanel-dev/NPanel-node`](https://github.com/npanel-dev/NPanel-node).

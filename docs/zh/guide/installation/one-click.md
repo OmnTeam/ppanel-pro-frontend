@@ -284,6 +284,6 @@ curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 
 ## 需要帮助？
 
-- 查看 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+- 查看 [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 - 查看安装日志
 - 加入我们的社区获取支持

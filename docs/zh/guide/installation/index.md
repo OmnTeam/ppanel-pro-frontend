@@ -53,5 +53,5 @@ NPanel 支持多种部署方式，以适应不同的需求和环境。选择最�
 ## 需要帮助？
 
 - 查看我们的[故障排除指南](/zh/guide/troubleshooting)
-- 访问 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+- 访问 [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 - 加入我们的社区讨论

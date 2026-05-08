@@ -372,6 +372,6 @@ docker exec NPanel ls -la /app
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+- Check [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 - Review Docker logs: `docker logs NPanel`
 - Verify system requirements

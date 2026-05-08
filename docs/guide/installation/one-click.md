@@ -284,6 +284,6 @@ curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/next-panel/NPanel/issues)
+- Check [GitHub Issues](https://github.com/npanel-dev/NPanel/issues)
 - Review installation logs
 - Join our community for support

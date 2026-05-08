@@ -148,7 +148,7 @@ docker exec NPanel-backend ./NPanel migrate
 
 ```bash
 # Download latest version
-wget https://github.com/next-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+wget https://github.com/npanel-dev/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 
 # Extract
 tar -xzf NPanel-linux-amd64.tar.gz
@@ -483,7 +483,7 @@ sudo systemctl stop NPanel
 sudo cp /opt/NPanel/NPanel /opt/NPanel/NPanel.backup
 
 # Download new version
-wget https://github.com/next-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+wget https://github.com/npanel-dev/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 tar -xzf NPanel-linux-amd64.tar.gz
 
 # Replace file

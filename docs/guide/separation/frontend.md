@@ -66,7 +66,7 @@ node --version  # Should be v20 or higher
 #### 2. Clone Repository
 
 ```bash
-git clone https://github.com/next-panel/frontend.git
+git clone https://github.com/npanel-dev/frontend.git
 cd frontend
 ```
 
