@@ -27,8 +27,9 @@ import { useTranslation } from "react-i18next";
 export default function Announcement() {
   const { t } = useTranslation("dashboard");
   const [, setActiveTab] = useState("all");
-  const pinnedRef = useRef<ProListActions>(null);
   const normalRef = useRef<ProListActions>(null);
+  const pinnedRef = useRef<ProListActions>(null);
+  const popupRef = useRef<ProListActions>(null);
 
   const requestAnnouncements = async (
     pagination: { page: number; size: number },
@@ -128,7 +129,7 @@ export default function Announcement() {
 
         <TabsContent value="popup">
           <ProList
-            action={normalRef}
+            action={popupRef}
             renderItem={renderAnnouncement}
             request={async (pagination) => {
               return requestAnnouncements(pagination, { popup: true });

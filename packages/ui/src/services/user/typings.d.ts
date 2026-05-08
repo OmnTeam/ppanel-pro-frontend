@@ -674,15 +674,15 @@ declare namespace API {
   type QueryAnnouncementParams = {
     page: number;
     size: number;
-    pinned: boolean;
-    popup: boolean;
+    pinned?: boolean;
+    popup?: boolean;
   };
 
   type QueryAnnouncementRequest = {
     page: number;
     size: number;
-    pinned: boolean;
-    popup: boolean;
+    pinned?: boolean;
+    popup?: boolean;
   };
 
   type QueryAnnouncementResponse = {

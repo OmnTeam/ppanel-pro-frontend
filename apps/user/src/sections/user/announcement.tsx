@@ -27,8 +27,7 @@ export default function Announcement({ type }: { type: "popup" | "pinned" }) {
         {
           page: 1,
           size: 10,
-          pinned: type === "pinned",
-          popup: type === "popup",
+          ...(type === "pinned" ? { pinned: true } : { popup: true }),
         },
         {
           skipErrorHandler: true,
