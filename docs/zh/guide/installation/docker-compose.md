@@ -1,4 +1,4 @@
-# Docker Compose 部署
+﻿# Docker Compose 部署
 
 Docker Compose 是生产环境推荐的部署方式。它提供更好的服务管理、更简单的配置和更便捷的升级流程。
 
@@ -460,5 +460,5 @@ chmod 644 config/NPanel.yaml
 
 1. 查看上面的[故障排除](#故障排除)部分
 2. 查看 [Docker Compose 日志](#查看日志)
-3. 搜索 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+3. 搜索 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 4. 创建新 issue 并附上详细的系统信息和日志

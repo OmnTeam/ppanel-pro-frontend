@@ -1,4 +1,4 @@
-# 二进制部署
+﻿# 二进制部署
 
 本指南介绍如何使用预编译的二进制可执行文件部署 NPanel。此方法适合不想使用 Docker 或需要更多部署控制权的用户。
 
@@ -21,7 +21,7 @@ uname -m
 
 ### 步骤 2: 下载最新版本
 
-访问 [GitHub Releases](https://github.com/perfect-panel/NPanel/releases) 页面或直接下载：
+访问 [GitHub Releases](https://github.com/next-panel/NPanel/releases) 页面或直接下载：
 
 ::: tip 安装目录
 你可以将 NPanel 安装在任意目录，本文档使用 `/opt/NPanel` 作为示例。如果选择其他目录，请相应调整后续命令中的路径。
@@ -33,16 +33,16 @@ sudo mkdir -p /opt/NPanel
 cd /opt/NPanel
 
 # 下载 Linux amd64 版本
-wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-amd64.tar.gz
+wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-linux-amd64.tar.gz
 
 # 或下载 Linux arm64 版本
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-arm64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-linux-arm64.tar.gz
 
 # 或下载 macOS amd64 版本
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-amd64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-darwin-amd64.tar.gz
 
 # 或下载 macOS arm64 版本 (Apple Silicon)
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-arm64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-darwin-arm64.tar.gz
 
 # 解压
 tar -xzf gateway-linux-amd64.tar.gz
@@ -184,7 +184,7 @@ sudo nano /etc/systemd/system/NPanel.service
 ```ini
 [Unit]
 Description=NPanel Server
-Documentation=https://github.com/perfect-panel/NPanel
+Documentation=https://github.com/next-panel/NPanel
 After=network-online.target
 Wants=network-online.target
 
@@ -574,6 +574,6 @@ database:
 
 ## 需要帮助？
 
-- 查看 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- 查看 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - 查看 systemd 日志: `sudo journalctl -u NPanel -f`
 - 查看应用日志: `tail -f /opt/NPanel/logs/NPanel.log`

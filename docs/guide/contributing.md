@@ -1,4 +1,4 @@
-# Contributors
+﻿# Contributors
 
 Thank you to all the developers who have contributed to the NPanel project!
 
@@ -30,7 +30,7 @@ onMounted(async () => {
     const contributorsMap = new Map()
 
     for (const repo of repos) {
-      const response = await fetch(`https://api.github.com/repos/perfect-panel/${repo}/contributors`)
+      const response = await fetch(`https://api.github.com/repos/next-panel/${repo}/contributors`)
       if (response.ok) {
         const contributors = await response.json()
         contributors.forEach(contributor => {
@@ -63,7 +63,7 @@ onMounted(async () => {
     const contributorsMap = new Map()
 
     for (const repo of repos) {
-      const response = await fetch(`https://api.github.com/repos/perfect-panel/${repo}/contributors`)
+      const response = await fetch(`https://api.github.com/repos/next-panel/${repo}/contributors`)
       if (response.ok) {
         const contributors = await response.json()
         contributors.forEach(contributor => {
@@ -333,7 +333,7 @@ onMounted(async () => {
 
 If you find a bug or have a feature suggestion:
 
-1. Search [GitHub Issues](https://github.com/perfect-panel/frontend/issues) to see if a similar issue exists
+1. Search [GitHub Issues](https://github.com/next-panel/frontend/issues) to see if a similar issue exists
 2. If not, create a new Issue
 3. Provide detailed information:
    - Problem description
@@ -370,13 +370,13 @@ We welcome translating NPanel into more languages:
 
 Join our community and connect with other developers:
 
-- **GitHub Discussions**: [Discussion Forum](https://github.com/perfect-panel/frontend/discussions)
-- **GitHub Issues**: [Issue Tracker](https://github.com/perfect-panel/frontend/issues)
+- **GitHub Discussions**: [Discussion Forum](https://github.com/next-panel/frontend/discussions)
+- **GitHub Issues**: [Issue Tracker](https://github.com/next-panel/frontend/issues)
 - **Telegram**: [Join Group](https://t.me/NPanelChat)
 
 ## Code of Conduct
 
-We are committed to providing a friendly, safe, and welcoming environment for everyone. Please read and follow our [Code of Conduct](https://github.com/perfect-panel/frontend/blob/main/CODE_OF_CONDUCT.md).
+We are committed to providing a friendly, safe, and welcoming environment for everyone. Please read and follow our [Code of Conduct](https://github.com/next-panel/frontend/blob/main/CODE_OF_CONDUCT.md).
 
 ## Acknowledgments
 
@@ -384,4 +384,4 @@ Special thanks to all developers, testers, documentation writers, and community 
 
 ## License
 
-By contributing code, you agree that your contributions will be licensed under the project's [GNU License](https://github.com/perfect-panel/frontend/blob/main/LICENSE).
+By contributing code, you agree that your contributions will be licensed under the project's [GNU License](https://github.com/next-panel/frontend/blob/main/LICENSE).

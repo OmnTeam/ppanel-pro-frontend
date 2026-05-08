@@ -1,4 +1,4 @@
-# Installation Overview
+﻿# Installation Overview
 
 NPanel supports multiple deployment methods to suit different needs and environments. Choose the method that best fits your requirements.
 
@@ -53,5 +53,5 @@ For most users, we recommend starting with Docker Compose:
 ## Need Help?
 
 - Check our [Troubleshooting Guide](/guide/troubleshooting)
-- Visit [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Visit [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - Join our community discussions

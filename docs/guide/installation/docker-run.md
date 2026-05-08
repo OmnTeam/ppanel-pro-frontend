@@ -1,4 +1,4 @@
-# Docker Run Deployment
+﻿# Docker Run Deployment
 
 This guide shows you how to deploy NPanel using the `docker run` command. This method is suitable for quick testing or simple deployments.
 
@@ -372,6 +372,6 @@ docker exec NPanel ls -la /app
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Check [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - Review Docker logs: `docker logs NPanel`
 - Verify system requirements

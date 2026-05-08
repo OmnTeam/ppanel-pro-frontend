@@ -1,4 +1,4 @@
----
+﻿---
 layout: home
 
 tk:
@@ -50,9 +50,9 @@ features:
 
 NPanel 由三个协同仓库组成：
 
-- **[前端](https://github.com/perfect-panel/frontend)**：React 19 UI + VitePress 文档，同时覆盖管理端与用户端。
-- **[NPanel Server](https://github.com/perfect-panel/server)**：Go 1.21+ API，兼顾隐私、可观测性与多协议调度。
-- **[NPanel](https://github.com/perfect-panel/NPanel)**：打包 gateway 与后端二进制的 Docker 镜像，一条命令即可启动。
+- **[前端](https://github.com/next-panel/frontend)**：React 19 UI + VitePress 文档，同时覆盖管理端与用户端。
+- **[NPanel Server](https://github.com/next-panel/server)**：Go 1.21+ API，兼顾隐私、可观测性与多协议调度。
+- **[NPanel](https://github.com/next-panel/NPanel)**：打包 gateway 与后端二进制的 Docker 镜像，一条命令即可启动。
 
 ### 前端体验
 

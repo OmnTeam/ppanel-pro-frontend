@@ -1,4 +1,4 @@
----
+﻿---
 layout: home
 
 tk:
@@ -50,9 +50,9 @@ features:
 
 NPanel spans three repositories working together:
 
-- **[Frontend](https://github.com/perfect-panel/frontend)** — React 19 UI + VitePress docs for both admin and user portals.
-- **[NPanel Server](https://github.com/perfect-panel/server)** — Go 1.21+ APIs focusing on privacy, observability, and multi-protocol orchestration.
-- **[NPanel](https://github.com/perfect-panel/NPanel)** — Docker image that ships the compiled gateway plus backend binaries so you can launch everything with one container.
+- **[Frontend](https://github.com/next-panel/frontend)** — React 19 UI + VitePress docs for both admin and user portals.
+- **[NPanel Server](https://github.com/next-panel/server)** — Go 1.21+ APIs focusing on privacy, observability, and multi-protocol orchestration.
+- **[NPanel](https://github.com/next-panel/NPanel)** — Docker image that ships the compiled gateway plus backend binaries so you can launch everything with one container.
 
 ### Frontend experience
 

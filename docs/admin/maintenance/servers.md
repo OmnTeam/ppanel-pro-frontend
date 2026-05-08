@@ -1,4 +1,4 @@
-# Server Management
+﻿# Server Management
 
 Manage proxy servers' basic information, protocol configuration, and runtime status, as well as configure global node parameters.
 
@@ -189,7 +189,7 @@ Click the "Connect" button to display the server node installation script.
 **Install Command:**
 The generated bash script contains:
 ```bash
-wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh && bash install.sh --api-host [domain] --server-id [ID] --secret-key [key]
+wget -N https://raw.githubusercontent.com/next-panel/NPanel-node/master/scripts/install.sh && bash install.sh --api-host [domain] --server-id [ID] --secret-key [key]
 ```
 
 **Operations:**

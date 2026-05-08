@@ -1,4 +1,4 @@
-# Binary Deployment
+﻿# Binary Deployment
 
 This guide shows you how to deploy NPanel using pre-built binary executables. This method is suitable for users who prefer not to use Docker or need more control over the deployment.
 
@@ -21,7 +21,7 @@ uname -m
 
 ### Step 2: Download Latest Release
 
-Visit the [GitHub Releases](https://github.com/perfect-panel/NPanel/releases) page or download directly:
+Visit the [GitHub Releases](https://github.com/next-panel/NPanel/releases) page or download directly:
 
 ::: tip Installation Directory
 You can install NPanel in any directory. This guide uses `/opt/NPanel` as an example. If you choose a different directory, adjust the paths in subsequent commands accordingly.
@@ -33,16 +33,16 @@ sudo mkdir -p /opt/NPanel
 cd /opt/NPanel
 
 # Download for Linux amd64
-wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-amd64.tar.gz
+wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-linux-amd64.tar.gz
 
 # Or for Linux arm64
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-linux-arm64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-linux-arm64.tar.gz
 
 # Or for macOS amd64
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-amd64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-darwin-amd64.tar.gz
 
 # Or for macOS arm64 (Apple Silicon)
-# wget https://github.com/perfect-panel/NPanel/releases/latest/download/gateway-darwin-arm64.tar.gz
+# wget https://github.com/next-panel/NPanel/releases/latest/download/gateway-darwin-arm64.tar.gz
 
 # Extract
 tar -xzf gateway-linux-amd64.tar.gz
@@ -184,7 +184,7 @@ sudo nano /etc/systemd/system/NPanel.service
 ```ini
 [Unit]
 Description=NPanel Server
-Documentation=https://github.com/perfect-panel/NPanel
+Documentation=https://github.com/next-panel/NPanel
 After=network-online.target
 Wants=network-online.target
 
@@ -574,6 +574,6 @@ database:
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Check [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - Review systemd logs: `sudo journalctl -u NPanel -f`
 - Check application logs: `tail -f /opt/NPanel/logs/NPanel.log`

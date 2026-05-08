@@ -1,11 +1,11 @@
-# 节点端安装
+﻿# 节点端安装
 
 `NPanel-node` 是部署在边缘服务器上的轻量代理守护进程，基于 `xray-core`，负责同步路由、订阅、心跳与密钥。本指南提供最快速的一键安装方式，并补充源码与容器方案。
 
 ## 快速开始
 
 ```bash
-wget -N https://raw.githubusercontent.com/perfect-panel/NPanel-node/master/scripts/install.sh
+wget -N https://raw.githubusercontent.com/next-panel/NPanel-node/master/scripts/install.sh
 sudo bash install.sh --api-host https://panel.example.com --server-id 1 --secret-key <SECRET>
 ```
 
@@ -64,7 +64,7 @@ ppnode generate    # 重新生成 /etc/NPanel-node/config.yml
 2. 克隆仓库并编译：
 
     ```bash
-    git clone https://github.com/perfect-panel/NPanel-node.git
+    git clone https://github.com/next-panel/NPanel-node.git
     cd NPanel-node
     GOEXPERIMENT=jsonv2 go build -v -o ./ppnode -trimpath -ldflags "-s -w -buildid="
     ```
@@ -105,7 +105,7 @@ ppnode generate    # 重新生成 /etc/NPanel-node/config.yml
 仓库自带 `Dockerfile`，可在不方便直接安装的宿主机上运行：
 
 ```bash
-git clone https://github.com/perfect-panel/NPanel-node.git
+git clone https://github.com/next-panel/NPanel-node.git
 cd NPanel-node
 docker build -t NPanel-node:latest .
 docker run -d --name NPanel-node \
@@ -165,4 +165,4 @@ ppnode restart
 - 保证服务器可访问 GitHub（更新）与面板域名的 443 端口。
 - 面板显示离线时检查防火墙是否放行心跳、系统时间是否同步（`chronyc tracking`）。
 
-更多细节可参阅源仓库：[`github.com/perfect-panel/NPanel-node`](https://github.com/perfect-panel/NPanel-node)。
+更多细节可参阅源仓库：[`github.com/next-panel/NPanel-node`](https://github.com/next-panel/NPanel-node)。

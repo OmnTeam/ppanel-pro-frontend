@@ -1,4 +1,4 @@
-# 安装概览
+﻿# 安装概览
 
 NPanel 支持多种部署方式，以适应不同的需求和环境。选择最适合你需求的部署方式。
 
@@ -53,5 +53,5 @@ NPanel 支持多种部署方式，以适应不同的需求和环境。选择最�
 ## 需要帮助？
 
 - 查看我们的[故障排除指南](/zh/guide/troubleshooting)
-- 访问 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- 访问 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - 加入我们的社区讨论

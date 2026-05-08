@@ -1,4 +1,4 @@
-# 前端分离部署
+﻿# 前端分离部署
 
 本指南将帮助您独立部署 NPanel 前端应用，连接到已部署的后端服务。
 
@@ -66,7 +66,7 @@ node --version  # 应该是 v20 或更高
 #### 2. 克隆代码仓库
 
 ```bash
-git clone https://github.com/perfect-panel/frontend.git
+git clone https://github.com/next-panel/frontend.git
 cd frontend
 ```
 
@@ -167,11 +167,11 @@ bun run serve  # 或 npm run serve
 
 点击下方按钮一键部署到 Vercel：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fnext-panel%2Ffrontend&root-directory=apps%2Fadmin)
 
 #### 用户端部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fnext-panel%2Ffrontend&root-directory=apps%2Fuser)
 
 部署后在 Vercel 控制台配置环境变量：
 - `VITE_API_BASE_URL`: 你的后端 API 地址

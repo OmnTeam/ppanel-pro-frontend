@@ -1,4 +1,4 @@
-# 一键部署
+﻿# 一键部署
 
 使用自动化安装脚本快速部署 NPanel。适合快速测试或生产环境部署。
 
@@ -284,6 +284,6 @@ curl -fsSL https://NPanel.dev/scripts/zh/install-NPanel.sh | bash
 
 ## 需要帮助？
 
-- 查看 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- 查看 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - 查看安装日志
 - 加入我们的社区获取支持

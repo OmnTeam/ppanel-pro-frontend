@@ -1,4 +1,4 @@
-# Docker Run 部署
+﻿# Docker Run 部署
 
 本指南介绍如何使用 `docker run` 命令部署 NPanel。此方法适合快速测试或简单部署。
 
@@ -372,6 +372,6 @@ docker exec NPanel ls -la /app
 
 ## 需要帮助？
 
-- 查看 [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- 查看 [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - 查看 Docker 日志: `docker logs NPanel`
 - 验证系统要求

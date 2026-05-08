@@ -1,4 +1,4 @@
-# 后端分离部署
+﻿# 后端分离部署
 
 本指南将帮助您独立部署 NPanel 后端服务，适用于前后端分离部署场景。
 
@@ -148,7 +148,7 @@ docker exec NPanel-backend ./NPanel migrate
 
 ```bash
 # 下载最新版本
-wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+wget https://github.com/next-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 
 # 解压
 tar -xzf NPanel-linux-amd64.tar.gz
@@ -483,7 +483,7 @@ sudo systemctl stop NPanel
 sudo cp /opt/NPanel/NPanel /opt/NPanel/NPanel.backup
 
 # 下载新版本
-wget https://github.com/perfect-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
+wget https://github.com/next-panel/NPanel/releases/latest/download/NPanel-linux-amd64.tar.gz
 tar -xzf NPanel-linux-amd64.tar.gz
 
 # 替换文件

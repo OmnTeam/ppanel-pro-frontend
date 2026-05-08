@@ -1,4 +1,4 @@
-# One-Click Deployment
+﻿# One-Click Deployment
 
 The quickest way to deploy NPanel using automated installation scripts. Perfect for quick testing or production deployment.
 
@@ -284,6 +284,6 @@ curl -fsSL https://NPanel.dev/scripts/en/install-NPanel.sh | bash
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+- Check [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 - Review installation logs
 - Join our community for support

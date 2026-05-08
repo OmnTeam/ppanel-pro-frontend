@@ -1,4 +1,4 @@
-# Docker Compose Deployment
+﻿# Docker Compose Deployment
 
 Docker Compose is the recommended deployment method for production environments. It provides better service management, easier configuration, and simplified upgrades.
 
@@ -464,5 +464,5 @@ If you encounter any issues:
 
 1. Check the [Troubleshooting](#troubleshooting) section above
 2. Review [Docker Compose logs](#view-logs)
-3. Search [GitHub Issues](https://github.com/perfect-panel/NPanel/issues)
+3. Search [GitHub Issues](https://github.com/next-panel/NPanel/issues)
 4. Create a new issue with detailed system information and logs

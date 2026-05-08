@@ -1,4 +1,4 @@
-# Frontend Separation Deployment
+﻿# Frontend Separation Deployment
 
 This guide will help you independently deploy NPanel frontend applications and connect them to the deployed backend service.
 
@@ -66,7 +66,7 @@ node --version  # Should be v20 or higher
 #### 2. Clone Repository
 
 ```bash
-git clone https://github.com/perfect-panel/frontend.git
+git clone https://github.com/next-panel/frontend.git
 cd frontend
 ```
 
@@ -167,11 +167,11 @@ bun run serve  # or npm run serve
 
 Click the button below to deploy to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fadmin)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fadmin.NPanel.dev&demo-title=NPanel%20Admin%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fnext-panel%2Ffrontend&root-directory=apps%2Fadmin)
 
 #### User Web Deployment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fperfect-panel%2Ffrontend&root-directory=apps%2Fuser)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=NPanel%20is%20a%20pure%2C%20professional%2C%20and%20perfect%20open-source%20proxy%20panel%20tool&demo-image=https%3A%2F%2Furlscan.io%2Fliveshot%2F%3Fwidth%3D1920%26height%3D1080%26url%3Dhttps%3A%2F%2Fuser.NPanel.dev&demo-title=NPanel%20User%20Web&repository-url=https%3A%2F%2Fgithub.com%2Fnext-panel%2Ffrontend&root-directory=apps%2Fuser)
 
 After deployment, configure environment variables in Vercel console:
 - `VITE_API_BASE_URL`: Your backend API address
