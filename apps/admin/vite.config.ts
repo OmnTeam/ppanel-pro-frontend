@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    base: "./",
+    base: "/",
     plugins: [
       devtools({ eventBusConfig: { port: 42_070 } }),
       tanstackRouter({
