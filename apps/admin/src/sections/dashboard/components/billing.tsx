@@ -25,7 +25,7 @@ interface ItemType {
 }
 
 const BILLING_URL =
-  "https://cdn.jsdmirror.com/gh/OmnTeam/NPanel-assets/billing/index.json";
+  "https://cdn.jsdmirror.com/gh/npanel-dev/NPanel-assets/billing/index.json";
 
 export default function Billing({ type }: BillingProps) {
   const { t } = useTranslation("dashboard");
@@ -33,20 +33,25 @@ export default function Billing({ type }: BillingProps) {
   const { data: list } = useQuery({
     queryKey: ["billing", type],
     queryFn: async () => {
-      const response = await fetch(BILLING_URL, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      const data = await response.json();
-      const now = Date.now();
+      try {
+        const response = await fetch(BILLING_URL, {
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        if (!response.ok) return [];
+        const data = await response.json();
+        const now = Date.now();
 
-      return Array.isArray(data[type])
-        ? data[type].filter((item: { expiryDate: string }) => {
+        return Array.isArray(data[type])
+          ? data[type].filter((item: { expiryDate: string }) => {
             const expiryDate = Date.parse(item.expiryDate);
             return !Number.isNaN(expiryDate) && expiryDate > now;
           })
-        : [];
+          : [];
+      } catch {
+        return [];
+      }
     },
     initialData: [],
   });
