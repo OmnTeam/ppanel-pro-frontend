@@ -65,7 +65,7 @@ export default function Billing({ type }: BillingProps) {
         <span className="ml-2 text-muted-foreground text-xs">
           {t(
             "billing.description",
-            "赞助收益将助力 NPanel 持续迭代"
+            "Sponsoring revenue will empower NPanel's continuous iteration"
           )}
         </span>
       </h1>
