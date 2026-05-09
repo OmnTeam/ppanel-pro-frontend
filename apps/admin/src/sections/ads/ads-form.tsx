@@ -280,7 +280,7 @@ export default function AdsForm<T extends Record<string, any>>({
                         min={formatDateTimeLocal(Date.now())}
                         onValueChange={(value) => {
                           const timestamp = parseDateTimeLocal(value);
-                          form.setValue(field.name, timestamp);
+                          form.setValue(field.name, timestamp as unknown as number);
                           const endTime = form.getValues("end_time");
                           if (!timestamp || (endTime && timestamp > endTime)) {
                             form.setValue("end_time", undefined);
@@ -313,11 +313,11 @@ export default function AdsForm<T extends Record<string, any>>({
                         onValueChange={(value) => {
                           const timestamp = parseDateTimeLocal(value);
                           if (!timestamp) {
-                            form.setValue(field.name, undefined);
+                            form.setValue(field.name, undefined as unknown as number);
                             return;
                           }
                           if (!startTime || timestamp < startTime) return;
-                          form.setValue(field.name, timestamp);
+                          form.setValue(field.name, timestamp as unknown as number);
                         }}
                         placeholder={t("form.enterEndTime", "Select end time")}
                         step="1"

@@ -58,7 +58,6 @@ export function LayoutSwitch() {
   const { mode, setMode } = useLayoutStore();
   const { t } = useTranslation("components");
 
-  const current = layouts.find((l) => l.mode === mode) ?? layouts[0];
 
   return (
     <Sheet>

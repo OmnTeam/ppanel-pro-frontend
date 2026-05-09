@@ -79,11 +79,11 @@ export default function UserForm<T extends Record<string, any>>({
     form?.reset(
       initialValues
         ? {
-            ...initialValues,
-            balance: toNumber(initialValues.balance),
-            gift_amount: toNumber(initialValues.gift_amount),
-            commission: toNumber(initialValues.commission),
-          }
+          ...initialValues,
+          balance: toNumber(initialValues.balance),
+          gift_amount: toNumber(initialValues.gift_amount),
+          commission: toNumber(initialValues.commission),
+        }
         : initialValues
     );
   }, [form, initialValues]);
@@ -94,7 +94,7 @@ export default function UserForm<T extends Record<string, any>>({
       ...rest,
       referer_user: referer_id || undefined,
     };
-    const bool = await onSubmit(payload as T);
+    const bool = await onSubmit(payload as unknown as T);
 
     if (bool) setOpen(false);
   }

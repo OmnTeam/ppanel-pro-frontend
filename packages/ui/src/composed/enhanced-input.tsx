@@ -14,8 +14,8 @@ export interface EnhancedInputProps<T = string>
   formatOutput?: (value: string | number) => T;
   onValueChange?: (value: T) => void;
   onValueBlur?: (value: T) => void;
-  min?: number;
-  max?: number;
+  min?: number | string;
+  max?: number | string;
 }
 
 export function EnhancedInput<T = string>({
@@ -87,10 +87,10 @@ export function EnhancedInput<T = string>({
           inputValue !== "-" &&
           inputValue !== "."
         ) {
-          const min = Number.isFinite(props.min)
+          const min = Number.isFinite(Number(props.min)) && typeof props.min === "number"
             ? props.min
             : Number.NEGATIVE_INFINITY;
-          const max = Number.isFinite(props.max)
+          const max = Number.isFinite(Number(props.max)) && typeof props.max === "number"
             ? props.max
             : Number.POSITIVE_INFINITY;
           const constrainedValue = Math.max(min!, Math.min(max!, numericValue));
