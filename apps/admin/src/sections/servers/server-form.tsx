@@ -347,6 +347,38 @@ function renderGroupCard(
   );
 }
 
+function isLikelyDomainAddress(address?: string) {
+  const value = (address || "").trim();
+  return (
+    !!value &&
+    value.includes(".") &&
+    /[a-z]/i.test(value) &&
+    !value.includes(":")
+  );
+}
+
+function normalizeProtocolForSubmit(protocol: any, serverAddress?: string) {
+  if (!protocol || protocol.type !== "simnet") return protocol;
+  const next = { ...protocol };
+  if (!Number(next.port)) next.port = 443;
+  if (!next.simnet_carrier || next.simnet_carrier === "grpc")
+    next.simnet_carrier = "h2";
+  if (
+    (next.cert_mode === "http" || next.cert_mode === "dns") &&
+    !next.sni &&
+    isLikelyDomainAddress(serverAddress)
+  ) {
+    next.sni = serverAddress?.trim();
+  }
+  if (
+    (next.cert_mode === "http" || next.cert_mode === "dns") &&
+    (!next.security || next.security === "none")
+  ) {
+    next.security = "tls";
+  }
+  return next;
+}
+
 export default function ServerForm(props: {
   trigger: string;
   title: string;
@@ -400,12 +432,13 @@ export default function ServerForm(props: {
   }, [initialValues]);
 
   async function handleSubmit(values: Record<string, any>) {
-    const filteredProtocols = (values?.protocols || []).filter(
-      (protocol: any) => {
-        const port = Number(protocol?.port);
-        return protocol && Number.isFinite(port) && port > 0 && port <= 65_535;
-      }
+    const normalizedProtocols = (values?.protocols || []).map((protocol: any) =>
+      normalizeProtocolForSubmit(protocol, values.address)
     );
+    const filteredProtocols = normalizedProtocols.filter((protocol: any) => {
+      const port = Number(protocol?.port);
+      return protocol && Number.isFinite(port) && port > 0 && port <= 65_535;
+    });
 
     const result = {
       name: values.name,

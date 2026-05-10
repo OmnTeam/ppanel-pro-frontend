@@ -29,6 +29,8 @@ export const LABELS = {
   reality: "Reality",
   // simnet
   h2: "HTTP/2",
+  ws: "WebSocket",
+  raw: "Raw TLS",
   api: "API",
   random: "Random",
   derived: "Derived",
@@ -109,7 +111,7 @@ export const FINGERPRINTS = [
 ] as const;
 
 export const CERT_MODES = ["none", "http", "dns", "self"] as const;
-export const SIMNET_CARRIERS = ["h2", "grpc"] as const;
+export const SIMNET_CARRIERS = ["h2", "ws", "raw"] as const;
 export const SIMNET_AF_PATH_MODES = ["api", "random"] as const;
 export const SIMNET_AF_MAGIC_MODES = ["derived", "random"] as const;
 

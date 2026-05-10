@@ -7,12 +7,13 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
       return {
         type: "simnet",
         enable: false,
-        port: null,
+        port: 443,
         simnet_psk: null,
         simnet_key_id: null,
         simnet_ticket_id: null,
         simnet_path: null,
         simnet_carrier: "h2",
+        security: "tls",
         sni: null,
         allow_insecure: false,
         cert_mode: "none",
@@ -27,6 +28,11 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         simnet_af_handshake_polymorphism: false,
         simnet_af_settings_jitter: false,
         simnet_af_fake_header_injection: false,
+        simnet_reverse_enabled: false,
+        simnet_reverse_listen_addr: "127.0.0.1",
+        simnet_reverse_listen_port: null,
+        simnet_reverse_target_host: "127.0.0.1",
+        simnet_reverse_target_port: null,
         ratio: 1,
       } as any;
     case "shadowsocks":

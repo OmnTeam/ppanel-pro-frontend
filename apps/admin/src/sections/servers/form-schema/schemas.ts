@@ -32,6 +32,7 @@ const simnet = z.object({
   simnet_ticket_id: nullableString,
   simnet_path: nullableString,
   simnet_carrier: z.enum(SIMNET_CARRIERS).nullish(),
+  security: z.enum(["none", "tls"] as const).nullish(),
   sni: nullableString,
   allow_insecure: nullableBool,
   cert_mode: z.enum(CERT_MODES).nullish(),
@@ -46,6 +47,11 @@ const simnet = z.object({
   simnet_af_handshake_polymorphism: nullableBool,
   simnet_af_settings_jitter: nullableBool,
   simnet_af_fake_header_injection: nullableBool,
+  simnet_reverse_enabled: nullableBool,
+  simnet_reverse_listen_addr: nullableString,
+  simnet_reverse_listen_port: nullablePort,
+  simnet_reverse_target_host: nullableString,
+  simnet_reverse_target_port: nullablePort,
 });
 
 const ss = z.object({

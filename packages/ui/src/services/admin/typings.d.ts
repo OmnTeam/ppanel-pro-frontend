@@ -1711,6 +1711,7 @@ declare namespace API {
     simnet_ticket_id?: string;
     simnet_path?: string;
     simnet_carrier?: string;
+    security?: string;
     simnet_af_enabled?: boolean;
     simnet_af_path_mode?: string;
     simnet_af_path_prefix?: string;
@@ -1720,6 +1721,11 @@ declare namespace API {
     simnet_af_handshake_polymorphism?: boolean;
     simnet_af_settings_jitter?: boolean;
     simnet_af_fake_header_injection?: boolean;
+    simnet_reverse_enabled?: boolean;
+    simnet_reverse_listen_addr?: string;
+    simnet_reverse_listen_port?: number;
+    simnet_reverse_target_host?: string;
+    simnet_reverse_target_port?: number;
   };
 
   type PubilcRegisterConfig = {
