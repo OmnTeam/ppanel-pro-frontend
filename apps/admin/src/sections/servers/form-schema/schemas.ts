@@ -64,6 +64,8 @@ const simnet = z.object({
   simnet_fallback_target_port: nullablePort,
   simnet_fallback_host_header: nullableString,
   simnet_fallback_tls_sni: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const ss = z.object({
@@ -79,6 +81,8 @@ const ss = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const vmess = z.object({
@@ -97,6 +101,8 @@ const vmess = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const vless = z.object({
@@ -131,6 +137,8 @@ const vless = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const trojan = z.object({
@@ -149,6 +157,8 @@ const trojan = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const hysteria = z.object({
@@ -188,6 +198,8 @@ const tuic = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const anytls = z.object({
@@ -203,6 +215,8 @@ const anytls = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const socks = z.object({
@@ -210,6 +224,8 @@ const socks = z.object({
   type: z.literal("socks"),
   enable: nullableBool,
   port: nullablePort,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const naive = z.object({
@@ -224,6 +240,8 @@ const naive = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const http = z.object({
@@ -238,6 +256,8 @@ const http = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const mieru = z.object({
@@ -247,6 +267,8 @@ const mieru = z.object({
   port: nullablePort,
   multiplex: z.enum(multiplexLevels).nullish(),
   transport: z.enum(TRANSPORTS.mieru).nullish(),
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 const omniflow = z.object({
@@ -285,6 +307,8 @@ const omniflow = z.object({
   omniflow_fallback_carrier_enabled: nullableBool,
   omniflow_fallback_connect_tunnel: nullableBool,
   omniflow_fallback_wss_enabled: nullableBool,
+  up_mbps: z.number().nullish(),
+  down_mbps: z.number().nullish(),
 });
 
 export const protocolApiScheme = z.discriminatedUnion("type", [

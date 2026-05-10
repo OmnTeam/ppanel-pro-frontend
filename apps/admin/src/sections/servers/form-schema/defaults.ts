@@ -39,6 +39,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         simnet_fallback_target_port: null,
         simnet_fallback_host_header: null,
         simnet_fallback_tls_sni: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "omniflow":
@@ -82,6 +84,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         omniflow_fallback_carrier_enabled: false,
         omniflow_fallback_connect_tunnel: false,
         omniflow_fallback_wss_enabled: false,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "shadowsocks":
@@ -99,6 +103,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "vmess":
@@ -117,6 +123,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "vless":
@@ -151,6 +159,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "trojan":
@@ -169,6 +179,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "hysteria":
@@ -207,6 +219,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "socks":
@@ -214,6 +228,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         type: "socks",
         enable: false,
         port: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "naive":
@@ -228,6 +244,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "http":
@@ -242,6 +260,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     case "mieru":
@@ -251,6 +271,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         port: null,
         multiplex: "none",
         transport: "tcp",
+        up_mbps: null,
+        down_mbps: null,
       } as any;
     case "anytls":
       return {
@@ -265,6 +287,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        up_mbps: null,
+        down_mbps: null,
         ratio: 1,
       } as any;
     default:

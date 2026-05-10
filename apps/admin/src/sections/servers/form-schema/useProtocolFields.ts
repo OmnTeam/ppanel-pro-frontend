@@ -92,6 +92,30 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
           name: "security",
           type: "select",
           label: t("security", "Security"),
@@ -374,6 +398,30 @@ export function useProtocolFields() {
           min: 1,
           max: 65_535,
           placeholder: t("omniflow_server_port_placeholder", "e.g. 443"),
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         // Group 2: security
@@ -670,6 +718,30 @@ export function useProtocolFields() {
             ].includes(p.cipher),
         },
         {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
           name: "obfs",
           type: "select",
           label: t("obfs", "Obfuscation"),
@@ -751,6 +823,30 @@ export function useProtocolFields() {
           min: 1,
           max: 65_535,
           placeholder: "1-65535",
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         {
@@ -861,6 +957,30 @@ export function useProtocolFields() {
           min: 1,
           max: 65_535,
           placeholder: "1-65535",
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         {
@@ -1153,6 +1273,30 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
           name: "transport",
           type: "select",
           label: t("transport", "Transport"),
@@ -1418,6 +1562,30 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
           name: "sni",
           type: "input",
           label: t("security_sni", "SNI"),
@@ -1482,6 +1650,30 @@ export function useProtocolFields() {
           placeholder: "1-65535",
           group: "basic",
         },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
       ],
       naive: [
         {
@@ -1500,6 +1692,30 @@ export function useProtocolFields() {
           min: 1,
           max: 65_535,
           placeholder: "1-65535",
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         {
@@ -1577,6 +1793,30 @@ export function useProtocolFields() {
           min: 1,
           max: 65_535,
           placeholder: "1-65535",
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         {
@@ -1665,6 +1905,30 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
           name: "transport",
           type: "select",
           label: t("transport", "Transport"),
@@ -1700,6 +1964,30 @@ export function useProtocolFields() {
             "padding_scheme_placeholder",
             "One padding rule per line, format: stop=8, 0=30-30"
           ),
+          group: "basic",
+        },
+        {
+          name: "up_mbps",
+          type: "number",
+          label: t("up_mbps", "Upload Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
+          group: "basic",
+        },
+        {
+          name: "down_mbps",
+          type: "number",
+          label: t("down_mbps", "Download Bandwidth"),
+          min: 1,
+          placeholder: t(
+            "bandwidth_placeholder",
+            "Enter bandwidth, leave empty for BBR"
+          ),
+          suffix: "Mbps",
           group: "basic",
         },
         {
