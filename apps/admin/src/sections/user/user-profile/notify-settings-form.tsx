@@ -15,6 +15,7 @@ import {
 } from "@workspace/ui/components/form";
 import { Switch } from "@workspace/ui/components/switch";
 import { updateUserNotifySetting } from "@workspace/ui/services/admin/user";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -47,6 +48,15 @@ export function NotifySettingsForm({
       enable_trade_notify: user.enable_trade_notify,
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      enable_balance_notify: user.enable_balance_notify,
+      enable_login_notify: user.enable_login_notify,
+      enable_subscribe_notify: user.enable_subscribe_notify,
+      enable_trade_notify: user.enable_trade_notify,
+    });
+  }, [form, user]);
 
   async function onSubmit(data: NotifySettingsValues) {
     await updateUserNotifySetting({

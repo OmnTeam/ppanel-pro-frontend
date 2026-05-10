@@ -22,7 +22,7 @@ import { DatePicker } from "@workspace/ui/composed/date-picker";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -31,6 +31,18 @@ import { useSubscribe } from "@/stores/subscribe";
 function toNumber(value: number | string | null | undefined) {
   const parsed = Number(value ?? 0);
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function toMilliseconds(value: number | string | null | undefined) {
+  const parsed = toNumber(value);
+  if (!parsed) return 0;
+  return parsed < 10000000000 ? parsed * 1000 : parsed;
+}
+
+function toSeconds(value: number | null | undefined) {
+  const parsed = toNumber(value);
+  if (!parsed) return 0;
+  return parsed >= 10000000000 ? Math.floor(parsed / 1000) : parsed;
 }
 
 interface Props {
@@ -63,24 +75,35 @@ export function SubscriptionForm({
 }: Props) {
   const { t } = useTranslation("user");
   const [open, setOpen] = useState(false);
-
-  const form = useForm<SubscriptionFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+  const defaultValues = useMemo<SubscriptionFormValues>(
+    () => ({
       subscribe_id: initialData?.subscribe_id || "",
       traffic: toNumber(initialData?.traffic),
       upload: toNumber(initialData?.upload),
       download: toNumber(initialData?.download),
-      expired_at: toNumber(initialData?.expire_time),
+      expired_at: toMilliseconds(initialData?.expire_time),
       ...(initialData && { id: initialData.id }),
-    },
+    }),
+    [initialData]
+  );
+
+  const form = useForm<SubscriptionFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
+
   const handleSubmit = async (values: SubscriptionFormValues) => {
-    const success = await onSubmit(values);
+    const success = await onSubmit({
+      ...values,
+      expired_at: toSeconds(values.expired_at),
+    });
     if (success) {
       setOpen(false);
-      form.reset();
+      form.reset(defaultValues);
     }
   };
 
@@ -91,7 +114,7 @@ export function SubscriptionForm({
       <SheetTrigger asChild>
         <Button
           onClick={() => {
-            form.reset();
+            form.reset(defaultValues);
             setOpen(true);
           }}
         >

@@ -20,6 +20,7 @@ import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { UploadImage } from "@workspace/ui/composed/upload-image";
 import { updateUserBasicInfo } from "@workspace/ui/services/admin/user";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -74,6 +75,22 @@ export function BasicInfoForm({
       enable: user.enable,
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      avatar: user.avatar,
+      balance: toNumber(user.balance),
+      commission: toNumber(user.commission),
+      gift_amount: toNumber(user.gift_amount),
+      refer_code: user.refer_code,
+      referer_id: user.referer_id,
+      referral_percentage: user.referral_percentage,
+      only_first_purchase: user.only_first_purchase,
+      is_admin: user.is_admin,
+      enable: user.enable,
+      password: "",
+    });
+  }, [form, user]);
 
   async function onSubmit(data: BasicInfoValues) {
     await updateUserBasicInfo({

@@ -27,6 +27,10 @@ export function DatePicker({
     value ? new Date(value) : undefined
   );
 
+  React.useEffect(() => {
+    setDate(value ? new Date(value) : undefined);
+  }, [value]);
+
   const handleSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
     if (onChange) {

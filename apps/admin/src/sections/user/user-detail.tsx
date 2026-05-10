@@ -128,7 +128,9 @@ export function UserSubscribeDetail({
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">{t("expireTime")}</span>
               <span>
-                {data?.expire_time ? formatDate(toNumber(data.expire_time)) : "--"}
+                {data?.expire_time && toNumber(data.expire_time) !== 0
+                  ? formatDate(toNumber(data.expire_time))
+                  : t("permanent", "Permanent")}
               </span>
             </li>
             {/* <li className="flex items-center justify-between">
