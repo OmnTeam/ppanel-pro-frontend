@@ -6,6 +6,26 @@
     "saveFailed": "Save Failed",
     "saveSuccess": "Save Successful"
   },
+  "deviceAdmission": {
+    "title": "Real-time Device Admission Control",
+    "description": "When enabled, OmnXT nodes will perform device admission checks with the panel on every new connection. This feature requires OmnXT Node (v1.0.0+) with the admission control module deployed. When disabled, nodes will not perform admission checks and device limits rely solely on the traditional heartbeat reporting mechanism.",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "saveSuccess": "Save Successful",
+    "saveFailed": "Save Failed"
+  },
+  "deviceCountMode": {
+    "byConnection": "Count by Connection",
+    "byConnectionDescription": "Each active proxy connection counts as one device slot. Stricter policy, suitable for preventing account sharing.",
+    "byIp": "Count by IP",
+    "byIpDescription": "Devices sharing the same public IP (e.g. same WiFi) count as one device slot. More lenient policy.",
+    "description": "Configure how online devices are counted",
+    "modeLabel": "Count Mode",
+    "saveFailed": "Save Failed",
+    "saveSuccess": "Save Successful",
+    "selectPlaceholder": "Select device count mode",
+    "title": "Device Count Mode"
+  },
   "currency": {
     "accessKey": "API Key",
     "accessKeyDescription": "Free exchange rate API key provided by {{url}}",

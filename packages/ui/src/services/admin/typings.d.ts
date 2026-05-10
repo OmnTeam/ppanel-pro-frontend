@@ -1469,6 +1469,8 @@ declare namespace API {
     node_push_interval: number;
     traffic_report_threshold: number;
     ip_strategy: string;
+    device_count_mode?: string;
+    device_admission_enabled?: boolean;
     dns: NodeDNS[];
     block: string[];
     outbound: NodeOutbound[];
@@ -2612,6 +2614,9 @@ declare namespace API {
     user_agent: string;
     online: boolean;
     enabled: boolean;
+    node_name?: string;
+    protocol?: string;
+    connected_at?: string;
     created_at: string;
     updated_at: string;
   };

@@ -10,6 +10,8 @@ import PrivacyPolicyForm from "./basic-settings/privacy-policy-form";
 import SiteForm from "./basic-settings/site-form";
 import TosForm from "./basic-settings/tos-form";
 import LogCleanupForm from "./log-cleanup/log-cleanup-form";
+import DeviceAdmissionToggle from "./user-security/device-admission-toggle";
+import DeviceCountModeForm from "./user-security/device-count-mode-form";
 import InviteForm from "./user-security/invite-form";
 import RegisterForm from "./user-security/register-form";
 import VerifyCodeForm from "./user-security/verify-code-form";
@@ -32,6 +34,8 @@ export default function System() {
       title: t("userSecuritySettings", "User & Security"),
       forms: [
         { component: RegisterForm },
+        { component: DeviceAdmissionToggle },
+        { component: DeviceCountModeForm },
         { component: InviteForm },
         { component: VerifyForm },
         { component: VerifyCodeForm },

@@ -6,6 +6,26 @@
     "saveFailed": "保存失败",
     "saveSuccess": "保存成功"
   },
+  "deviceAdmission": {
+    "title": "实时设备准入检查",
+    "description": "启用后，OmnXT 节点将在每次新连接建立时向面板发起设备准入检查。此功能必须与部署了准入检查模块的 OmnXT Node（v1.0.0+）配合使用才能生效。未启用时节点不会执行准入检查，设备限制仅依赖传统的心跳上报机制。",
+    "enabled": "已启用",
+    "disabled": "未启用",
+    "saveSuccess": "保存成功",
+    "saveFailed": "保存失败"
+  },
+  "deviceCountMode": {
+    "byConnection": "按连接计数",
+    "byConnectionDescription": "每条独立的代理连接占用一个设备名额，策略更严格，适合防止多人共用。",
+    "byIp": "按 IP 计数",
+    "byIpDescription": "同一 WiFi 下多设备共享公网 IP 只算一个设备名额，策略偏宽松。",
+    "description": "配置在线设备的计数方式",
+    "modeLabel": "计数模式",
+    "saveFailed": "保存失败",
+    "saveSuccess": "保存成功",
+    "selectPlaceholder": "选择设备计数模式",
+    "title": "设备计数模式"
+  },
   "currency": {
     "accessKey": "API 密钥",
     "accessKeyDescription": "由 {{url}} 提供的免费汇率 API 密钥",

@@ -14,7 +14,8 @@ import {
   getUserSubscribeDevices,
   kickOfflineByUserDevice,
 } from "@workspace/ui/services/admin/user";
-import { type ReactNode, useState } from "react";
+import { getNodeConfig } from "@workspace/ui/services/admin/system";
+import { type ReactNode, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { IpLink } from "@/components/ip-link";
@@ -36,6 +37,30 @@ export function SubscriptionDetail({
 }) {
   const { t } = useTranslation("user");
   const [open, setOpen] = useState(false);
+  const [deviceCountMode, setDeviceCountMode] = useState<string>("ip");
+
+  useEffect(() => {
+    if (open) {
+      getNodeConfig().then(({ data }) => {
+        if (data.data?.device_count_mode) {
+          setDeviceCountMode(data.data.device_count_mode);
+        }
+      }).catch(() => {});
+    }
+  }, [open]);
+
+  function formatDuration(connectedAt?: string) {
+    if (!connectedAt) return "-";
+    const start = new Date(connectedAt).getTime();
+    if (Number.isNaN(start)) return "-";
+    const now = Date.now();
+    const diffSec = Math.floor((now - start) / 1000);
+    if (diffSec < 60) return `${diffSec}s`;
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m`;
+    const hours = Math.floor(diffSec / 3600);
+    const mins = Math.floor((diffSec % 3600) / 60);
+    return `${hours}h ${mins}m`;
+  }
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
@@ -46,6 +71,13 @@ export function SubscriptionDetail({
       >
         <SheetHeader>
           <SheetTitle>{t("onlineDevices", "Online Devices")}</SheetTitle>
+          <div className="mt-1">
+            <Badge variant="outline">
+              {deviceCountMode === "connection"
+                ? t("deviceCountModeConnection", "Current Mode: Count by Connection")
+                : t("deviceCountModeIp", "Current Mode: Count by IP")}
+            </Badge>
+          </div>
         </SheetHeader>
         <div className="mt-4 max-h-[calc(100dvh-120px)] overflow-y-auto">
           <ProTable<API.UserDevice, Record<string, unknown>>
@@ -100,6 +132,29 @@ export function SubscriptionDetail({
                 accessorKey: "ip",
                 header: "IP",
                 cell: ({ row }) => <IpLink ip={row.getValue("ip")} />,
+              },
+              {
+                accessorKey: "node_name",
+                header: t("nodeName", "Node"),
+                cell: ({ row }) => row.getValue("node_name") || "-",
+              },
+              {
+                accessorKey: "protocol",
+                header: t("protocol", "Protocol"),
+                cell: ({ row }) => {
+                  const protocol = row.getValue("protocol") as string;
+                  return protocol ? (
+                    <Badge variant="secondary">{protocol}</Badge>
+                  ) : (
+                    "-"
+                  );
+                },
+              },
+              {
+                accessorKey: "connected_at",
+                header: t("connectedDuration", "Duration"),
+                cell: ({ row }) =>
+                  formatDuration(row.getValue("connected_at") as string),
               },
               {
                 accessorKey: "online",
