@@ -1,5 +1,6 @@
 export const protocols = [
   "simnet",
+  "omniflow",
   "shadowsocks",
   "vmess",
   "vless",
@@ -117,6 +118,12 @@ export const SIMNET_CARRIERS = ["h2", "ws", "raw"] as const;
 export const SIMNET_AF_PATH_MODES = ["api", "random"] as const;
 export const SIMNET_AF_MAGIC_MODES = ["derived", "random"] as const;
 export const SIMNET_FALLBACK_SCHEMES = ["https", "http"] as const;
+
+export const OMNIFLOW_CARRIERS = ["h2", "h3"] as const;
+export const OMNIFLOW_TLS_FINGERPRINTS = ["chrome", "firefox", "safari"] as const;
+export const OMNIFLOW_SNI_MODES = ["direct", "transparent_forward"] as const;
+export const OMNIFLOW_PADDING_MODES = ["random", "mtu_align", "fixed_overhead"] as const;
+export const OMNIFLOW_H3_FALLBACK_POLICIES = ["always", "timeout", "never"] as const;
 
 export const multiplexLevels = ["none", "low", "middle", "high"] as const;
 

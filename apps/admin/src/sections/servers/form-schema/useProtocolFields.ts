@@ -14,6 +14,11 @@ import {
   FINGERPRINTS,
   FLOWS,
   multiplexLevels,
+  OMNIFLOW_CARRIERS,
+  OMNIFLOW_H3_FALLBACK_POLICIES,
+  OMNIFLOW_PADDING_MODES,
+  OMNIFLOW_SNI_MODES,
+  OMNIFLOW_TLS_FINGERPRINTS,
   SECURITY,
   SIMNET_AF_MAGIC_MODES,
   SIMNET_AF_PATH_MODES,
@@ -314,6 +319,312 @@ export function useProtocolFields() {
           ),
           group: "simnet",
           condition: (p) => !!p.simnet_fallback_enabled,
+        },
+      ],
+      omniflow: [
+        // Group 1: basic
+        {
+          name: "port",
+          type: "number",
+          label: t("port", "Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: "443",
+          group: "basic",
+        },
+        {
+          name: "omniflow_carrier",
+          type: "select",
+          label: t("omniflow_carrier", "Carrier Transport"),
+          options: OMNIFLOW_CARRIERS,
+          defaultValue: "h2",
+          group: "basic",
+        },
+        {
+          name: "omniflow_path",
+          type: "input",
+          label: t("omniflow_path", "HTTP Path"),
+          placeholder: t("omniflow_path_placeholder", "e.g. /omniflow"),
+          group: "basic",
+        },
+        {
+          name: "omniflow_content_type",
+          type: "input",
+          label: t("omniflow_content_type", "Content Type"),
+          placeholder: t(
+            "omniflow_content_type_placeholder",
+            "e.g. application/grpc"
+          ),
+          group: "basic",
+        },
+        {
+          name: "omniflow_server_host",
+          type: "input",
+          label: t("omniflow_server_host", "Server Host"),
+          placeholder: t(
+            "omniflow_server_host_placeholder",
+            "e.g. example.com"
+          ),
+          group: "basic",
+        },
+        {
+          name: "omniflow_server_port",
+          type: "number",
+          label: t("omniflow_server_port", "Server Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: t("omniflow_server_port_placeholder", "e.g. 443"),
+          group: "basic",
+        },
+        // Group 2: security
+        {
+          name: "security",
+          type: "select",
+          label: t("security", "Security"),
+          options: ["tls"],
+          defaultValue: "tls",
+          group: "security",
+        },
+        {
+          name: "sni",
+          type: "input",
+          label: t("security_sni", "SNI"),
+          placeholder: t("sni_placeholder", "e.g. edge.example.com"),
+          group: "security",
+        },
+        {
+          name: "allow_insecure",
+          type: "switch",
+          label: t("security_allow_insecure", "Allow Insecure"),
+          group: "security",
+        },
+        {
+          name: "omniflow_ca_cert_path",
+          type: "input",
+          label: t("omniflow_ca_cert_path", "CA Certificate Path"),
+          placeholder: t(
+            "omniflow_ca_cert_path_placeholder",
+            "Path to CA certificate file"
+          ),
+          group: "security",
+        },
+        {
+          name: "omniflow_spki_pin",
+          type: "input",
+          label: t("omniflow_spki_pin", "SPKI Pin"),
+          placeholder: t(
+            "omniflow_spki_pin_placeholder",
+            "Subject Public Key Info pin"
+          ),
+          group: "security",
+        },
+        {
+          name: "omniflow_sni_mode",
+          type: "select",
+          label: t("omniflow_sni_mode", "SNI Mode"),
+          options: OMNIFLOW_SNI_MODES,
+          group: "security",
+        },
+        // Group 3: omniflow (OmniFlow Profile)
+        {
+          name: "omniflow_profile_path",
+          type: "input",
+          label: t("omniflow_profile_path", "Profile File Path"),
+          placeholder: t(
+            "omniflow_profile_path_placeholder",
+            "Path to profile file on server"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_profile_json",
+          type: "textarea",
+          label: t("omniflow_profile_json", "Profile JSON"),
+          placeholder: t(
+            "omniflow_profile_json_placeholder",
+            "Inline profile JSON configuration"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_target_meta",
+          type: "input",
+          label: t("omniflow_target_meta", "Encrypted Target Meta"),
+          placeholder: t(
+            "omniflow_target_meta_placeholder",
+            "Encrypted target metadata"
+          ),
+          group: "omniflow",
+        },
+        // Group 4: omniflow (H3 Fallback)
+        {
+          name: "omniflow_h3_fallback_enabled",
+          type: "switch",
+          label: t("omniflow_h3_fallback_enabled", "Enable H3 Fallback"),
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_policy",
+          type: "select",
+          label: t("omniflow_h3_fallback_policy", "H3 Fallback Policy"),
+          options: OMNIFLOW_H3_FALLBACK_POLICIES,
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_timeout_ms",
+          type: "number",
+          label: t(
+            "omniflow_h3_fallback_timeout_ms",
+            "H3 Fallback Timeout (ms)"
+          ),
+          min: 100,
+          max: 30000,
+          step: 100,
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_retry_budget",
+          type: "number",
+          label: t(
+            "omniflow_h3_fallback_retry_budget",
+            "H3 Fallback Retry Budget"
+          ),
+          min: 0,
+          max: 100,
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_smoke_enabled",
+          type: "switch",
+          label: t(
+            "omniflow_h3_fallback_smoke_enabled",
+            "Enable Smoke Test"
+          ),
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_smoke_interval_sec",
+          type: "number",
+          label: t(
+            "omniflow_h3_fallback_smoke_interval_sec",
+            "Smoke Test Interval (sec)"
+          ),
+          min: 1,
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        {
+          name: "omniflow_h3_fallback_smoke_timeout_ms",
+          type: "number",
+          label: t(
+            "omniflow_h3_fallback_smoke_timeout_ms",
+            "Smoke Test Timeout (ms)"
+          ),
+          min: 100,
+          group: "omniflow",
+          condition: (p) =>
+            p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
+        },
+        // Group 5: omniflow (Connection Management)
+        {
+          name: "omniflow_max_age_sec",
+          type: "number",
+          label: t("omniflow_max_age_sec", "Max Connection Age (sec)"),
+          min: 0,
+          placeholder: t("omniflow_max_age_sec_placeholder", "0 for unlimited"),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_idle_timeout_sec",
+          type: "number",
+          label: t("omniflow_idle_timeout_sec", "Idle Timeout (sec)"),
+          min: 0,
+          placeholder: t(
+            "omniflow_idle_timeout_sec_placeholder",
+            "e.g. 300"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_max_connections",
+          type: "number",
+          label: t("omniflow_max_connections", "Max Connections"),
+          min: 1,
+          max: 1000,
+          placeholder: t(
+            "omniflow_max_connections_placeholder",
+            "e.g. 8"
+          ),
+          group: "omniflow",
+        },
+        // Group 6: omniflow (Anti-Fingerprint)
+        {
+          name: "omniflow_adaptive_tls_enabled",
+          type: "switch",
+          label: t(
+            "omniflow_adaptive_tls_enabled",
+            "Enable Adaptive TLS"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_tls_fingerprint",
+          type: "select",
+          label: t("omniflow_tls_fingerprint", "TLS Fingerprint"),
+          options: OMNIFLOW_TLS_FINGERPRINTS,
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_padding_mode",
+          type: "select",
+          label: t("omniflow_padding_mode", "Padding Mode"),
+          options: OMNIFLOW_PADDING_MODES,
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_traffic_shaping_enabled",
+          type: "switch",
+          label: t(
+            "omniflow_traffic_shaping_enabled",
+            "Enable Traffic Shaping"
+          ),
+          group: "omniflow",
+        },
+        // Group 7: omniflow (Fallback Carrier)
+        {
+          name: "omniflow_fallback_carrier_enabled",
+          type: "switch",
+          label: t(
+            "omniflow_fallback_carrier_enabled",
+            "Enable Fallback Carrier"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_fallback_connect_tunnel",
+          type: "switch",
+          label: t(
+            "omniflow_fallback_connect_tunnel",
+            "HTTP/1.1 CONNECT Tunnel"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_fallback_wss_enabled",
+          type: "switch",
+          label: t("omniflow_fallback_wss_enabled", "WSS Fallback"),
+          group: "omniflow",
         },
       ],
       shadowsocks: [

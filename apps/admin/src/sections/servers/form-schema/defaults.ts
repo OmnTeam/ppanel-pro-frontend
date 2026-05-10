@@ -41,6 +41,49 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         simnet_fallback_tls_sni: null,
         ratio: 1,
       } as any;
+    case "omniflow":
+      return {
+        type: "omniflow",
+        enable: false,
+        port: 443,
+        security: "tls",
+        sni: null,
+        allow_insecure: false,
+        // OmniFlow 基础
+        omniflow_carrier: "h2",
+        omniflow_path: null,
+        omniflow_content_type: null,
+        omniflow_profile_path: null,
+        omniflow_profile_json: null,
+        omniflow_server_host: null,
+        omniflow_server_port: null,
+        omniflow_ca_cert_path: null,
+        omniflow_target_meta: null,
+        omniflow_spki_pin: null,
+        // H3 Fallback
+        omniflow_h3_fallback_enabled: false,
+        omniflow_h3_fallback_policy: "timeout",
+        omniflow_h3_fallback_timeout_ms: 5000,
+        omniflow_h3_fallback_retry_budget: 3,
+        omniflow_h3_fallback_smoke_enabled: false,
+        omniflow_h3_fallback_smoke_interval_sec: 60,
+        omniflow_h3_fallback_smoke_timeout_ms: 3000,
+        // 连接管理
+        omniflow_max_age_sec: 0,
+        omniflow_idle_timeout_sec: 300,
+        omniflow_max_connections: 8,
+        // 抗指纹
+        omniflow_adaptive_tls_enabled: false,
+        omniflow_tls_fingerprint: "chrome",
+        omniflow_sni_mode: "direct",
+        omniflow_padding_mode: "random",
+        omniflow_traffic_shaping_enabled: false,
+        // 回退 Carrier
+        omniflow_fallback_carrier_enabled: false,
+        omniflow_fallback_connect_tunnel: false,
+        omniflow_fallback_wss_enabled: false,
+        ratio: 1,
+      } as any;
     case "shadowsocks":
       return {
         type: "shadowsocks",

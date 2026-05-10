@@ -37,6 +37,7 @@ import { useServer } from "@/stores/server";
 
 export type ProtocolName =
   | "simnet"
+  | "omniflow"
   | "shadowsocks"
   | "vmess"
   | "vless"

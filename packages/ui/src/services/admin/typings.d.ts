@@ -1732,6 +1732,35 @@ declare namespace API {
     simnet_fallback_target_port?: number;
     simnet_fallback_host_header?: string;
     simnet_fallback_tls_sni?: string;
+    // OmniFlow 配置
+    omniflow_carrier?: string;
+    omniflow_path?: string;
+    omniflow_content_type?: string;
+    omniflow_profile_path?: string;
+    omniflow_profile_json?: string;
+    omniflow_server_host?: string;
+    omniflow_server_port?: number;
+    omniflow_ca_cert_path?: string;
+    omniflow_target_meta?: string;
+    omniflow_spki_pin?: string;
+    omniflow_h3_fallback_enabled?: boolean;
+    omniflow_h3_fallback_policy?: string;
+    omniflow_h3_fallback_timeout_ms?: number;
+    omniflow_h3_fallback_retry_budget?: number;
+    omniflow_h3_fallback_smoke_enabled?: boolean;
+    omniflow_h3_fallback_smoke_interval_sec?: number;
+    omniflow_h3_fallback_smoke_timeout_ms?: number;
+    omniflow_max_age_sec?: number;
+    omniflow_idle_timeout_sec?: number;
+    omniflow_max_connections?: number;
+    omniflow_adaptive_tls_enabled?: boolean;
+    omniflow_tls_fingerprint?: string;
+    omniflow_sni_mode?: string;
+    omniflow_padding_mode?: string;
+    omniflow_traffic_shaping_enabled?: boolean;
+    omniflow_fallback_carrier_enabled?: boolean;
+    omniflow_fallback_connect_tunnel?: boolean;
+    omniflow_fallback_wss_enabled?: boolean;
   };
 
   type PubilcRegisterConfig = {
