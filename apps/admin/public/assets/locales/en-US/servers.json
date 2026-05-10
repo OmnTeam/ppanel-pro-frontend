@@ -152,5 +152,21 @@
   "unlimited": "Unlimited",
   "up_mbps": "Upload Bandwidth",
   "updated": "Updated",
-  "user": "User"
+  "user": "User",
+  "simnet_af_enabled": "Enable Anti-Fingerprint",
+  "simnet_af_path_mode": "Anti-Fingerprint Path Mode",
+  "simnet_af_path_prefix": "Anti-Fingerprint Path Prefix",
+  "simnet_af_path_prefix_placeholder": "Optional path prefix",
+  "simnet_af_path_suffix": "Anti-Fingerprint Path Suffix",
+  "simnet_af_path_suffix_placeholder": "Optional path suffix",
+  "simnet_af_magic_mode": "Anti-Fingerprint Magic Mode",
+  "simnet_af_response_jitter_ms": "Anti-Fingerprint Response Jitter",
+  "simnet_af_handshake_polymorphism": "Handshake Polymorphism",
+  "simnet_af_settings_jitter": "Settings Frame Jitter",
+  "simnet_af_fake_header_injection": "Fake Header Injection",
+  "simnet_reverse_enabled": "Enable Local Reverse Proxy",
+  "simnet_reverse_listen_addr": "Reverse Listen Address",
+  "simnet_reverse_listen_port": "Reverse Listen Port",
+  "simnet_reverse_target_host": "Reverse Target Host",
+  "simnet_reverse_target_port": "Reverse Target Port"
 }

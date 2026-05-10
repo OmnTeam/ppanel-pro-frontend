@@ -152,5 +152,21 @@
   "unlimited": "无限制",
   "up_mbps": "上传带宽",
   "updated": "已更新",
-  "user": "用户"
+  "user": "用户",
+  "simnet_af_enabled": "启用反指纹",
+  "simnet_af_path_mode": "反指纹路径模式",
+  "simnet_af_path_prefix": "反指纹路径前缀",
+  "simnet_af_path_prefix_placeholder": "可选路径前缀",
+  "simnet_af_path_suffix": "反指纹路径后缀",
+  "simnet_af_path_suffix_placeholder": "可选路径后缀",
+  "simnet_af_magic_mode": "反指纹 Magic 模式",
+  "simnet_af_response_jitter_ms": "反指纹响应抖动",
+  "simnet_af_handshake_polymorphism": "握手多态",
+  "simnet_af_settings_jitter": "Settings 帧抖动",
+  "simnet_af_fake_header_injection": "注入伪装 Header",
+  "simnet_reverse_enabled": "启用本地反向代理",
+  "simnet_reverse_listen_addr": "反代监听地址",
+  "simnet_reverse_listen_port": "反代监听端口",
+  "simnet_reverse_target_host": "反代目标主机",
+  "simnet_reverse_target_port": "反代目标端口"
 }
