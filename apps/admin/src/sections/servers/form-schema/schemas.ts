@@ -10,6 +10,7 @@ import {
   SIMNET_AF_MAGIC_MODES,
   SIMNET_AF_PATH_MODES,
   SIMNET_CARRIERS,
+  SIMNET_FALLBACK_SCHEMES,
   SS_CIPHERS,
   TRANSPORTS,
   TUIC_CONGESTION,
@@ -52,6 +53,12 @@ const simnet = z.object({
   simnet_reverse_listen_port: nullablePort,
   simnet_reverse_target_host: nullableString,
   simnet_reverse_target_port: nullablePort,
+  simnet_fallback_enabled: nullableBool,
+  simnet_fallback_target_scheme: z.enum(SIMNET_FALLBACK_SCHEMES).nullish(),
+  simnet_fallback_target_host: nullableString,
+  simnet_fallback_target_port: nullablePort,
+  simnet_fallback_host_header: nullableString,
+  simnet_fallback_tls_sni: nullableString,
 });
 
 const ss = z.object({

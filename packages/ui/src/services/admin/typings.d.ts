@@ -1726,6 +1726,12 @@ declare namespace API {
     simnet_reverse_listen_port?: number;
     simnet_reverse_target_host?: string;
     simnet_reverse_target_port?: number;
+    simnet_fallback_enabled?: boolean;
+    simnet_fallback_target_scheme?: string;
+    simnet_fallback_target_host?: string;
+    simnet_fallback_target_port?: number;
+    simnet_fallback_host_header?: string;
+    simnet_fallback_tls_sni?: string;
   };
 
   type PubilcRegisterConfig = {

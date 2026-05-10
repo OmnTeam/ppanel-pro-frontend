@@ -33,6 +33,12 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         simnet_reverse_listen_port: null,
         simnet_reverse_target_host: "127.0.0.1",
         simnet_reverse_target_port: null,
+        simnet_fallback_enabled: false,
+        simnet_fallback_target_scheme: "https",
+        simnet_fallback_target_host: null,
+        simnet_fallback_target_port: null,
+        simnet_fallback_host_header: null,
+        simnet_fallback_tls_sni: null,
         ratio: 1,
       } as any;
     case "shadowsocks":

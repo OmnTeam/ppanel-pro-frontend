@@ -18,6 +18,7 @@ import {
   SIMNET_AF_MAGIC_MODES,
   SIMNET_AF_PATH_MODES,
   SIMNET_CARRIERS,
+  SIMNET_FALLBACK_SCHEMES,
   SS_CIPHERS,
   TRANSPORTS,
   TUIC_CONGESTION,
@@ -252,6 +253,67 @@ export function useProtocolFields() {
           placeholder: "8080",
           group: "simnet",
           condition: (p) => !!p.simnet_reverse_enabled,
+        },
+        {
+          name: "simnet_fallback_enabled",
+          type: "switch",
+          label: t(
+            "simnet_fallback_enabled",
+            "Enable HTTPS Fallback Reverse Proxy"
+          ),
+          group: "simnet",
+        },
+        {
+          name: "simnet_fallback_target_scheme",
+          type: "select",
+          label: t("simnet_fallback_target_scheme", "Fallback Target Scheme"),
+          options: SIMNET_FALLBACK_SCHEMES,
+          defaultValue: "https",
+          group: "simnet",
+          condition: (p) => !!p.simnet_fallback_enabled,
+        },
+        {
+          name: "simnet_fallback_target_host",
+          type: "input",
+          label: t("simnet_fallback_target_host", "Fallback Target Host"),
+          placeholder: t(
+            "simnet_fallback_target_host_placeholder",
+            "e.g. www.example.com"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_fallback_enabled,
+        },
+        {
+          name: "simnet_fallback_target_port",
+          type: "number",
+          label: t("simnet_fallback_target_port", "Fallback Target Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: "443 / 80",
+          group: "simnet",
+          condition: (p) => !!p.simnet_fallback_enabled,
+        },
+        {
+          name: "simnet_fallback_host_header",
+          type: "input",
+          label: t("simnet_fallback_host_header", "Fallback Host Header"),
+          placeholder: t(
+            "simnet_fallback_host_header_placeholder",
+            "Optional, defaults to target host"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_fallback_enabled,
+        },
+        {
+          name: "simnet_fallback_tls_sni",
+          type: "input",
+          label: t("simnet_fallback_tls_sni", "Fallback TLS SNI"),
+          placeholder: t(
+            "simnet_fallback_tls_sni_placeholder",
+            "Optional, defaults to target host"
+          ),
+          group: "simnet",
+          condition: (p) => !!p.simnet_fallback_enabled,
         },
       ],
       shadowsocks: [

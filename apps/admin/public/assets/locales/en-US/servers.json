@@ -168,5 +168,14 @@
   "simnet_reverse_listen_addr": "Reverse Listen Address",
   "simnet_reverse_listen_port": "Reverse Listen Port",
   "simnet_reverse_target_host": "Reverse Target Host",
-  "simnet_reverse_target_port": "Reverse Target Port"
+  "simnet_reverse_target_port": "Reverse Target Port",
+  "simnet_fallback_enabled": "Enable HTTPS Fallback Reverse Proxy",
+  "simnet_fallback_target_scheme": "Fallback Target Scheme",
+  "simnet_fallback_target_host": "Fallback Target Host",
+  "simnet_fallback_target_host_placeholder": "e.g. www.example.com",
+  "simnet_fallback_target_port": "Fallback Target Port",
+  "simnet_fallback_host_header": "Fallback Host Header",
+  "simnet_fallback_host_header_placeholder": "Optional, defaults to target host",
+  "simnet_fallback_tls_sni": "Fallback TLS SNI",
+  "simnet_fallback_tls_sni_placeholder": "Optional, defaults to target host"
 }

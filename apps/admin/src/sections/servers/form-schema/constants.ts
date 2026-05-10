@@ -31,6 +31,8 @@ export const LABELS = {
   h2: "HTTP/2",
   ws: "WebSocket",
   raw: "Raw TLS",
+  https: "HTTPS",
+  http: "HTTP",
   api: "API",
   random: "Random",
   derived: "Derived",
@@ -114,6 +116,7 @@ export const CERT_MODES = ["none", "http", "dns", "self"] as const;
 export const SIMNET_CARRIERS = ["h2", "ws", "raw"] as const;
 export const SIMNET_AF_PATH_MODES = ["api", "random"] as const;
 export const SIMNET_AF_MAGIC_MODES = ["derived", "random"] as const;
+export const SIMNET_FALLBACK_SCHEMES = ["https", "http"] as const;
 
 export const multiplexLevels = ["none", "low", "middle", "high"] as const;
 

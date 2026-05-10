@@ -168,5 +168,14 @@
   "simnet_reverse_listen_addr": "反代监听地址",
   "simnet_reverse_listen_port": "反代监听端口",
   "simnet_reverse_target_host": "反代目标主机",
-  "simnet_reverse_target_port": "反代目标端口"
+  "simnet_reverse_target_port": "反代目标端口",
+  "simnet_fallback_enabled": "启用 HTTPS Fallback 反向代理",
+  "simnet_fallback_target_scheme": "Fallback 目标协议",
+  "simnet_fallback_target_host": "Fallback 目标主机",
+  "simnet_fallback_target_host_placeholder": "例如 www.example.com",
+  "simnet_fallback_target_port": "Fallback 目标端口",
+  "simnet_fallback_host_header": "Fallback Host Header",
+  "simnet_fallback_host_header_placeholder": "可选，默认使用目标主机",
+  "simnet_fallback_tls_sni": "Fallback TLS SNI",
+  "simnet_fallback_tls_sni_placeholder": "可选，默认使用目标主机"
 }
