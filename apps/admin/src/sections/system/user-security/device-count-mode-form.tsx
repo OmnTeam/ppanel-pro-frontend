@@ -92,15 +92,22 @@ export default function DeviceCountModeForm() {
   }
 
   return (
-    <Sheet onOpenChange={(v) => { if (admissionEnabled) setOpen(v); }} open={open}>
-      <SheetTrigger asChild disabled={!admissionEnabled}>
-        <div className={`flex items-center justify-between transition-colors ${admissionEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+    <Sheet
+      onOpenChange={(v) => {
+        if (admissionEnabled) setOpen(v);
+      }}
+      open={open}
+    >
+      <SheetTrigger asChild>
+        <div
+          aria-disabled={!admissionEnabled}
+          className={`flex items-center justify-between transition-colors ${admissionEnabled ? "cursor-pointer hover:bg-accent/50" : "pointer-events-none cursor-not-allowed opacity-50"}`}
+          role="button"
+          tabIndex={admissionEnabled ? 0 : -1}
+        >
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <Icon
-                className="h-5 w-5 text-primary"
-                icon="mdi:devices"
-              />
+              <Icon className="h-5 w-5 text-primary" icon="mdi:devices" />
             </div>
             <div className="flex-1">
               <p className="font-medium">

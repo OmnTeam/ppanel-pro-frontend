@@ -10,6 +10,7 @@ function getSavedLanguage(
   fallback: string,
   storageKey = "language"
 ): string {
+  // 1. 检查 localStorage 中保存的语言
   try {
     const saved = localStorage.getItem(storageKey);
     if (saved && supportedLngs.includes(saved)) {
@@ -18,6 +19,38 @@ function getSavedLanguage(
   } catch {
     // localStorage 不可用时静默降级
   }
+
+  // 2. 检测浏览器语言作为二级 fallback
+  try {
+    const browserLangs =
+      typeof navigator !== "undefined"
+        ? navigator.languages?.length
+          ? Array.from(navigator.languages)
+          : navigator.language
+            ? [navigator.language]
+            : []
+        : [];
+
+    for (const lang of browserLangs) {
+      // 2a. 精确匹配
+      if (supportedLngs.includes(lang)) {
+        return lang;
+      }
+      // 2b. 前缀匹配（如 "zh" 匹配 "zh-CN"，"en" 匹配 "en-US"）
+      const prefix = (lang.split("-")[0] ?? lang).toLowerCase();
+      const matched = supportedLngs.find(
+        (supported) =>
+          (supported.split("-")[0] ?? supported).toLowerCase() === prefix
+      );
+      if (matched) {
+        return matched;
+      }
+    }
+  } catch {
+    // navigator 不可用时静默降级
+  }
+
+  // 3. 都没匹配，使用 fallback
   return fallback;
 }
 

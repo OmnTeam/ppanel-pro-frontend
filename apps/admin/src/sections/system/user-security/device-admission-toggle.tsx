@@ -43,18 +43,15 @@ export default function DeviceAdmissionToggle() {
 
   return (
     <div className="flex items-center justify-between transition-colors">
-      <div className="flex items-center gap-3">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-          <Icon
-            className="h-5 w-5 text-primary"
-            icon="mdi:shield-check"
-          />
+          <Icon className="h-5 w-5 text-primary" icon="mdi:shield-check" />
         </div>
         <div className="flex-1">
           <p className="font-medium">
             {t("deviceAdmission.title", "Real-time Device Admission Control")}
           </p>
-          <p className="text-muted-foreground text-sm max-w-xl">
+          <p className="max-w-md break-words text-muted-foreground text-sm">
             {t(
               "deviceAdmission.description",
               "When enabled, OmnXT nodes will perform device admission checks with the panel on every new connection. This feature requires OmnXT Node (v1.0.0+) with the admission control module deployed. When disabled, nodes will not perform admission checks and device limits rely solely on the traditional heartbeat reporting mechanism."
@@ -62,7 +59,7 @@ export default function DeviceAdmissionToggle() {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="ml-4 flex flex-shrink-0 items-center gap-2">
         <span className="text-muted-foreground text-sm">
           {enabled
             ? t("deviceAdmission.enabled", "Enabled")
