@@ -102,10 +102,10 @@ cd ppanel-pro-frontend
 bun install
 
 # 启动用户端开发服务器
-bun run dev --filter=user
+bun run dev --filter=NPanel-user-web
 
 # 启动管理端开发服务器
-bun run dev --filter=admin
+bun run dev --filter=NPanel-admin-web
 ```
 
 ---

@@ -89,7 +89,7 @@ export default function EmailSettingsForm() {
       const { data } = await getAuthMethodConfig({
         method: "email",
       });
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

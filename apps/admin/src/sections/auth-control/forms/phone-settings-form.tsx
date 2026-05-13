@@ -86,7 +86,7 @@ export default function PhoneSettingsForm() {
       const { data } = await getAuthMethodConfig({
         method: "mobile",
       });
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

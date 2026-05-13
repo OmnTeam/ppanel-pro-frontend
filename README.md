@@ -100,10 +100,10 @@ cd ppanel-pro-frontend
 bun install
 
 # Start the user portal dev server
-bun run dev --filter=user
+bun run dev --filter=NPanel-user-web
 
 # Start the admin portal dev server
-bun run dev --filter=admin
+bun run dev --filter=NPanel-admin-web
 ```
 
 ---

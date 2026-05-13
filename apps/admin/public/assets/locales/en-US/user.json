@@ -24,6 +24,8 @@
   "confirmStopSubscribe": "Confirm Stop Subscription",
   "copySubscription": "Copy Subscription",
   "copySuccess": "Copied successfully",
+  "copyFailed": "Copy failed",
+  "copyUsername": "Copy username",
   "create": "Create",
   "createdAt": "Created At",
   "createSubscription": "Create Subscription",

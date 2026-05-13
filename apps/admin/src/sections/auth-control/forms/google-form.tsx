@@ -57,7 +57,7 @@ export default function GoogleForm() {
       const { data } = await getAuthMethodConfig({
         method: "google",
       });
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

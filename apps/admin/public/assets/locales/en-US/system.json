@@ -8,7 +8,8 @@
   },
   "deviceAdmission": {
     "title": "Real-time Device Admission Control",
-    "description": "When enabled, OmnXT nodes will perform device admission checks with the panel on every new connection. This feature requires OmnXT Node (v1.0.0+) with the admission control module deployed. When disabled, nodes will not perform admission checks and device limits rely solely on the traditional heartbeat reporting mechanism.",
+    "descriptionLine1": "On: each new connection is verified with the panel. Requires OmnXT Node v1.0.0+ with the admission module.",
+    "descriptionLine2": "Off: no admission checks; device limits use traditional heartbeat mechanism.",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "saveSuccess": "Save Successful",

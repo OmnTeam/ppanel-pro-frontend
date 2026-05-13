@@ -24,6 +24,8 @@
   "confirmStopSubscribe": "确认暂停订阅",
   "copySubscription": "复制订阅",
   "copySuccess": "复制成功",
+  "copyFailed": "复制失败",
+  "copyUsername": "复制用户名",
   "create": "创建",
   "createdAt": "创建时间",
   "createSubscription": "创建订阅",

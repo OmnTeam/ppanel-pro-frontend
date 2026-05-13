@@ -52,7 +52,7 @@ export default function GithubForm() {
         method: "github",
       });
 
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

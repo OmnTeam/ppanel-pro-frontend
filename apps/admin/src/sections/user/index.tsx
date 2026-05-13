@@ -31,10 +31,15 @@ import {
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import { ConfirmButton } from "@workspace/ui/composed/confirm-button";
+import { Icon } from "@workspace/ui/composed/icon";
 import {
   ProTable,
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
+import {
+  // getUserGroupList,
+  previewUserNodes,
+} from "@workspace/ui/services/admin/group";
 import {
   createUser,
   deleteUser,
@@ -42,10 +47,7 @@ import {
   getUserList,
   updateUserBasicInfo,
 } from "@workspace/ui/services/admin/user";
-import {
-  // getUserGroupList,
-  previewUserNodes,
-} from "@workspace/ui/services/admin/group";
+import { copyText } from "@workspace/ui/utils/clipboard";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -58,6 +60,7 @@ import { AuthMethodsForm } from "./user-profile/auth-methods-form";
 import { BasicInfoForm } from "./user-profile/basic-info-form";
 import { NotifySettingsForm } from "./user-profile/notify-settings-form";
 import UserSubscription from "./user-subscription";
+
 // import EditUserGroupDialog from "./edit-user-group-dialog";
 
 function toNumber(value: number | string | null | undefined) {
@@ -206,7 +209,7 @@ export default function User() {
           accessorKey: "id",
           header: "ID",
         },
-        {
+        /* {
           id: "deleted_at",
           accessorKey: "deleted_at",
           header: t("isDeleted", "Deleted"),
@@ -220,22 +223,45 @@ export default function User() {
               <Badge variant="outline">{t("normal", "Normal")}</Badge>
             );
           },
-        },
+        }, */
         {
           id: "auth_methods",
           accessorKey: "auth_methods",
           header: t("userName", "Username"),
           cell: ({ row }) => {
             const method = row.original.auth_methods?.[0];
+            const identifier = method?.auth_identifier ?? "";
             return (
-              <div>
+              <div className="flex min-w-0 max-w-[260px] items-center gap-0.5">
                 <Badge
-                  className="mr-1 uppercase"
+                  className="mr-0.5 shrink-0 uppercase"
                   title={method?.verified ? t("verified", "Verified") : ""}
                 >
                   {method?.auth_type}
                 </Badge>
-                {method?.auth_identifier}
+                <div className="flex min-w-0 flex-1 items-center gap-px">
+                  <span className="min-w-0 truncate">{identifier}</span>
+                  {identifier ? (
+                    <button
+                      className="inline-flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        try {
+                          await copyText(identifier);
+                          toast.success(
+                            t("copySuccess", "Copied successfully")
+                          );
+                        } catch {
+                          toast.error(t("copyFailed", "Copy failed"));
+                        }
+                      }}
+                      title={t("copyUsername", "Copy username")}
+                      type="button"
+                    >
+                      <Icon className="size-3.5" icon="mdi:content-paste" />
+                    </button>
+                  ) : null}
+                </div>
               </div>
             );
           },
@@ -484,16 +510,19 @@ function PreviewNodesDialog({ userId }: { userId: string | number }) {
         ) : previewData ? (
           <div className="space-y-4">
             <div>
-              <span className="text-sm font-medium text-muted-foreground">
+              <span className="font-medium text-muted-foreground text-sm">
                 {t("availableNodes", "Available Nodes")}:
               </span>{" "}
-              {previewData.node_groups?.reduce((sum, group) => sum + (group.nodes?.length || 0), 0) || 0}
+              {previewData.node_groups?.reduce(
+                (sum, group) => sum + (group.nodes?.length || 0),
+                0
+              ) || 0}
             </div>
             {previewData.node_groups && previewData.node_groups.length > 0 ? (
-              <div className="max-h-[400px] overflow-y-auto space-y-4">
+              <div className="max-h-[400px] space-y-4 overflow-y-auto">
                 {previewData.node_groups.map((group) => (
                   <div key={group.id}>
-                    <h4 className="text-sm font-semibold mb-2">
+                    <h4 className="mb-2 font-semibold text-sm">
                       {group.name ||
                         (group.id === "-1"
                           ? t("subscriptionNodes", "Subscription Nodes")
@@ -506,16 +535,22 @@ function PreviewNodesDialog({ userId }: { userId: string | number }) {
                         <thead>
                           <tr className="border-b">
                             <th className="p-2 text-left font-medium">ID</th>
-                            <th className="p-2 text-left font-medium">{t("name", "Name")}</th>
-                            <th className="p-2 text-left font-medium">{t("address", "Address")}</th>
+                            <th className="p-2 text-left font-medium">
+                              {t("name", "Name")}
+                            </th>
+                            <th className="p-2 text-left font-medium">
+                              {t("address", "Address")}
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
                           {group.nodes.map((node) => (
-                            <tr key={node.id} className="border-b">
+                            <tr className="border-b" key={node.id}>
                               <td className="p-2">{node.id}</td>
                               <td className="p-2">{node.name}</td>
-                              <td className="p-2">{node.address}:{node.port}</td>
+                              <td className="p-2">
+                                {node.address}:{node.port}
+                              </td>
                             </tr>
                           ))}
                         </tbody>

@@ -51,7 +51,7 @@ export default function FacebookForm() {
       const { data } = await getAuthMethodConfig({
         method: "facebook",
       });
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

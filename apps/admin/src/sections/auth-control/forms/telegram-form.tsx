@@ -52,7 +52,7 @@ export default function TelegramForm() {
         method: "telegram",
       });
 
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

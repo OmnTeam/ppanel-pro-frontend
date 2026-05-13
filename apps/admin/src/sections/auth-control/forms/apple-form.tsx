@@ -60,7 +60,7 @@ export default function AppleForm() {
         method: "apple",
       });
 
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });

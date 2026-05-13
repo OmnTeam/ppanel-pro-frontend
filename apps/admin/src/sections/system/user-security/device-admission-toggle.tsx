@@ -51,12 +51,20 @@ export default function DeviceAdmissionToggle() {
           <p className="font-medium">
             {t("deviceAdmission.title", "Real-time Device Admission Control")}
           </p>
-          <p className="max-w-md break-words text-muted-foreground text-sm">
-            {t(
-              "deviceAdmission.description",
-              "When enabled, OmnXT nodes will perform device admission checks with the panel on every new connection. This feature requires OmnXT Node (v1.0.0+) with the admission control module deployed. When disabled, nodes will not perform admission checks and device limits rely solely on the traditional heartbeat reporting mechanism."
-            )}
-          </p>
+          <div className="max-w-md space-y-2 text-muted-foreground text-sm">
+            <p className="break-words">
+              {t(
+                "deviceAdmission.descriptionLine1",
+                "On: each new connection is verified with the panel. Requires OmnXT Node v1.0.0+ with the admission module."
+              )}
+            </p>
+            <p className="break-words">
+              {t(
+                "deviceAdmission.descriptionLine2",
+                "Off: no admission checks; device limits use traditional heartbeat mechanism."
+              )}
+            </p>
+          </div>
         </div>
       </div>
       <div className="ml-4 flex flex-shrink-0 items-center gap-2">

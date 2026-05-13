@@ -8,7 +8,8 @@
   },
   "deviceAdmission": {
     "title": "实时设备准入检查",
-    "description": "启用后，OmnXT 节点将在每次新连接建立时向面板发起设备准入检查。此功能必须与部署了准入检查模块的 OmnXT Node（v1.0.0+）配合使用才能生效。未启用时节点不会执行准入检查，设备限制仅依赖传统的心跳上报机制。",
+    "descriptionLine1": "启用后，OmnXT 节点会在每次新连接建立时向面板发起设备准入检查。需配合已部署准入检查模块的 OmnXT Node（v1.0.0+）使用。",
+    "descriptionLine2": "未启用时，节点不会执行准入检查，设备限制仅依赖传统的心跳上报机制。",
     "enabled": "已启用",
     "disabled": "未启用",
     "saveSuccess": "保存成功",

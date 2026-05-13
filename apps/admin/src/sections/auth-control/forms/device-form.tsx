@@ -60,7 +60,7 @@ export default function DeviceForm() {
       const { data } = await getAuthMethodConfig({
         method: "device",
       });
-      return data.data;
+      return data.data?.config;
     },
     enabled: open,
   });
