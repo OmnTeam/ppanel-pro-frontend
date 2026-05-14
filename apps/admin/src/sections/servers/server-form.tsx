@@ -363,6 +363,29 @@ function normalizeProtocolForSubmit(protocol: any, serverAddress?: string) {
   if (!Number(next.port)) next.port = 443;
   if (!next.simnet_carrier || next.simnet_carrier === "grpc")
     next.simnet_carrier = "h2";
+  if (!next.simnet_af_path_mode) next.simnet_af_path_mode = "api";
+  if (
+    !(
+      next.simnet_path ||
+      (next.simnet_af_enabled && next.simnet_af_path_mode === "random")
+    )
+  ) {
+    next.simnet_path = "/simnet/session";
+  }
+  if (next.simnet_fallback_enabled && next.simnet_fallback_target_host) {
+    next.simnet_fallback_target_host = String(
+      next.simnet_fallback_target_host
+    ).trim();
+    next.simnet_fallback_target_scheme =
+      next.simnet_fallback_target_scheme === "http" ? "http" : "https";
+  } else {
+    next.simnet_fallback_enabled = false;
+    next.simnet_fallback_target_scheme = null;
+    next.simnet_fallback_target_host = null;
+    next.simnet_fallback_target_port = null;
+    next.simnet_fallback_host_header = null;
+    next.simnet_fallback_tls_sni = null;
+  }
   if (
     (next.cert_mode === "http" || next.cert_mode === "dns") &&
     !next.sni &&

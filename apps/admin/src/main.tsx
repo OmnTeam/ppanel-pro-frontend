@@ -26,10 +26,6 @@ import { Logout } from "./utils/common.ts";
 initializeI18n({
   supportedLngs,
   fallbackLng,
-  backend: {
-    // 使用绝对路径前缀，避免在子路由（如 /dashboard）下相对路径解析错误
-    loadPath: `${import.meta.env.BASE_URL}assets/locales/{{lng}}/{{ns}}.json`,
-  },
   ns: [
     "ads",
     "announcement",
