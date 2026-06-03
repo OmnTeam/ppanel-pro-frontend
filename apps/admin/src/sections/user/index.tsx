@@ -160,14 +160,15 @@ export default function User() {
                   {t("commissionLogs", "Commission Logs")}
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              {/* TODO: Uncomment this when gift_amount is implemented */}
+              {/* <DropdownMenuItem asChild>
                 <Link
                   search={{ user_id: String(row.id) }}
                   to="/dashboard/log/gift"
                 >
                   {t("giftLogs", "Gift Logs")}
                 </Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>,
         ],
@@ -277,7 +278,7 @@ export default function User() {
             />
           ),
         },
-        {
+        /*{
           id: "gift_amount",
           accessorKey: "gift_amount",
           header: t("giftAmount", "Gift Amount"),
@@ -287,7 +288,7 @@ export default function User() {
               value={toNumber(row.getValue("gift_amount") as number | string)}
             />
           ),
-        },
+        },*/
         {
           id: "commission",
           accessorKey: "commission",

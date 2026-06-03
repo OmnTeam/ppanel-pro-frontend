@@ -194,11 +194,15 @@ export function useNavs() {
             url: "/dashboard/log/commission",
             icon: "flat-color-icons:debt",
           },
-          {
+          /*
+          TODO: Uncomment this when gift_amount is implemented
+          { 
             title: t("Gift", "Gift"),
             url: "/dashboard/log/gift",
             icon: "flat-color-icons:donate",
+            
           },
+          */
         ],
       },
     ],

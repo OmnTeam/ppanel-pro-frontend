@@ -144,7 +144,7 @@ export function BasicInfoForm({
                 </FormItem>
               )}
             />
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="balance"
@@ -201,7 +201,7 @@ export function BasicInfoForm({
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="gift_amount"
                 render={({ field }) => (
@@ -228,6 +228,8 @@ export function BasicInfoForm({
                   </FormItem>
                 )}
               />
+              */
+              }
             </div>
 
             <div className="grid grid-cols-2 gap-4">

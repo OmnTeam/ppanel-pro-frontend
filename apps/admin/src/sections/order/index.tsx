@@ -36,13 +36,18 @@ export default function Order() {
       label: t("status.1", "Pending"),
       className: "bg-orange-500",
     },
-    { value: 2, label: t("status.2", "Paid"), className: "bg-green-500" },
+    { value: 2, 
+      label: t("status.2", "Paid"), 
+      className: "bg-green-500" },
     {
       value: 3,
       label: t("status.3", "Cancelled"),
       className: "bg-gray-500",
     },
-    { value: 4, label: t("status.4", "Closed"), className: "bg-red-500" },
+    { value: 4, 
+      label: t("status.4", "Closed"), 
+      className: "bg-red-500" 
+    },
     {
       value: 5,
       label: t("status.5", "Completed"),
