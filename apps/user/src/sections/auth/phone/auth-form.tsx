@@ -6,8 +6,9 @@ import {
   telephoneResetPassword,
   telephoneUserRegister,
 } from "@workspace/ui/services/common/auth";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { useEffect, useState, useTransition } from "react";
+import type { AuthFormType } from "../types";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useGlobalStore } from "@/stores/global";
@@ -16,12 +17,23 @@ import LoginForm from "./login-form";
 import RegisterForm from "./register-form";
 import ResetForm from "./reset-form";
 
-export default function PhoneAuthForm() {
+type PhoneAuthFormProps = {
+  formType?: AuthFormType;
+  onFormTypeChange?: Dispatch<SetStateAction<AuthFormType>>;
+};
+
+export default function PhoneAuthForm({
+  formType: controlledFormType,
+  onFormTypeChange,
+}: PhoneAuthFormProps = {}) {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const { getUserInfo } = useGlobalStore();
   const searchParams = useSearch({ strict: false }) as { invite?: string };
-  const [type, setType] = useState<"login" | "register" | "reset">("login");
+  const [internalFormType, setInternalFormType] =
+    useState<AuthFormType>("login");
+  const formType = controlledFormType ?? internalFormType;
+  const setFormType = onFormTypeChange ?? setInternalFormType;
   const [loading, startTransition] = useTransition();
   const [initialValues, setInitialValues] = useState<API.TelephoneLoginRequest>(
     {
@@ -49,7 +61,7 @@ export default function PhoneAuthForm() {
     };
     startTransition(async () => {
       try {
-        switch (type) {
+        switch (formType) {
           case "login": {
             const login = await telephoneLogin(params);
             toast.success(t("login.success", "Login successful!"));
@@ -65,7 +77,7 @@ export default function PhoneAuthForm() {
           case "reset":
             await telephoneResetPassword(params);
             toast.success(t("reset.success", "Password reset successful!"));
-            setType("login");
+            setFormType("login");
             break;
         }
       } catch (_error) {
@@ -75,14 +87,14 @@ export default function PhoneAuthForm() {
   };
 
   let UserForm: ReactNode = null;
-  switch (type) {
+  switch (formType) {
     case "login":
       UserForm = (
         <LoginForm
           initialValues={initialValues}
           loading={loading}
           onSubmit={handleFormSubmit}
-          onSwitchForm={setType}
+          onSwitchForm={setFormType}
         />
       );
       break;
@@ -92,7 +104,7 @@ export default function PhoneAuthForm() {
           initialValues={initialValues}
           loading={loading}
           onSubmit={handleFormSubmit}
-          onSwitchForm={setType}
+          onSwitchForm={setFormType}
         />
       );
       break;
@@ -102,7 +114,7 @@ export default function PhoneAuthForm() {
           initialValues={initialValues}
           loading={loading}
           onSubmit={handleFormSubmit}
-          onSwitchForm={setType}
+          onSwitchForm={setFormType}
           setInitialValues={setInitialValues}
         />
       );

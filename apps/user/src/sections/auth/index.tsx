@@ -10,29 +10,30 @@ import {
 } from "@workspace/ui/components/tabs";
 import { LanguageSwitch } from "@workspace/ui/composed/language-switch";
 import { ThemeSwitch } from "@workspace/ui/composed/theme-switch";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "@/stores/global";
 import EmailAuthForm from "./email/auth-form";
 import { OAuthMethods } from "./oauth-methods";
 import PhoneAuthForm from "./phone/auth-form";
+import type { AuthFormType } from "./types";
 
 export default function Main() {
   const { t } = useTranslation("auth");
   const { common } = useGlobalStore();
   const { site, auth } = common;
+  const [formType, setFormType] = useState<AuthFormType>("login");
 
-  const AUTH_METHODS = [
-    {
-      key: "email",
-      enabled: auth.email.enable,
-      children: <EmailAuthForm />,
-    },
-    {
-      key: "mobile",
-      enabled: auth.mobile.enable,
-      children: <PhoneAuthForm />,
-    },
-  ].filter((method) => method.enabled);
+  const authMethods = useMemo(
+    () =>
+      [
+        { key: "email" as const, enabled: auth.email.enable },
+        { key: "mobile" as const, enabled: auth.mobile.enable },
+      ].filter((method) => method.enabled),
+    [auth.email.enable, auth.mobile.enable]
+  );
+
+  const formTypeProps = { formType, onFormTypeChange: setFormType };
 
   return (
     <main className="flex h-full min-h-screen items-center bg-muted/50">
@@ -60,33 +61,49 @@ export default function Main() {
           <div className="flex w-full flex-col items-center rounded-2xl md:w-[600px] md:p-10 lg:flex-auto lg:bg-background lg:shadow">
             <div className="flex w-full flex-col items-stretch justify-center md:w-[400px] lg:h-full">
               <div className="flex flex-col justify-center lg:flex-auto">
-                <h1 className="mb-3 text-center font-bold text-2xl">
-                  {t("verifyAccount", "Verify Your Account")}
-                </h1>
-                <div className="mb-6 text-center font-medium text-muted-foreground">
-                  {t(
-                    "verifyAccountDesc",
-                    "Please login or register to continue"
-                  )}
-                </div>
-                {AUTH_METHODS.length === 1
-                  ? AUTH_METHODS[0]?.children
-                  : AUTH_METHODS[0] && (
-                      <Tabs defaultValue={AUTH_METHODS[0].key}>
-                        <TabsList className="mb-6 flex w-full *:flex-1">
-                          {AUTH_METHODS.map((item) => (
-                            <TabsTrigger key={item.key} value={item.key}>
-                              {t(`methods.${item.key}`)}
-                            </TabsTrigger>
-                          ))}
-                        </TabsList>
-                        {AUTH_METHODS.map((item) => (
-                          <TabsContent key={item.key} value={item.key}>
-                            {item.children}
-                          </TabsContent>
+                <p className="mb-6 text-center font-semibold text-2xl text-foreground tracking-tight">
+                  {formType === "register"
+                    ? t(
+                        "registerToContinue",
+                        "Please register to continue"
+                      )
+                    : formType === "reset"
+                      ? t("resetPasswordPrompt", "Please reset your password")
+                      : t("loginToContinue", "Please login to continue")}
+                </p>
+                {authMethods.length === 1 ? (
+                  authMethods[0]?.key === "email" ? (
+                    <EmailAuthForm {...formTypeProps} />
+                  ) : (
+                    <PhoneAuthForm {...formTypeProps} />
+                  )
+                ) : (
+                  authMethods[0] && (
+                    <Tabs defaultValue={authMethods[0].key}>
+                      <TabsList className="mb-6 flex w-full *:flex-1">
+                        {authMethods.map((item) => (
+                          <TabsTrigger key={item.key} value={item.key}>
+                            {t(`methods.${item.key}`)}
+                          </TabsTrigger>
                         ))}
-                      </Tabs>
-                    )}
+                      </TabsList>
+                      {authMethods.map((item) => (
+                        <TabsContent
+                          className="data-[state=inactive]:hidden"
+                          forceMount
+                          key={item.key}
+                          value={item.key}
+                        >
+                          {item.key === "email" ? (
+                            <EmailAuthForm {...formTypeProps} />
+                          ) : (
+                            <PhoneAuthForm {...formTypeProps} />
+                          )}
+                        </TabsContent>
+                      ))}
+                    </Tabs>
+                  )
+                )}
               </div>
               <div className="py-8">
                 <OAuthMethods />
