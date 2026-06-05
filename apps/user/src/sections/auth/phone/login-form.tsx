@@ -10,6 +10,7 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { AreaCodeSelect } from "@workspace/ui/composed/area-code-select";
 import { Icon } from "@workspace/ui/composed/icon";
+import { PasswordInput } from "@workspace/ui/composed/password-input";
 import type { Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -141,15 +142,18 @@ export default function LoginForm({
               <FormItem>
                 <FormControl>
                   <div className="flex gap-2">
-                    <Input
-                      placeholder={
-                        mode === "code"
-                          ? t("register.codePlaceholder", "Enter code...")
-                          : t("login.passwordPlaceholder", "Enter your password...")
-                      }
-                      type={mode === "code" ? "text" : "password"}
-                      {...field}
-                    />
+                    {mode === "code" ? (
+                      <Input
+                        placeholder={t("register.codePlaceholder", "Enter code...")}
+                        type="text"
+                        {...field}
+                      />
+                    ) : (
+                      <PasswordInput
+                        placeholder={t("login.passwordPlaceholder", "Enter your password...")}
+                        {...field}
+                      />
+                    )}
                     {mode === "code" && (
                       <SendCode
                         params={{

@@ -308,7 +308,7 @@ export default function EmailSettingsForm() {
                             onChange={field.onChange}
                             placeholder={t(
                               "email.whitelistSuffixesPlaceholder",
-                              "gmail.com, outlook.com"
+                              "gmail.com\noutlook.com\nqq.com"
                             )}
                             value={field.value}
                           />

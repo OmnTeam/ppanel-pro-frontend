@@ -103,7 +103,7 @@
     "verifyTemplate": "Verify Template",
     "whitelistSuffixes": "Whitelist Suffixes",
     "whitelistSuffixesDescription": "One domain suffix per line",
-    "whitelistSuffixesPlaceholder": "gmail.com, outlook.com"
+    "whitelistSuffixesPlaceholder": "gmail.com\noutlook.com\nqq.com"
   },
   "facebook": {
     "clientId": "App ID",

@@ -10,7 +10,7 @@ export async function basicRegisterService(
   return request<{
     code?: number;
     data?: API.RegisterServiceResponse;
-    msg?: string;
+    message?: string;
   }>("/basic/register", {
     method: "POST",
     headers: {

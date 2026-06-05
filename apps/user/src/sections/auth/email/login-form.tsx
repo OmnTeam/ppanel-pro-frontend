@@ -9,6 +9,7 @@ import {
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
 import { Icon } from "@workspace/ui/composed/icon";
+import { PasswordInput } from "@workspace/ui/composed/password-input";
 import type { Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -107,9 +108,8 @@ export default function LoginForm({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
+                  <PasswordInput
                     placeholder={t("login.passwordPlaceholder", "Enter your password...")}
-                    type="password"
                     {...field}
                   />
                 </FormControl>

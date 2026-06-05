@@ -11,6 +11,7 @@ import { Input } from "@workspace/ui/components/input";
 import { AreaCodeSelect } from "@workspace/ui/composed/area-code-select";
 import { Icon } from "@workspace/ui/composed/icon";
 import { Markdown } from "@workspace/ui/composed/markdown";
+import { PasswordInput } from "@workspace/ui/composed/password-input";
 import type { Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,7 @@ export default function RegisterForm({
   const { verify, auth, invite } = common;
   const { enable_whitelist, whitelist } = auth.mobile;
   const [captchaId, setCaptchaId] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const isTurnstile = verify.captcha_type === "turnstile";
   const isLocal = verify.captcha_type === "local";
@@ -161,39 +163,6 @@ export default function RegisterForm({
             />
             <FormField
               control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder={t("register.passwordPlaceholder", "Enter your password...")}
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="repeat_password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder={t("register.repeatPasswordPlaceholder", "Enter password again...")}
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="code"
               render={({ field }) => (
                 <FormItem>
@@ -218,6 +187,41 @@ export default function RegisterForm({
                         type="phone"
                       />
                     </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <PasswordInput
+                      onShowPasswordChange={setShowPassword}
+                      placeholder={t("register.passwordPlaceholder", "Enter your password...")}
+                      showPassword={showPassword}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="repeat_password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <PasswordInput
+                      disabled={loading}
+                      onShowPasswordChange={setShowPassword}
+                      placeholder={t("register.repeatPasswordPlaceholder", "Enter password again...")}
+                      showPassword={showPassword}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

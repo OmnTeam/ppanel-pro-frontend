@@ -10,7 +10,7 @@ export async function basicUpdateService(
   return request<{
     code?: number;
     data?: API.UpdateServiceResponse;
-    msg?: string;
+    message?: string;
   }>("/basic/update", {
     method: "POST",
     headers: {

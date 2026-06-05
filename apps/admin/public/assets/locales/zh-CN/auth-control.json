@@ -103,7 +103,7 @@
     "verifyTemplate": "验证模板",
     "whitelistSuffixes": "白名单后缀",
     "whitelistSuffixesDescription": "每行一个域名后缀",
-    "whitelistSuffixesPlaceholder": "gmail.com, outlook.com"
+    "whitelistSuffixesPlaceholder": "gmail.com\noutlook.com\nqq.com"
   },
   "facebook": {
     "clientId": "应用 ID",

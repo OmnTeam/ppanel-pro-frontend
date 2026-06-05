@@ -53,6 +53,7 @@
     "80001": "Task was not successfully queued, please try again later.",
     "90001": "Please disable DEBUG mode and try again.",
     "90015": "This account has reached the limit of sending times today, please try again tomorrow.",
+    "90016": "Invalid email format.",
     "unknown": "An error occurred in the system, please try again later."
   },
   "language": "Language",

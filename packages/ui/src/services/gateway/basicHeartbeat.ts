@@ -8,7 +8,7 @@ export async function basicHeartbeat(
   params: API.basicHeartbeatParams,
   options?: { [key: string]: any }
 ) {
-  return request<{ code?: number; data?: API.HeartbeatResponse; msg?: string }>(
+  return request<{ code?: number; data?: API.HeartbeatResponse; message?: string }>(
     "/basic/heartbeat",
     {
       method: "GET",

@@ -11,7 +11,7 @@ export async function basicCheckServiceVersion(
   return request<{
     code?: number;
     data?: API.ServiceVersionResponse;
-    msg?: string;
+    message?: string;
   }>("/basic/check/version", {
     method: "GET",
     params: {

@@ -10,8 +10,9 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Icon } from "@workspace/ui/composed/icon";
 import { Markdown } from "@workspace/ui/composed/markdown";
+import { PasswordInput } from "@workspace/ui/composed/password-input";
 import type { Dispatch, SetStateAction } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -35,6 +36,7 @@ export default function RegisterForm({
   const { t } = useTranslation("auth");
   const { common } = useGlobalStore();
   const { verify, auth, invite } = common;
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleCheckUser = async (email: string) => {
     try {
@@ -126,12 +128,13 @@ export default function RegisterForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <PasswordInput
+                      onShowPasswordChange={setShowPassword}
                       placeholder={t(
                         "register.passwordPlaceholder",
                         "Enter your password..."
                       )}
-                      type="password"
+                      showPassword={showPassword}
                       {...field}
                     />
                   </FormControl>
@@ -145,13 +148,14 @@ export default function RegisterForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <PasswordInput
                       disabled={loading}
+                      onShowPasswordChange={setShowPassword}
                       placeholder={t(
                         "register.repeatPasswordPlaceholder",
                         "Enter password again..."
                       )}
-                      type="password"
+                      showPassword={showPassword}
                       {...field}
                     />
                   </FormControl>

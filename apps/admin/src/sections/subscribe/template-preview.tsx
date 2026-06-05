@@ -40,8 +40,9 @@ export function TemplatePreview({
 
   const originalContent = data?.data?.data?.template || "";
   const errorMessage =
-    (error as any)?.data?.msg ||
-    error?.message ||
+    (error as any)?.data?.message ??
+    (error as any)?.data?.msg ??
+    error?.message ??
     t("templatePreview.failed", "Failed to load template");
 
   const getDecodedContent = () => {

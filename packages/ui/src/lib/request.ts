@@ -4,8 +4,15 @@ import { isBrowser } from "@workspace/ui/utils/index";
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
+function getResponseErrorMessage(data?: {
+  message?: string;
+  msg?: string;
+}) {
+  return data?.message ?? data?.msg;
+}
+
 function handleError(response: {
-  data?: { code?: number; message?: string };
+  data?: { code?: number; message?: string; msg?: string };
   config?: { skipErrorHandler?: boolean };
   message?: string;
 }) {
@@ -171,10 +178,14 @@ function handleError(response: {
       "components:error.90015",
       "This account has reached the limit of sending times today, please try again tomorrow."
     ),
+    90016: t(
+      "components:error.90016",
+      "Invalid email format."
+    ),
   };
 
   const message =
-    response.data?.message ||
+    getResponseErrorMessage(response.data) ||
     (code ? ERROR_MESSAGES[code] : undefined) ||
     t(
       "components:error.unknown",

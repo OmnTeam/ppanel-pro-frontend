@@ -9,28 +9,45 @@ type PasswordInputProps = Omit<
   "type"
 > & {
   ref?: React.Ref<HTMLInputElement>;
+  showPassword?: boolean;
+  onShowPasswordChange?: (show: boolean) => void;
 };
 
 export function PasswordInput({
   className,
   disabled,
   ref,
+  showPassword: showPasswordProp,
+  onShowPasswordChange,
   ...props
 }: PasswordInputProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [internalShowPassword, setInternalShowPassword] = React.useState(false);
+  const isControlled = showPasswordProp !== undefined;
+  const showPassword = isControlled ? showPasswordProp : internalShowPassword;
+  const { className: inputClassName, ...inputProps } = props;
+
+  const toggleShowPassword = () => {
+    const next = !showPassword;
+    if (isControlled) {
+      onShowPasswordChange?.(next);
+      return;
+    }
+    setInternalShowPassword(next);
+  };
 
   return (
-    <div className={cn("relative rounded-md", className)}>
+    <div className={cn("relative w-full rounded-md", className)}>
       <Input
+        className={cn("pr-10", inputClassName)}
         disabled={disabled}
         ref={ref}
         type={showPassword ? "text" : "password"}
-        {...props}
+        {...inputProps}
       />
       <Button
         className="-translate-y-1/2 absolute end-1 top-1/2 h-6 w-6 rounded-md text-muted-foreground"
         disabled={disabled}
-        onClick={() => setShowPassword((prev) => !prev)}
+        onClick={toggleShowPassword}
         size="icon"
         type="button"
         variant="ghost"
