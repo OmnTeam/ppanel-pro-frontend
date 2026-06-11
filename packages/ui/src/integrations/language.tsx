@@ -76,6 +76,13 @@ export function LanguageProvider({
       setLanguage(languageCode);
       // Update HTML lang attribute when language changes
       document.documentElement.lang = languageCode;
+      // Persist language change to localStorage to keep consistency
+      // (i18next may fallback internally without going through changeLanguage)
+      try {
+        localStorage.setItem("language", languageCode);
+      } catch {
+        // ignore
+      }
     };
 
     // Set up language change listener

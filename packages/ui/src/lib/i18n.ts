@@ -96,8 +96,8 @@ export function initializeI18n(i18nConfig?: InitOptions) {
       backend: {
         crossDomain: false,
         withCredentials: false,
-        allowMultiLoading: true,
-        loadPath: "./assets/locales/{{lng}}/{{ns}}.json",
+        allowMultiLoading: false,
+        loadPath: "/assets/locales/{{lng}}/{{ns}}.json",
         ...((i18nConfig?.backend as Record<string, unknown>) ?? {}),
       },
 
