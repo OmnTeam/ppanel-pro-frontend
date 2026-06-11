@@ -14,6 +14,7 @@ export function MarkdownEditor(props: MonacoEditorProps) {
       {...props}
       language="markdown"
       render={(value) => <Markdown>{value || ""}</Markdown>}
+      wordWrap={props.wordWrap ?? true}
     />
   );
 }

@@ -1,5 +1,7 @@
+import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { cn } from "@workspace/ui/lib/utils";
+import { Eye, EyeOff } from "lucide-react";
 import { type ChangeEvent, type ReactNode, useEffect, useState } from "react";
 
 export interface EnhancedInputProps<T = string>
@@ -27,8 +29,15 @@ export function EnhancedInput<T = string>({
   className,
   onValueChange,
   onValueBlur,
-  ...props
+  type,
+  disabled,
+  min,
+  max,
+  ...inputProps
 }: EnhancedInputProps<T>) {
+  const isPassword = type === "password";
+  const [showPassword, setShowPassword] = useState(false);
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
   const getProcessedValue = (inputValue: unknown) => {
     if (inputValue === "" || inputValue === undefined || inputValue === null) return "";
     const newValue = String(inputValue ?? "");
@@ -56,11 +65,11 @@ export function EnhancedInput<T = string>({
   const processValue = (inputValue: string | number): T => {
     let processedValue: number | string = inputValue?.toString().trim();
 
-    if (processedValue === "0" && props.type === "number") {
+    if (processedValue === "0" && type === "number") {
       return (formatOutput ? formatOutput(0) : 0) as T;
     }
 
-    if (processedValue && props.type === "number")
+    if (processedValue && type === "number")
       processedValue = Number(processedValue);
     return formatOutput ? formatOutput(processedValue) : (processedValue as T);
   };
@@ -68,7 +77,7 @@ export function EnhancedInput<T = string>({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
 
-    if (props.type === "number") {
+    if (type === "number") {
       if (inputValue === "0") {
         setValue("0");
         setInternalValue(0);
@@ -87,13 +96,13 @@ export function EnhancedInput<T = string>({
           inputValue !== "-" &&
           inputValue !== "."
         ) {
-          const min = Number.isFinite(Number(props.min)) && typeof props.min === "number"
-            ? props.min
+          const minValue = Number.isFinite(Number(min)) && typeof min === "number"
+            ? min
             : Number.NEGATIVE_INFINITY;
-          const max = Number.isFinite(Number(props.max)) && typeof props.max === "number"
-            ? props.max
+          const maxValue = Number.isFinite(Number(max)) && typeof max === "number"
+            ? max
             : Number.POSITIVE_INFINITY;
-          const constrainedValue = Math.max(min!, Math.min(max!, numericValue));
+          const constrainedValue = Math.max(minValue, Math.min(maxValue, numericValue));
           inputValue = String(constrainedValue);
           setInternalValue(constrainedValue);
         } else {
@@ -111,7 +120,7 @@ export function EnhancedInput<T = string>({
   };
 
   const handleBlur = () => {
-    if (props.type === "number" && value) {
+    if (type === "number" && value) {
       if (value === "-" || value === ".") {
         setValue("");
         setInternalValue("");
@@ -154,15 +163,34 @@ export function EnhancedInput<T = string>({
       suppressHydrationWarning
     >
       {renderPrefix()}
-      <Input
-        autoComplete="off"
-        step={0.01}
-        {...props}
-        className="block rounded-none border-none"
-        onBlur={handleBlur}
-        onChange={handleChange}
-        value={value}
-      />
+      <div className="relative min-w-0 flex-1">
+        <Input
+          autoComplete="off"
+          disabled={disabled}
+          step={0.01}
+          type={inputType}
+          {...inputProps}
+          className={cn(
+            "block rounded-none border-none",
+            isPassword && "pr-10"
+          )}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={value}
+        />
+        {isPassword && (
+          <Button
+            className="-translate-y-1/2 absolute end-1 top-1/2 h-6 w-6 rounded-md text-muted-foreground"
+            disabled={disabled}
+            onClick={() => setShowPassword((prev) => !prev)}
+            size="icon"
+            type="button"
+            variant="ghost"
+          >
+            {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+          </Button>
+        )}
+      </div>
       {renderSuffix()}
     </div>
   );
