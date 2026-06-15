@@ -2,6 +2,14 @@
 
 import type i18n from "i18next";
 
+// i18next 实例上挂载初始化 Promise，方便在首屏渲染前 await，
+// 避免翻译资源未就绪导致界面先闪 fallback 语言。
+declare module "i18next" {
+  interface i18n {
+    readyPromise?: Promise<unknown>;
+  }
+}
+
 declare global {
   interface Window {
     logout: () => void;

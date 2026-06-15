@@ -248,9 +248,12 @@ export function UserDetail({ id }: { id: string | number }) {
 
   if (!resolvedId || resolvedId === "0") return "--";
 
+  // auth_methods 可能在加载中、请求失败或老版本接口返回时为 undefined，
+  // 这里做空值保护，避免在工单等页面渲染时报 "Cannot read properties of undefined (reading 'find')"
+  const authMethods = data?.auth_methods ?? [];
   const identifier =
-    data?.auth_methods.find((m) => m.auth_type === "email")?.auth_identifier ||
-    data?.auth_methods[0]?.auth_identifier;
+    authMethods.find((m) => m.auth_type === "email")?.auth_identifier ||
+    authMethods[0]?.auth_identifier;
 
   return (
     <HoverCard>

@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 强制刷新时，在 JS bundle 加载前同步设置正确的语言，
+         避免界面先闪一下英文再切回已保存的语言 -->
+    <script>
+    "use strict";
+    const supported = ["en-US", "zh-CN"];
+    let saved = null;
+    try {
+      saved = localStorage.getItem("language");
+    } catch {
+      /* localStorage 不可用时静默降级 */
+    }
+    if (saved && supported.includes(saved)) {
+      document.documentElement.lang = saved;
+    }
+    </script>
 
     <!-- Favicons -->
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg">

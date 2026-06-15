@@ -67,7 +67,7 @@ export function initializeI18n(i18nConfig?: InitOptions) {
   // 同步读取保存的语言，避免刷新后闪英文
   const initialLng = getSavedLanguage(supportedLngs, fallbackLng);
 
-  i18n
+  const initPromise = i18n
     .use(Backend)
     .use(initReactI18next)
     .init({
@@ -106,5 +106,8 @@ export function initializeI18n(i18nConfig?: InitOptions) {
     });
 
   window.i18n = i18n;
+
+  // 暴露初始化 Promise，方便调用方在渲染前 await，彻底避免首屏闪烁
+  i18n.readyPromise = initPromise;
   return i18n;
 }
