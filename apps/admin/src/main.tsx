@@ -23,7 +23,7 @@ import reportWebVitals from "./reportWebVitals.ts";
 // Common utilities
 import { Logout } from "./utils/common.ts";
 
-initializeI18n({
+const i18n = initializeI18n({
   supportedLngs,
   fallbackLng,
   ns: [
@@ -80,21 +80,43 @@ declare module "@tanstack/react-router" {
 
 // Render the app
 const rootElement = document.getElementById("app");
-if (rootElement && !rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <TanStackQueryProvider {...TanStackQueryProviderContext}>
-        <LanguageProvider supportedLanguages={supportedLngs}>
-          <ThemeProvider>
-            <DirectionProvider>
-              <RouterProvider router={router} />
-            </DirectionProvider>
-          </ThemeProvider>
-        </LanguageProvider>
-      </TanStackQueryProvider>
-    </StrictMode>
-  );
+
+function renderApp() {
+  if (rootElement && !rootElement.innerHTML) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(
+      <StrictMode>
+        <TanStackQueryProvider {...TanStackQueryProviderContext}>
+          <LanguageProvider supportedLanguages={supportedLngs}>
+            <ThemeProvider>
+              <DirectionProvider>
+                <RouterProvider router={router} />
+              </DirectionProvider>
+            </ThemeProvider>
+          </LanguageProvider>
+        </TanStackQueryProvider>
+      </StrictMode>
+    );
+  }
+}
+
+// 等待 i18n 初始化完成后再渲染，避免强刷时翻译未就绪导致首屏先闪一下 fallback（英文）。
+// 加 3s 超时兜底：即便 locale 资源加载异常，也保证界面能渲染出来。
+function startApp() {
+  Promise.race([
+    Promise.resolve(i18n.readyPromise),
+    new Promise((resolve) => setTimeout(resolve, 3000)),
+  ])
+    .catch((error) => {
+      console.error("i18n initialization failed:", error);
+    })
+    .finally(renderApp);
+}
+
+if (i18n.isInitialized) {
+  renderApp();
+} else {
+  startApp();
 }
 
 // If you want to start measuring performance in your app, pass a function
