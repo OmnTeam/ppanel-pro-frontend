@@ -24,7 +24,6 @@ export function PasswordInput({
   const [internalShowPassword, setInternalShowPassword] = React.useState(false);
   const isControlled = showPasswordProp !== undefined;
   const showPassword = isControlled ? showPasswordProp : internalShowPassword;
-  const { className: inputClassName, ...inputProps } = props;
 
   const toggleShowPassword = () => {
     const next = !showPassword;
@@ -38,11 +37,11 @@ export function PasswordInput({
   return (
     <div className={cn("relative w-full rounded-md", className)}>
       <Input
-        className={cn("pr-10", inputClassName)}
+        className="pr-10"
         disabled={disabled}
         ref={ref}
         type={showPassword ? "text" : "password"}
-        {...inputProps}
+        {...props}
       />
       <Button
         className="-translate-y-1/2 absolute end-1 top-1/2 h-6 w-6 rounded-md text-muted-foreground"

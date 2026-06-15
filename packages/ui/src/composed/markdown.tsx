@@ -4,7 +4,7 @@ import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { Check, Copy } from "lucide-react";
 import { useCallback, useState } from "react";
-import { copyText } from "../utils/clipboard";
+import { copyText } from "../utils/clipboard.js";
 import ReactMarkdown, { type Components } from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";

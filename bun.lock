@@ -232,6 +232,20 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/vite-config": {
+      "name": "@workspace/vite-config",
+      "version": "0.0.0",
+      "dependencies": {
+        "@tailwindcss/vite": "^4.0.6",
+        "@tanstack/devtools-vite": "^0.3.11",
+        "@tanstack/router-plugin": "^1.132.0",
+        "@vitejs/plugin-react": "^5.0.4",
+        "vite": "^7.1.7",
+      },
+      "devDependencies": {
+        "@workspace/typescript-config": "workspace:*",
+      },
+    },
   },
   "overrides": {
     "@types/react": "^19.2.0",
@@ -1145,6 +1159,8 @@
     "@workspace/typescript-config": ["@workspace/typescript-config@workspace:packages/typescript-config"],
 
     "@workspace/ui": ["@workspace/ui@workspace:packages/ui"],
+
+    "@workspace/vite-config": ["@workspace/vite-config@workspace:packages/vite-config"],
 
     "@xtuc/ieee754": ["@xtuc/ieee754@1.2.0", "https://registry.npmmirror.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz", {}, "sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA=="],
 
