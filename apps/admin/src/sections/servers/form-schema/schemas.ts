@@ -6,6 +6,7 @@ import {
   ENCRYPTION_TYPES,
   FLOWS,
   multiplexLevels,
+  OMNIFLOW_AF_PATH_MODES,
   OMNIFLOW_CARRIERS,
   OMNIFLOW_H3_FALLBACK_POLICIES,
   OMNIFLOW_PADDING_MODES,
@@ -285,13 +286,18 @@ const omniflow = z.object({
   omniflow_profile_path: nullableString,
   omniflow_profile_json: nullableString,
   omniflow_server_host: nullableString,
-  omniflow_server_port: z.number().int().min(1).max(65535).nullish(),
+  omniflow_server_port: z.number().int().min(1).max(65_535).nullish(),
   omniflow_ca_cert_path: nullableString,
   omniflow_target_meta: nullableString,
   omniflow_spki_pin: nullableString,
   omniflow_h3_fallback_enabled: nullableBool,
   omniflow_h3_fallback_policy: z.enum(OMNIFLOW_H3_FALLBACK_POLICIES).nullish(),
-  omniflow_h3_fallback_timeout_ms: z.number().int().min(100).max(30000).nullish(),
+  omniflow_h3_fallback_timeout_ms: z
+    .number()
+    .int()
+    .min(100)
+    .max(30_000)
+    .nullish(),
   omniflow_h3_fallback_retry_budget: z.number().int().min(0).max(100).nullish(),
   omniflow_h3_fallback_smoke_enabled: nullableBool,
   omniflow_h3_fallback_smoke_interval_sec: z.number().int().min(1).nullish(),
@@ -304,6 +310,12 @@ const omniflow = z.object({
   omniflow_sni_mode: z.enum(OMNIFLOW_SNI_MODES).nullish(),
   omniflow_padding_mode: z.enum(OMNIFLOW_PADDING_MODES).nullish(),
   omniflow_traffic_shaping_enabled: nullableBool,
+  omniflow_af_enabled: nullableBool,
+  omniflow_af_path_mode: z.enum(OMNIFLOW_AF_PATH_MODES).nullish(),
+  omniflow_af_path_prefix: nullableString,
+  omniflow_af_path_suffix: nullableString,
+  omniflow_af_path_rotation_secs: z.number().int().min(1).nullish(),
+  omniflow_af_path_skew_slots: z.number().int().min(0).nullish(),
   omniflow_fallback_carrier_enabled: nullableBool,
   omniflow_fallback_connect_tunnel: nullableBool,
   omniflow_fallback_wss_enabled: nullableBool,

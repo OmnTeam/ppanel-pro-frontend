@@ -14,6 +14,7 @@ import {
   FINGERPRINTS,
   FLOWS,
   multiplexLevels,
+  OMNIFLOW_AF_PATH_MODES,
   OMNIFLOW_CARRIERS,
   OMNIFLOW_H3_FALLBACK_POLICIES,
   OMNIFLOW_PADDING_MODES,
@@ -530,7 +531,7 @@ export function useProtocolFields() {
             "H3 Fallback Timeout (ms)"
           ),
           min: 100,
-          max: 30000,
+          max: 30_000,
           step: 100,
           group: "omniflow",
           condition: (p) =>
@@ -552,10 +553,7 @@ export function useProtocolFields() {
         {
           name: "omniflow_h3_fallback_smoke_enabled",
           type: "switch",
-          label: t(
-            "omniflow_h3_fallback_smoke_enabled",
-            "Enable Smoke Test"
-          ),
+          label: t("omniflow_h3_fallback_smoke_enabled", "Enable Smoke Test"),
           group: "omniflow",
           condition: (p) =>
             p.omniflow_carrier === "h3" || !!p.omniflow_h3_fallback_enabled,
@@ -598,10 +596,7 @@ export function useProtocolFields() {
           type: "number",
           label: t("omniflow_idle_timeout_sec", "Idle Timeout (sec)"),
           min: 0,
-          placeholder: t(
-            "omniflow_idle_timeout_sec_placeholder",
-            "e.g. 300"
-          ),
+          placeholder: t("omniflow_idle_timeout_sec_placeholder", "e.g. 300"),
           group: "omniflow",
         },
         {
@@ -610,20 +605,14 @@ export function useProtocolFields() {
           label: t("omniflow_max_connections", "Max Connections"),
           min: 1,
           max: 1000,
-          placeholder: t(
-            "omniflow_max_connections_placeholder",
-            "e.g. 8"
-          ),
+          placeholder: t("omniflow_max_connections_placeholder", "e.g. 8"),
           group: "omniflow",
         },
         // Group 6: omniflow (Anti-Fingerprint)
         {
           name: "omniflow_adaptive_tls_enabled",
           type: "switch",
-          label: t(
-            "omniflow_adaptive_tls_enabled",
-            "Enable Adaptive TLS"
-          ),
+          label: t("omniflow_adaptive_tls_enabled", "Enable Adaptive TLS"),
           group: "omniflow",
         },
         {
@@ -648,6 +637,54 @@ export function useProtocolFields() {
             "Enable Traffic Shaping"
           ),
           group: "omniflow",
+        },
+        {
+          name: "omniflow_af_enabled",
+          type: "switch",
+          label: t("omniflow_af_enabled", "Enable Random AF Path"),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_af_path_mode",
+          type: "select",
+          label: t("omniflow_af_path_mode", "AF Path Mode"),
+          options: OMNIFLOW_AF_PATH_MODES,
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_af_enabled,
+        },
+        {
+          name: "omniflow_af_path_prefix",
+          type: "input",
+          label: t("omniflow_af_path_prefix", "AF Path Prefix"),
+          placeholder: t("omniflow_af_path_prefix_placeholder", "e.g. /api/v2"),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_af_enabled,
+        },
+        {
+          name: "omniflow_af_path_suffix",
+          type: "input",
+          label: t("omniflow_af_path_suffix", "AF Path Suffix"),
+          placeholder: t("omniflow_af_path_suffix_placeholder", "e.g. .woff2"),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_af_enabled,
+        },
+        {
+          name: "omniflow_af_path_rotation_secs",
+          type: "number",
+          label: t("omniflow_af_path_rotation_secs", "AF Path Rotation (sec)"),
+          min: 1,
+          placeholder: t("omniflow_af_path_rotation_secs_placeholder", "300"),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_af_enabled,
+        },
+        {
+          name: "omniflow_af_path_skew_slots",
+          type: "number",
+          label: t("omniflow_af_path_skew_slots", "AF Path Skew Slots"),
+          min: 0,
+          placeholder: t("omniflow_af_path_skew_slots_placeholder", "1"),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_af_enabled,
         },
         // Group 7: omniflow (Fallback Carrier)
         {

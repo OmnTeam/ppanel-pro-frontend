@@ -358,7 +358,23 @@ function isLikelyDomainAddress(address?: string) {
 }
 
 function normalizeProtocolForSubmit(protocol: any, serverAddress?: string) {
-  if (!protocol || protocol.type !== "simnet") return protocol;
+  if (!protocol) return protocol;
+  if (protocol.type === "omniflow") {
+    const next = { ...protocol };
+    if (!Number(next.port)) next.port = 443;
+    if (!next.omniflow_carrier) next.omniflow_carrier = "h2";
+    if (!next.omniflow_af_path_mode) next.omniflow_af_path_mode = "random";
+    if (
+      !(
+        next.omniflow_path ||
+        (next.omniflow_af_enabled && next.omniflow_af_path_mode === "random")
+      )
+    ) {
+      next.omniflow_path = "/omniflow";
+    }
+    return next;
+  }
+  if (protocol.type !== "simnet") return protocol;
   const next = { ...protocol };
   if (!Number(next.port)) next.port = 443;
   if (!next.simnet_carrier || next.simnet_carrier === "grpc")

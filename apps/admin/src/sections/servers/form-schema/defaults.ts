@@ -80,6 +80,12 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         omniflow_sni_mode: "direct",
         omniflow_padding_mode: "random",
         omniflow_traffic_shaping_enabled: false,
+        omniflow_af_enabled: false,
+        omniflow_af_path_mode: "random",
+        omniflow_af_path_prefix: null,
+        omniflow_af_path_suffix: null,
+        omniflow_af_path_rotation_secs: 300,
+        omniflow_af_path_skew_slots: 1,
         // 回退 Carrier
         omniflow_fallback_carrier_enabled: false,
         omniflow_fallback_connect_tunnel: false,
