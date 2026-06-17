@@ -86,6 +86,13 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         omniflow_af_path_suffix: null,
         omniflow_af_path_rotation_secs: 300,
         omniflow_af_path_skew_slots: 1,
+        // 同端口浏览器 Fallback 反代
+        omniflow_fallback_enabled: false,
+        omniflow_fallback_target_scheme: "https",
+        omniflow_fallback_target_host: null,
+        omniflow_fallback_target_port: null,
+        omniflow_fallback_host_header: null,
+        omniflow_fallback_tls_sni: null,
         // 回退 Carrier
         omniflow_fallback_carrier_enabled: false,
         omniflow_fallback_connect_tunnel: false,

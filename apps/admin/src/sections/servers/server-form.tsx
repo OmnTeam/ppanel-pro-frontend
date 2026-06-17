@@ -372,6 +372,20 @@ function normalizeProtocolForSubmit(protocol: any, serverAddress?: string) {
     ) {
       next.omniflow_path = "/omniflow";
     }
+    if (next.omniflow_fallback_enabled && next.omniflow_fallback_target_host) {
+      next.omniflow_fallback_target_host = String(
+        next.omniflow_fallback_target_host
+      ).trim();
+      next.omniflow_fallback_target_scheme =
+        next.omniflow_fallback_target_scheme === "http" ? "http" : "https";
+    } else {
+      next.omniflow_fallback_enabled = false;
+      next.omniflow_fallback_target_scheme = null;
+      next.omniflow_fallback_target_host = null;
+      next.omniflow_fallback_target_port = null;
+      next.omniflow_fallback_host_header = null;
+      next.omniflow_fallback_tls_sni = null;
+    }
     return next;
   }
   if (protocol.type !== "simnet") return protocol;
@@ -733,6 +747,15 @@ export default function ServerForm(props: {
                             t("encryption", "Encryption"),
                             fields,
                             "encryption",
+                            control,
+                            form,
+                            i,
+                            current
+                          )}
+                          {renderGroupCard(
+                            t("omniflow", "OmniFlow"),
+                            fields,
+                            "omniflow",
                             control,
                             form,
                             i,

@@ -121,6 +121,7 @@ export const SIMNET_FALLBACK_SCHEMES = ["https", "http"] as const;
 
 export const OMNIFLOW_CARRIERS = ["h2", "h3"] as const;
 export const OMNIFLOW_AF_PATH_MODES = ["api", "random"] as const;
+export const OMNIFLOW_FALLBACK_SCHEMES = ["https", "http"] as const;
 export const OMNIFLOW_TLS_FINGERPRINTS = [
   "chrome",
   "firefox",

@@ -16,6 +16,7 @@ import {
   multiplexLevels,
   OMNIFLOW_AF_PATH_MODES,
   OMNIFLOW_CARRIERS,
+  OMNIFLOW_FALLBACK_SCHEMES,
   OMNIFLOW_H3_FALLBACK_POLICIES,
   OMNIFLOW_PADDING_MODES,
   OMNIFLOW_SNI_MODES,
@@ -686,7 +687,69 @@ export function useProtocolFields() {
           group: "omniflow",
           condition: (p) => !!p.omniflow_af_enabled,
         },
-        // Group 7: omniflow (Fallback Carrier)
+        // Group 7: omniflow (Browser Fallback Reverse Proxy)
+        {
+          name: "omniflow_fallback_enabled",
+          type: "switch",
+          label: t(
+            "omniflow_fallback_enabled",
+            "Enable HTTPS Fallback Reverse Proxy"
+          ),
+          group: "omniflow",
+        },
+        {
+          name: "omniflow_fallback_target_scheme",
+          type: "select",
+          label: t("omniflow_fallback_target_scheme", "Fallback Target Scheme"),
+          options: OMNIFLOW_FALLBACK_SCHEMES,
+          defaultValue: "https",
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_fallback_enabled,
+        },
+        {
+          name: "omniflow_fallback_target_host",
+          type: "input",
+          label: t("omniflow_fallback_target_host", "Fallback Target Host"),
+          placeholder: t(
+            "omniflow_fallback_target_host_placeholder",
+            "e.g. www.example.com"
+          ),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_fallback_enabled,
+        },
+        {
+          name: "omniflow_fallback_target_port",
+          type: "number",
+          label: t("omniflow_fallback_target_port", "Fallback Target Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: "443 / 80",
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_fallback_enabled,
+        },
+        {
+          name: "omniflow_fallback_host_header",
+          type: "input",
+          label: t("omniflow_fallback_host_header", "Fallback Host Header"),
+          placeholder: t(
+            "omniflow_fallback_host_header_placeholder",
+            "Optional, defaults to target host"
+          ),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_fallback_enabled,
+        },
+        {
+          name: "omniflow_fallback_tls_sni",
+          type: "input",
+          label: t("omniflow_fallback_tls_sni", "Fallback TLS SNI"),
+          placeholder: t(
+            "omniflow_fallback_tls_sni_placeholder",
+            "Optional, defaults to target host"
+          ),
+          group: "omniflow",
+          condition: (p) => !!p.omniflow_fallback_enabled,
+        },
+        // Group 8: omniflow (Fallback Carrier)
         {
           name: "omniflow_fallback_carrier_enabled",
           type: "switch",
